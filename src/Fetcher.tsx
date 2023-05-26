@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import TicketComponent from "./TicketComponent";
+import TicketComponent from "./components/Ticket";
 
-const TicketFetcher: React.FC = () => {
+const Fetcher: React.FC = () => {
   const [tickets, setTickets] = useState([]);
 
   const fetchTickets = async () => {
@@ -25,4 +25,4 @@ const TicketFetcher: React.FC = () => {
   );
 };
 
-export default TicketFetcher;
+export default Fetcher;

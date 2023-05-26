@@ -1,14 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
+import Fetcher from "./Fetcher";
+import RouteForm from "./RouteForm";
 import App from "./App";
-import TicketFetcher from "./Fetcher";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-root.render(
-  <>
-    {/* <App /> */} <TicketFetcher />
-  </>
-);
+root.render(<App />);

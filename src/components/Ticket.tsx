@@ -1,23 +1,7 @@
 import React from "react";
+import TicketProps from "../types/TicketProps";
 
-interface TicketProps {
-  ticket: {
-    journeyId: number;
-    journeyName: string;
-    startStarportId: number;
-    startStarportName: string;
-    endStarportId: number;
-    endStarportName: string;
-    passengerFirstName: string;
-    passengerSecondName: string;
-    CIF: string;
-    userId: number;
-    userEmail: string;
-    seatNumber: number;
-  };
-}
-
-const TicketComponent: React.FC<TicketProps> = ({ ticket }) => {
+const Ticket: React.FC<TicketProps> = ({ ticket }) => {
   return (
     <div>
       <h3>Ticket Details</h3>
@@ -37,4 +21,4 @@ const TicketComponent: React.FC<TicketProps> = ({ ticket }) => {
   );
 };
 
-export default TicketComponent;
+export default Ticket;
