@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 interface RouteFormProps {
   onSubmit: (
@@ -27,9 +28,25 @@ const RouteForm: React.FC<RouteFormProps> = ({ onSubmit }) => {
     setDate(e.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(startStarportId, endStarportId, date);
+
+    const url = `https://localhost:7283/api/Booking/findroutes?departureStarportId=${startStarportId}&arrivalStarportId=${endStarportId}&date=${date}`;
+
+    try {
+      const response = await axios.get(url);
+
+      if (response.status === 200) {
+        const data = response.data;
+        console.log("Response data:", data);
+        // Call the onSubmit prop with the form values
+        onSubmit(startStarportId, endStarportId, date);
+      } else {
+        throw new Error("Error occurred during fetch request");
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
   };
 
   return (

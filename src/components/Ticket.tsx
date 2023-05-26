@@ -1,7 +1,11 @@
 import React from "react";
-import TicketProps from "../types/TicketProps";
+import { ITicket } from "../types/ITicket";
 
-const Ticket: React.FC<TicketProps> = ({ ticket }) => {
+interface ITicketProps {
+  ticket: ITicket;
+}
+
+export const Ticket: React.FC<ITicketProps> = ({ ticket }) => {
   return (
     <div>
       <h3>Ticket Details</h3>
@@ -20,5 +24,3 @@ const Ticket: React.FC<TicketProps> = ({ ticket }) => {
     </div>
   );
 };
-
-export default Ticket;

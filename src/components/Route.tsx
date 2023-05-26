@@ -1,10 +1,10 @@
-import { RouteProps } from "../types/RouteProps";
-import RouteSegmentProps from "../types/RouteSegmentProps";
+import { IRoute } from "../types/IRoute";
+import { IRouteSegment } from "../types/IRouteSegment";
+import { ISeat } from "../types/ISeat";
 import React from "react";
-import { SeatProps } from "../types/SeatProps";
 
 interface RouteComponentProps {
-  route: RouteProps;
+  route: IRoute;
 }
 
 const RouteComponent: React.FC<RouteComponentProps> = ({ route }) => {
@@ -16,14 +16,14 @@ const RouteComponent: React.FC<RouteComponentProps> = ({ route }) => {
       <p>Total Travel Time: {route.totalTravelTime}</p>
 
       <h3>Route Segments:</h3>
-      {route.routeSegments.map((segment: RouteSegmentProps) => (
+      {route.routeSegments.map((segment: IRouteSegment) => (
         <div key={segment.segmentId}>
           <p>Segment ID: {segment.segmentId}</p>
           <p>Journey ID: {segment.journeyId}</p>
           {/* Render other segment details */}
 
           <h4>Available Seats:</h4>
-          {segment.seatsAvailable.map((seat: SeatProps) => (
+          {segment.seatsAvailable.map((seat: ISeat) => (
             <div key={seat.id}>
               <p>Seat Number: {seat.seatNumber}</p>
               <p>Is Vacant: {seat.isVacant ? "Yes" : "No"}</p>

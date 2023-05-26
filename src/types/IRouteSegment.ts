@@ -1,6 +1,6 @@
-import { SeatProps } from "./SeatProps";
+import { ISeat } from "./ISeat";
 
-export default interface RouteSegmentProps {
+export interface IRouteSegment {
   segmentId: number;
   journeyId: number;
   departureId: number;
@@ -11,5 +11,5 @@ export default interface RouteSegmentProps {
   price: number;
   travelTime: string;
   idleTime: string | null;
-  seatsAvailable: SeatProps[];
+  seatsAvailable: ISeat[];
 }

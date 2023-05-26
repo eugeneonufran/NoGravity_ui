@@ -1,39 +1,27 @@
-import React from "react";
-import RouteForm from "./RouteForm";
-import RouteComponent from "./components/Route";
+import React, { useState } from "react";
+import axios from "axios";
+import { ITicket } from "./types/ITicket";
 
-const App: React.FC = () => {
-  const [routes, setRoutes] = useState<RouteProps[]>([]);
+import { Ticket } from "./components/Ticket";
 
-  const handleSubmit = async (
-    departureStarportId: number,
-    arrivalStarportId: number,
-    date: string
-  ) => {
-    const url = `https://localhost:7283/api/Booking/findroutes?departureStarportId=${departureStarportId}&arrivalStarportId=${arrivalStarportId}&date=${date}`;
+function App() {
+  const [tickets, setTickets] = useState<ITicket[]>([]);
 
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error("Error occurred during fetch request");
-      }
-
-      const data = await response.json();
-      setRoutes(data);
-    } catch (error) {
-      console.error("Fetch error:", error);
-    }
-  };
+  async function fetchTickets() {
+    const response = await axios.get<ITicket[]>(
+      "https://localhost:7283/api/Tickets/getall"
+    );
+    setTickets(response.data);
+  }
 
   return (
     <div>
-      <h1>My App</h1>
-      <RouteForm onSubmit={handleSubmit} />
-      {routes.map((route) => (
-        <Route key={route.id} route={route} />
+      <button onClick={fetchTickets}>fetch</button>
+      {tickets.map((ticket, index) => (
+        <Ticket key={index} ticket={ticket} />
       ))}
     </div>
   );
-};
+}
 
 export default App;
