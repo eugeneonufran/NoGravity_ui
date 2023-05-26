@@ -28,25 +28,9 @@ const RouteForm: React.FC<RouteFormProps> = ({ onSubmit }) => {
     setDate(e.target.value);
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    const url = `https://localhost:7283/api/Booking/findroutes?departureStarportId=${startStarportId}&arrivalStarportId=${endStarportId}&date=${date}`;
-
-    try {
-      const response = await axios.get(url);
-
-      if (response.status === 200) {
-        const data = response.data;
-        console.log("Response data:", data);
-        // Call the onSubmit prop with the form values
-        onSubmit(startStarportId, endStarportId, date);
-      } else {
-        throw new Error("Error occurred during fetch request");
-      }
-    } catch (error) {
-      console.error("Fetch error:", error);
-    }
+    onSubmit(startStarportId, endStarportId, date);
   };
 
   return (

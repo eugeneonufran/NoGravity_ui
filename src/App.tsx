@@ -3,6 +3,7 @@ import axios from "axios";
 import { ITicket } from "./types/ITicket";
 
 import { Ticket } from "./components/Ticket";
+import Booking from "./components/Booking";
 
 function App() {
   const [tickets, setTickets] = useState<ITicket[]>([]);
@@ -20,6 +21,10 @@ function App() {
       {tickets.map((ticket, index) => (
         <Ticket key={index} ticket={ticket} />
       ))}
+
+      <div>
+        <Booking />
+      </div>
     </div>
   );
 }
