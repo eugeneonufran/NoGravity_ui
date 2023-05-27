@@ -1,13 +1,13 @@
 import { IRoute } from "../types/IRoute";
 import { IRouteSegment } from "../types/IRouteSegment";
 import { ISeat } from "../types/ISeat";
-import React from "react";
+import { FC } from "react";
 
 interface RouteComponentProps {
   route: IRoute;
 }
 
-const Route: React.FC<RouteComponentProps> = ({ route }) => {
+const Route: FC<RouteComponentProps> = ({ route }) => {
   return (
     <div>
       <h2>Route :{route.id}</h2>

@@ -6,7 +6,7 @@ import { RouteList } from "./RoutesList";
 import { seed } from "../seed";
 
 const Booking: React.FC = () => {
-  const [route, setRoute] = useState<IRoute[] | null>(null);
+  const [routes, setRoutes] = useState<IRoute[] | null>(null);
 
   const handleSubmit = async (
     departureStarportId: number,
@@ -17,7 +17,7 @@ const Booking: React.FC = () => {
 
     try {
       const response = await axios.get<IRoute[]>(url);
-      setRoute(response.data);
+      setRoutes(response.data);
     } catch (error) {
       console.error("Fetch error:", error);
     }
@@ -27,7 +27,7 @@ const Booking: React.FC = () => {
     <div>
       <h1>My App</h1>
       <RouteForm onSubmit={handleSubmit} />
-      <RouteList routes={seed} />
+      <RouteList routes={routes} />
     </div>
   );
 };

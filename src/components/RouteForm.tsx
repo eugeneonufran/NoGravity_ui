@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import axios from "axios";
 
 interface RouteFormProps {
@@ -7,10 +7,9 @@ interface RouteFormProps {
     arrivalStarportId: number,
     date: string
   ) => void;
-  labelText?: string;
 }
 
-const RouteForm: React.FC<RouteFormProps> = ({ onSubmit, labelText }) => {
+const RouteForm: FC<RouteFormProps> = ({ onSubmit }) => {
   const [startStarportId, setStartStarportId] = useState<number>(0);
   const [endStarportId, setEndStarportId] = useState<number>(0);
   const [date, setDate] = useState<string>("");
@@ -36,7 +35,6 @@ const RouteForm: React.FC<RouteFormProps> = ({ onSubmit, labelText }) => {
 
   return (
     <div>
-      <h2>{labelText}</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor='startStarport'>Start Starport:</label>
         <input
