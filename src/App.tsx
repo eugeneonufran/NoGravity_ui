@@ -17,14 +17,7 @@ function App() {
 
   return (
     <div>
-      <button onClick={fetchTickets}>fetch</button>
-      {tickets.map((ticket, index) => (
-        <Ticket key={index} ticket={ticket} />
-      ))}
-
-      <div>
-        <Booking />
-      </div>
+      <Booking />
     </div>
   );
 }

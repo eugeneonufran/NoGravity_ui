@@ -7,9 +7,10 @@ interface RouteFormProps {
     arrivalStarportId: number,
     date: string
   ) => void;
+  labelText?: string;
 }
 
-const RouteForm: React.FC<RouteFormProps> = ({ onSubmit }) => {
+const RouteForm: React.FC<RouteFormProps> = ({ onSubmit, labelText }) => {
   const [startStarportId, setStartStarportId] = useState<number>(0);
   const [endStarportId, setEndStarportId] = useState<number>(0);
   const [date, setDate] = useState<string>("");
@@ -35,12 +36,13 @@ const RouteForm: React.FC<RouteFormProps> = ({ onSubmit }) => {
 
   return (
     <div>
-      <h2>Route Form</h2>
+      <h2>{labelText}</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor='startStarport'>Start Starport:</label>
         <input
           type='number'
           id='startStarport'
+          name='startStarport'
           value={startStarportId}
           onChange={handleStartStarportChange}
         />
@@ -49,12 +51,19 @@ const RouteForm: React.FC<RouteFormProps> = ({ onSubmit }) => {
         <input
           type='number'
           id='endStarport'
+          name='endStarport'
           value={endStarportId}
           onChange={handleEndStarportChange}
         />
 
         <label htmlFor='date'>Date:</label>
-        <input type='date' id='date' value={date} onChange={handleDateChange} />
+        <input
+          type='date'
+          id='date'
+          name='date'
+          value={date}
+          onChange={handleDateChange}
+        />
 
         <button type='submit'>Fetch</button>
       </form>
