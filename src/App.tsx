@@ -1,24 +1,14 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { ITicket } from "./models/ITicket";
+import BookingPage from "./components/BookingPage";
 
-import { Ticket } from "./components/Ticket";
-import Booking from "./components/Booking";
+import { ApiContextProvider } from "./contexts/ApiContext";
 
 function App() {
-  const [tickets, setTickets] = useState<ITicket[]>([]);
-
-  async function fetchTickets() {
-    const response = await axios.get<ITicket[]>(
-      "https://localhost:7283/api/Tickets/getall"
-    );
-    setTickets(response.data);
-  }
-
   return (
-    <div>
-      <Booking />
-    </div>
+    <ApiContextProvider>
+      <div>
+        <BookingPage />
+      </div>
+    </ApiContextProvider>
   );
 }
 

@@ -1,13 +1,20 @@
-import React, { useState } from "react";
-import RouteForm from "./RouteForm";
+// ------------ Library Imports ------------
+import React, { useState, useContext } from "react";
 import axios from "axios";
-import { IRoute } from "../models/IRoute";
-import { RouteList } from "./RoutesList";
-import { seed } from "../seed";
-import { SortType } from "../models/SortType";
 
-const Booking: React.FC = () => {
+// ------------ Types Imports ------------
+import { IRoute } from "../models/IRoute";
+
+// ------------ Component Imports ------------
+import RouteForm from "./RouteSearchForm";
+import { RouteList } from "./RoutesList";
+
+// ------------ Context Imports ------------
+import { ApiContext } from "../contexts/ApiContext";
+
+const BookingPage = () => {
   const [routes, setRoutes] = useState<IRoute[] | null>(null);
+  const { api_domain } = useContext(ApiContext);
 
   const handleSubmit = async (
     departureStarportId: number,
@@ -15,7 +22,7 @@ const Booking: React.FC = () => {
     date: string,
     SortType: number
   ) => {
-    const url = `https://localhost:7283/api/Booking/findroutes?departureStarportId=${departureStarportId}&arrivalStarportId=${arrivalStarportId}&date=${date}&sortType=${SortType}`;
+    const url = `${api_domain}/api/Booking/findroutes?departureStarportId=${departureStarportId}&arrivalStarportId=${arrivalStarportId}&date=${date}&sortType=${SortType}`;
 
     try {
       const response = await axios.get<IRoute[]>(url);
@@ -34,4 +41,4 @@ const Booking: React.FC = () => {
   );
 };
 
-export default Booking;
+export default BookingPage;

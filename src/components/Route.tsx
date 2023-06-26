@@ -1,14 +1,25 @@
+// ------------ Types Imports ------------
 import { IRoute } from "../models/IRoute";
 import { IRouteSegment } from "../models/IRouteSegment";
 import { ISeat } from "../models/ISeat";
-import { FC } from "react";
+
+// ------------ Style Imports ------------
 import "../styles/Route.css"; // Import the CSS file
 
-interface RouteComponentProps {
-  route: IRoute;
-}
+// ------------ Library Imports ------------
+import React from "react";
 
-const Route: FC<RouteComponentProps> = ({ route }) => {
+// ------------ Component Imports ------------
+// Add your component imports here
+
+// ------------ Context Imports ------------
+// Add your context imports here
+
+type RouteComponentProps = {
+  route: IRoute;
+};
+
+const Route = ({ route }: RouteComponentProps) => {
   return (
     <div className='route-container'>
       <h2 className='route-title'>Route: {route.id}</h2>

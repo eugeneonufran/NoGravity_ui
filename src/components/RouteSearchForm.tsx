@@ -1,9 +1,15 @@
-import React, { FC, useState, useEffect } from "react";
-import axios from "axios";
+// ------------ Types Imports ------------
 import { IStarport } from "../models/IStarport";
 import { SortType } from "../models/SortType";
 
-interface RouteFormProps {
+// ------------ Library Imports ------------
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+
+// ------------ Context Imports ------------
+import { ApiContext } from "../contexts/ApiContext";
+
+interface RouteSearchFormProps {
   onSubmit: (
     departureStarportId: number,
     arrivalStarportId: number,
@@ -12,7 +18,11 @@ interface RouteFormProps {
   ) => void;
 }
 
-const RouteForm: FC<RouteFormProps> = ({ onSubmit }) => {
+const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
+  const { api_domain } = useContext(ApiContext);
+
+  // ------------ State ------------
+
   const [startStarportId, setStartStarportId] = useState<number>(0);
   const [endStarportId, setEndStarportId] = useState<number>(0);
   const [date, setDate] = useState<string>("");
@@ -22,12 +32,14 @@ const RouteForm: FC<RouteFormProps> = ({ onSubmit }) => {
 
   const [sortType, setSortType] = useState<SortType>(SortType.Optimal);
 
+  // ------------ Event Handlers ------------
+
   const handleSortTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortType(Number(e.target.value) as SortType);
   };
 
   const handleStartStarportChange = (
-    e: React.ChangeEvent<HTMLSelectElement> // Specify the correct event type here
+    e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setStartStarportId(Number(e.target.value));
   };
@@ -45,11 +57,13 @@ const RouteForm: FC<RouteFormProps> = ({ onSubmit }) => {
     onSubmit(startStarportId, endStarportId, date, sortType);
   };
 
+  // ------------ Side Effects ------------
+
   useEffect(() => {
     const fetchStartports = async () => {
       try {
         const response = await axios.get<IStarport[]>(
-          "https://localhost:7283/api/Starports/getall"
+          `${api_domain}/api/Starports/getall`
         );
         setStartports(response.data);
         setEndports(response.data);
@@ -59,7 +73,7 @@ const RouteForm: FC<RouteFormProps> = ({ onSubmit }) => {
     };
 
     fetchStartports();
-  }, []);
+  }, [api_domain]);
 
   return (
     <div>
@@ -118,4 +132,4 @@ const RouteForm: FC<RouteFormProps> = ({ onSubmit }) => {
   );
 };
 
-export default RouteForm;
+export default RouteSearchForm;
