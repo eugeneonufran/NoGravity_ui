@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import RouteForm from "./RouteForm";
 import axios from "axios";
-import { IRoute } from "../types/IRoute";
+import { IRoute } from "../models/IRoute";
 import { RouteList } from "./RoutesList";
 import { seed } from "../seed";
+import { SortType } from "../models/SortType";
 
 const Booking: React.FC = () => {
   const [routes, setRoutes] = useState<IRoute[] | null>(null);
@@ -11,9 +12,10 @@ const Booking: React.FC = () => {
   const handleSubmit = async (
     departureStarportId: number,
     arrivalStarportId: number,
-    date: string
+    date: string,
+    SortType: number
   ) => {
-    const url = `https://localhost:7283/api/Booking/findroutes?departureStarportId=${departureStarportId}&arrivalStarportId=${arrivalStarportId}&date=${date}`;
+    const url = `https://localhost:7283/api/Booking/findroutes?departureStarportId=${departureStarportId}&arrivalStarportId=${arrivalStarportId}&date=${date}&sortType=${SortType}`;
 
     try {
       const response = await axios.get<IRoute[]>(url);
@@ -25,7 +27,7 @@ const Booking: React.FC = () => {
 
   return (
     <div>
-      <h1>My App</h1>
+      <h1>ЗАМОВ КВИТКИ, ДУРІК</h1>
       <RouteForm onSubmit={handleSubmit} />
       <RouteList routes={routes} />
     </div>

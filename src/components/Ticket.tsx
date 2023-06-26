@@ -1,5 +1,5 @@
 import React from "react";
-import { ITicket } from "../types/ITicket";
+import { ITicket } from "../models/ITicket";
 
 interface ITicketProps {
   ticket: ITicket;

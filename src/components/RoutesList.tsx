@@ -1,4 +1,4 @@
-import { IRoute } from "../types/IRoute";
+import { IRoute } from "../models/IRoute";
 import Route from "./Route";
 
 interface RouteListProps {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { ITicket } from "./types/ITicket";
+import { ITicket } from "./models/ITicket";
 
 import { Ticket } from "./components/Ticket";
 import Booking from "./components/Booking";

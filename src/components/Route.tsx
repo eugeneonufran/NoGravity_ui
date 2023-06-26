@@ -1,7 +1,8 @@
-import { IRoute } from "../types/IRoute";
-import { IRouteSegment } from "../types/IRouteSegment";
-import { ISeat } from "../types/ISeat";
+import { IRoute } from "../models/IRoute";
+import { IRouteSegment } from "../models/IRouteSegment";
+import { ISeat } from "../models/ISeat";
 import { FC } from "react";
+import "../styles/Route.css"; // Import the CSS file
 
 interface RouteComponentProps {
   route: IRoute;
@@ -9,27 +10,31 @@ interface RouteComponentProps {
 
 const Route: FC<RouteComponentProps> = ({ route }) => {
   return (
-    <div>
-      <h2>Route :{route.id}</h2>
-      <p>ID: {route.id}</p>
-      <p>Total Price: {route.totalPrice}</p>
-      <p>Total Travel Time: {route.totalTravelTime}</p>
+    <div className='route-container'>
+      <h2 className='route-title'>Route: {route.id}</h2>
+      <p className='route-info'>ID: {route.id}</p>
+      <p className='route-info'>Total Price: {route.totalPrice}</p>
+      <p className='route-info'>Total Travel Time: {route.totalTravelTime}</p>
 
-      <h3>Route Segments:</h3>
+      <h3 className='segment-title'>Route Segments:</h3>
       {route.routeSegments &&
         route.routeSegments.map((segment: IRouteSegment) => (
-          <div key={segment.segmentId}>
-            <p>Segment ID: {segment.segmentId}</p>
-            <p>Journey ID: {segment.journeyId}</p>
-            <p>Segment Price: {segment.price}</p>
+          <div className='route-segment' key={segment.segmentId}>
+            <p className='segment-info'>Segment ID: {segment.segmentId}</p>
+            <p className='segment-info'>Journey ID: {segment.journeyId}</p>
+            <p className='segment-info'>Segment Price: {segment.price}</p>
 
-            <h4>Available Seats:</h4>
-            {segment.seatsAvailable.map((seat: ISeat) => (
-              <div key={seat.id}>
-                <p>Seat Number: {seat.seatNumber}</p>
-                <p>Is Vacant: {seat.isVacant ? "Yes" : "No"}</p>
-              </div>
-            ))}
+            <h4 className='seat-title'>Available Seats:</h4>
+            <div className='seat-container'>
+              {segment.seatsAvailable.map((seat: ISeat) => (
+                <div className='seat' key={seat.id}>
+                  <p className='seat-info'>Seat Number: {seat.seatNumber}</p>
+                  <p className='seat-info'>
+                    Is Vacant: {seat.isVacant ? "Yes" : "No"}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
     </div>
