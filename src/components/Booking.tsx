@@ -12,7 +12,7 @@ import { RouteList } from "./RoutesList";
 // ------------ Context Imports ------------
 import { ApiContext } from "../contexts/ApiContext";
 
-const BookingPage = () => {
+const Booking = () => {
   const [routes, setRoutes] = useState<IRoute[] | null>(null);
   const { api_domain } = useContext(ApiContext);
 
@@ -41,4 +41,4 @@ const BookingPage = () => {
   );
 };
 
-export default BookingPage;
+export default Booking;
