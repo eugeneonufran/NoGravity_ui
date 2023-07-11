@@ -13,6 +13,9 @@ export const Navbar = () => {
         <li>
           <Link to='/contact'>Contact</Link>
         </li>
+        <li>
+          <Link to='/superadmin'>SuperAdmin Page</Link>
+        </li>
       </ul>
     </nav>
   );

@@ -9,6 +9,8 @@ import "../styles/Route.css"; // Import the CSS file
 // ------------ Library Imports ------------
 import React from "react";
 
+import { useNavigate } from "react-router-dom";
+
 // ------------ Component Imports ------------
 // Add your component imports here
 
@@ -20,10 +22,16 @@ type RouteComponentProps = {
 };
 
 const Route = ({ route }: RouteComponentProps) => {
+  const navigate = useNavigate();
+
+  const handleBookRoute = () => {
+    navigate("/BookingFlowContainer", { state: { route } });
+  };
+
   return (
     <div className='route-container'>
-      <h2 className='route-title'>Route: {route.id}</h2>
-      <p className='route-info'>ID: {route.id}</p>
+      <h2 className='route-title'>Generated Route: {route.id}</h2>
+      <p className='route-info'>Generated ID: {route.id}</p>
       <p className='route-info'>Total Price: {route.totalPrice}</p>
       <p className='route-info'>Total Travel Time: {route.totalTravelTime}</p>
 
@@ -48,6 +56,10 @@ const Route = ({ route }: RouteComponentProps) => {
             </div>
           </div>
         ))}
+
+      <button className='route button' onClick={handleBookRoute}>
+        Order route {route.id}
+      </button>
     </div>
   );
 };

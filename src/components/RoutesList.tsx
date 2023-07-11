@@ -5,7 +5,7 @@ interface RouteListProps {
   routes: IRoute[] | null;
 }
 
-export const RouteList: React.FC<RouteListProps> = ({ routes }) => {
+export const RouteList = ({ routes }: RouteListProps) => {
   return (
     <div>
       <h2>Route List</h2>

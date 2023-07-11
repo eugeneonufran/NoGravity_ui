@@ -6,6 +6,8 @@ import { NotFound } from "./pages/NotFound";
 
 import { ApiContextProvider } from "./contexts/ApiContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BookingFlowContainer } from "./components/BookingFlowContainer";
+import { SuperAdminPage } from "./pages/SuperAdminPage";
 
 function App() {
   return (
@@ -19,6 +21,11 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/about' element={<About />} />
+        <Route path='/superadmin' element={<SuperAdminPage />} />
+        <Route
+          path='/bookingflowcontainer'
+          element={<BookingFlowContainer />}
+        />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
