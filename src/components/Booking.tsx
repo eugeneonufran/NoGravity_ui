@@ -27,6 +27,7 @@ const Booking = () => {
     try {
       const response = await axios.get<IRoute[]>(url);
       setRoutes(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Fetch error:", error);
     }

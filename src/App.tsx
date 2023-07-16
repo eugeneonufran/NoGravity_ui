@@ -6,28 +6,31 @@ import { NotFound } from "./pages/NotFound";
 
 import { ApiContextProvider } from "./contexts/ApiContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { BookingFlowContainer } from "./components/BookingFlowContainer";
+import { BookingForm } from "./components/BookingForm";
 import { SuperAdminPage } from "./pages/SuperAdminPage";
+import { RouteContextProvider } from "./contexts/RouteContext";
+import { PassengerDetails } from "./components/PassengerDetails";
 
 function App() {
   return (
     <BrowserRouter>
-      <ApiContextProvider>
-        <div>
-          <Navbar />
-        </div>
-      </ApiContextProvider>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/superadmin' element={<SuperAdminPage />} />
-        <Route
-          path='/bookingflowcontainer'
-          element={<BookingFlowContainer />}
-        />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
+      <RouteContextProvider>
+        <ApiContextProvider>
+          <div>
+            <Navbar />
+          </div>
+        </ApiContextProvider>
+
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/superadmin' element={<SuperAdminPage />} />
+          {/* <Route path='/passengerdetails' element={<PassengerDetails />} /> */}
+          <Route path='/bookingform' element={<BookingForm />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </RouteContextProvider>
     </BrowserRouter>
   );
 }

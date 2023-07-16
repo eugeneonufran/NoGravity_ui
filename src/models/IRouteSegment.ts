@@ -1,5 +1,3 @@
-import { ISeat } from "./ISeat";
-
 export interface IRouteSegment {
   segmentId: number;
   journeyId: number;
@@ -11,5 +9,4 @@ export interface IRouteSegment {
   price: number;
   travelTime: string;
   idleTime: string | null;
-  seatsAvailable: ISeat[];
 }

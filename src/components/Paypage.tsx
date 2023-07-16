@@ -1,10 +1,10 @@
 import { IPassenger } from "../models/IPassenger";
 import { PassengersList } from "./PassengersList";
 
-interface SeatMapProps {
+interface PaypageProps {
   passengersList: IPassenger[];
 }
 
-export const SeatMap = ({ passengersList }: SeatMapProps) => {
+export const Paypage = ({ passengersList }: PaypageProps) => {
   return <PassengersList passengers={passengersList} />;
 };
