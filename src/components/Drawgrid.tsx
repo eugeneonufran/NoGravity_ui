@@ -10,6 +10,9 @@ interface DrawgridProps {
 }
 
 export const Drawgrid = ({ seats, passengersSeatsList }: DrawgridProps) => {
+  const [passengersSeats, setPassengersSeats] =
+    useState<IPassengerSeat[]>(passengersSeatsList);
+
   const [selectedPassengerCIF, setSelectedPassengerCIF] = useState<
     string | null
   >(null);
@@ -18,7 +21,11 @@ export const Drawgrid = ({ seats, passengersSeatsList }: DrawgridProps) => {
     setSelectedPassengerCIF(passengerCIF);
   };
 
-  const [chosenseats, setChosenSeats] = useState<ISeat[]>([]);
+  const handleRemoveSelection = () => {
+    setSelectedPassengerCIF(null);
+  };
+
+  // const [chosenseats, setChosenSeats] = useState<ISeat[]>([]);
 
   const onClickSeat = (seat: ISeat) => {
     if (seat.isVacant === false) {
@@ -26,20 +33,76 @@ export const Drawgrid = ({ seats, passengersSeatsList }: DrawgridProps) => {
     }
 
     // Check if the seat is already chosen
-    const isSeatChosen = chosenseats.some(
-      (chosenSeat) => chosenSeat.id === seat.id
+    const isSeatChosen = passengersSeats.some(
+      (passengerSeat) => passengerSeat.seat?.id === seat.id
     );
 
-    if (isSeatChosen) {
-      // Seat is already chosen, remove it from the list
-      const updatedChosenSeats = chosenseats.filter(
-        (chosenSeat) => chosenSeat.id !== seat.id
+    if (isSeatChosen && selectedPassengerCIF === null) {
+      const updatedPassengersSeatsList = passengersSeats.map(
+        (chosenPS: IPassengerSeat) => {
+          if (chosenPS.seat?.id === seat.id) {
+            return {
+              ...chosenPS,
+              seat: null,
+            };
+          }
+          return chosenPS;
+        }
       );
-      setChosenSeats(updatedChosenSeats);
-    } else {
-      // Seat is not chosen, add it to the list
-      const updatedChosenSeats = [...chosenseats, seat];
-      setChosenSeats(updatedChosenSeats);
+
+      setSelectedPassengerCIF(null);
+      setPassengersSeats(updatedPassengersSeatsList);
+      return;
+    }
+
+    if (isSeatChosen && selectedPassengerCIF !== null) {
+      const updatedPassengersSeatsList = passengersSeats.map(
+        (chosenPS: IPassengerSeat) => {
+          if (chosenPS.seat?.id === seat.id) {
+            return {
+              ...chosenPS,
+              seat: null,
+            };
+          }
+          return chosenPS;
+        }
+      );
+
+      const updatedPassengersSeatsList2 = updatedPassengersSeatsList.map(
+        (chosenPS: IPassengerSeat) => {
+          if (chosenPS.passenger.cif.toString() === selectedPassengerCIF) {
+            return {
+              ...chosenPS,
+              seat: seat,
+            };
+          }
+          return chosenPS;
+        }
+      );
+
+      setSelectedPassengerCIF(null);
+      setPassengersSeats(updatedPassengersSeatsList2);
+      return;
+    }
+
+    if (!isSeatChosen && selectedPassengerCIF !== null) {
+      console.log(!isSeatChosen, selectedPassengerCIF);
+      console.log(passengersSeats);
+      const updatedPassengersSeatsList = passengersSeats.map(
+        (chosenPS: IPassengerSeat) => {
+          if (chosenPS.passenger.cif.toString() === selectedPassengerCIF) {
+            return {
+              ...chosenPS,
+              seat: seat,
+            };
+          }
+          return chosenPS;
+        }
+      );
+      console.log(updatedPassengersSeatsList);
+      setPassengersSeats(updatedPassengersSeatsList);
+      setSelectedPassengerCIF(null);
+      return;
     }
   };
 
@@ -51,7 +114,9 @@ export const Drawgrid = ({ seats, passengersSeatsList }: DrawgridProps) => {
             {seats.map((seat) => (
               <td
                 className={`seat ${seat.isVacant ? "available" : "reserved"} ${
-                  chosenseats.some((chosenSeat) => chosenSeat.id === seat.id)
+                  passengersSeats.some(
+                    (chosenSeat) => chosenSeat.seat?.id === seat.id
+                  )
                     ? "chosen"
                     : ""
                 }`}
@@ -64,12 +129,12 @@ export const Drawgrid = ({ seats, passengersSeatsList }: DrawgridProps) => {
         </tbody>
       </table>
       <div>
-        {chosenseats.map((seat) => (
-          <div key={seat.id}>{seat.seatNumber}</div>
+        {passengersSeats.map((seat) => (
+          <div key={seat.seat?.id}>{seat.seat?.seatNumber}</div>
         ))}
         Selected passenger:{selectedPassengerCIF}
         <div>
-          {passengersSeatsList.map((passengerSeat, index) => (
+          {passengersSeats.map((passengerSeat, index) => (
             <div>
               #:{index}
               Name:{passengerSeat.passenger.name}, SurName:
@@ -86,6 +151,9 @@ export const Drawgrid = ({ seats, passengersSeatsList }: DrawgridProps) => {
             </div>
           ))}
         </div>
+        <button type='button' onClick={handleRemoveSelection}>
+          Remove passenger selection
+        </button>
       </div>
     </div>
   );

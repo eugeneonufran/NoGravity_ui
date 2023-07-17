@@ -1,12 +1,11 @@
 import { useContext, useState } from "react";
 import { RouteContext } from "../contexts/RouteContext";
 
-import webSettings from "../configs/webSettings.json";
-
 import axios from "axios";
 import { useEffect } from "react";
 import { ISeat } from "../models/ISeat";
 import { IPassenger } from "../models/IPassenger";
+import { ApiContext } from "../contexts/ApiContext";
 
 interface PassengerDetailsProps {
   passengersList: IPassenger[];
@@ -20,6 +19,7 @@ export const PassengerDetails = ({
   setPassengersList,
 }: PassengerDetailsProps) => {
   const { chosenRoute } = useContext(RouteContext);
+  const { api_domain } = useContext(ApiContext);
   // const storedRoute = localStorage.getItem("chosenRoute");
   // const chosenRoute = storedRoute ? JSON.parse(storedRoute) : null;
 
@@ -30,7 +30,7 @@ export const PassengerDetails = ({
   const getSeatsInfo = async () => {
     try {
       const response = await axios.post<ISeat[]>(
-        `${webSettings.api_domain}/api/Booking/seats`,
+        `${api_domain}/api/Booking/seats`,
         chosenRoute
       );
       setAvailableSeats(response.data.filter((seat) => seat.isVacant === true));
@@ -40,7 +40,7 @@ export const PassengerDetails = ({
   };
 
   const handleAddPassenger = () => {
-    setPassengersList([...passengersList, initPassenger]);
+    setPassengersList([...passengersList, { ...initPassenger }]);
   };
 
   const handleDeletePassenger = (index: number) => {
@@ -56,8 +56,11 @@ export const PassengerDetails = ({
     field: keyof IPassenger,
     value: string
   ) => {
+    console.log("Before", passengersList);
+
     const updatedPassengers = [...passengersList];
     updatedPassengers[index][field] = value;
+    console.log("After", updatedPassengers);
     setPassengersList(updatedPassengers);
   };
 
