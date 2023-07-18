@@ -27,7 +27,7 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/superadmin' element={<SuperAdminPage />} />
           {/* <Route path='/passengerdetails' element={<PassengerDetails />} /> */}
-          <Route path='/bookingform' element={<BookingForm />} />
+          <Route path='/search' element={<BookingForm />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </RouteContextProvider>

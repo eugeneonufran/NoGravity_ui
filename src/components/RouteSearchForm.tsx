@@ -4,6 +4,8 @@ import { SortType } from "../models/SortType";
 
 // ------------ Library Imports ------------
 import React, { useState, useEffect, useContext } from "react";
+
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 // ------------ Context Imports ------------
@@ -21,16 +23,27 @@ interface RouteSearchFormProps {
 const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   const { api_domain } = useContext(ApiContext);
 
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  const navigate = useNavigate();
+
   // ------------ State ------------
 
-  const [startStarportId, setStartStarportId] = useState<number>(0);
-  const [endStarportId, setEndStarportId] = useState<number>(0);
-  const [date, setDate] = useState<string>("");
+  const [startStarportId, setStartStarportId] = useState<number>(
+    Number(queryParams.get("startStarportId")) || 0
+  );
+  const [endStarportId, setEndStarportId] = useState<number>(
+    Number(queryParams.get("endStarportId")) || 0
+  );
+  const [date, setDate] = useState<string>(queryParams.get("date") || "");
 
   const [startports, setStartports] = useState<IStarport[]>([]);
   const [endports, setEndports] = useState<IStarport[]>([]);
 
-  const [sortType, setSortType] = useState<SortType>(SortType.Optimal);
+  const [sortType, setSortType] = useState<SortType>(
+    Number(queryParams.get("sortType")) || SortType.Optimal
+  );
 
   // ------------ Event Handlers ------------
 
@@ -55,6 +68,14 @@ const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit(startStarportId, endStarportId, date, sortType);
+
+    const newQueryParams = new URLSearchParams({
+      startStarportId: String(startStarportId),
+      endStarportId: String(endStarportId),
+      date,
+      sortType: String(sortType),
+    });
+    navigate(`/?${newQueryParams}`);
   };
 
   // ------------ Side Effects ------------
