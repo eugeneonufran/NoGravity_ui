@@ -9,7 +9,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BookingForm } from "./components/BookingForm";
 import { SuperAdminPage } from "./pages/SuperAdminPage";
 import { RouteContextProvider } from "./contexts/RouteContext";
-import { PassengerDetails } from "./components/PassengerDetails";
 
 function App() {
   return (
@@ -26,8 +25,7 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/about' element={<About />} />
           <Route path='/superadmin' element={<SuperAdminPage />} />
-          {/* <Route path='/passengerdetails' element={<PassengerDetails />} /> */}
-          <Route path='/search' element={<BookingForm />} />
+          <Route path='/bookingform' element={<BookingForm />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </RouteContextProvider>

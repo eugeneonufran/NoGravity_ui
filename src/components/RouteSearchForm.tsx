@@ -5,7 +5,7 @@ import { SortType } from "../models/SortType";
 // ------------ Library Imports ------------
 import React, { useState, useEffect, useContext } from "react";
 
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // ------------ Context Imports ------------
@@ -31,10 +31,10 @@ const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   // ------------ State ------------
 
   const [startStarportId, setStartStarportId] = useState<number>(
-    Number(queryParams.get("startStarportId")) || 0
+    Number(queryParams.get("DeparturePortId")) || 0
   );
   const [endStarportId, setEndStarportId] = useState<number>(
-    Number(queryParams.get("endStarportId")) || 0
+    Number(queryParams.get("DestinationPortId")) || 0
   );
   const [date, setDate] = useState<string>(queryParams.get("date") || "");
 
@@ -70,8 +70,8 @@ const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
     onSubmit(startStarportId, endStarportId, date, sortType);
 
     const newQueryParams = new URLSearchParams({
-      startStarportId: String(startStarportId),
-      endStarportId: String(endStarportId),
+      DeparturePortId: String(startStarportId),
+      DestinationPortId: String(endStarportId),
       date,
       sortType: String(sortType),
     });

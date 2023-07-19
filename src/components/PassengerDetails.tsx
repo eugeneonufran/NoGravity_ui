@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { RouteContext } from "../contexts/RouteContext";
 
 import axios from "axios";
 import { useEffect } from "react";
@@ -18,35 +17,49 @@ export const PassengerDetails = ({
   initPassenger,
   setPassengersList,
 }: PassengerDetailsProps) => {
-  const { chosenRoute } = useContext(RouteContext);
   const { api_domain } = useContext(ApiContext);
-  // const storedRoute = localStorage.getItem("chosenRoute");
-  // const chosenRoute = storedRoute ? JSON.parse(storedRoute) : null;
 
   useEffect(() => {
-    getSeatsInfo();
-  });
+    const takeJS = localStorage.getItem("passengers");
+    const prepassengersList = takeJS
+      ? JSON.parse(takeJS)
+      : [{ ...initPassenger }];
 
-  const getSeatsInfo = async () => {
-    try {
-      const response = await axios.post<ISeat[]>(
-        `${api_domain}/api/Booking/seats`,
-        chosenRoute
-      );
-      setAvailableSeats(response.data.filter((seat) => seat.isVacant === true));
-    } catch (error) {
-      console.error("Fetch error:", error);
-    }
-  };
+    setPassengersList(prepassengersList);
+  }, [api_domain, setPassengersList, initPassenger]);
+
+  useEffect(() => {
+    const getSeatsInfo = async () => {
+      try {
+        const route2 = localStorage.getItem("chosenRoute");
+        const route = route2 ? JSON.parse(route2) : [];
+
+        const response = await axios.post<ISeat[]>(
+          `${api_domain}/api/Booking/seats`,
+          route
+        );
+        setAvailableSeats(
+          response.data.filter((seat) => seat.isVacant === true)
+        );
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    getSeatsInfo();
+  }, [api_domain]);
 
   const handleAddPassenger = () => {
-    setPassengersList([...passengersList, { ...initPassenger }]);
+    const updatedPassengers = [...passengersList, { ...initPassenger }];
+    setPassengersList(updatedPassengers);
+    localStorage.setItem("passengers", JSON.stringify(updatedPassengers));
   };
 
   const handleDeletePassenger = (index: number) => {
     const updatedPassengers = [...passengersList];
     updatedPassengers.splice(index, 1);
     setPassengersList(updatedPassengers);
+    localStorage.setItem("passengers", JSON.stringify(updatedPassengers));
   };
 
   const [availableSeats, setAvailableSeats] = useState<ISeat[]>([]);
@@ -56,18 +69,17 @@ export const PassengerDetails = ({
     field: keyof IPassenger,
     value: string
   ) => {
-    console.log("Before", passengersList);
-
     const updatedPassengers = [...passengersList];
     updatedPassengers[index][field] = value;
-    console.log("After", updatedPassengers);
+
     setPassengersList(updatedPassengers);
+    localStorage.setItem("passengers", JSON.stringify(updatedPassengers));
   };
 
   return (
     <>
       <div>
-        <h1>Route id:{chosenRoute?.id}</h1>
+        <h1>Route id:{}</h1>
         <h2>Available seats:{availableSeats.length}</h2>
       </div>
       <div>
