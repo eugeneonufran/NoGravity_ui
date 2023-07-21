@@ -3,7 +3,7 @@ import { PassengerDetails } from "./PassengerDetails";
 import { Paypage } from "./Paypage";
 import { SeatMap } from "./SeatMap";
 import { useMultistepBookingForm } from "./useMultistepBookingForm";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export const BookingForm = () => {
   const initPassenger = { name: "", surname: "", email: "", cif: "" };
@@ -28,22 +28,22 @@ export const BookingForm = () => {
     <Paypage passengersList={passengersList} />,
   ]);
 
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    goForward();
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={onSubmit}>
         {currentForm}
-        {!isLastStep && (
-          <button type='button' onClick={goForward}>
-            Next
-          </button>
-        )}
+        {!isLastStep && <button type='submit'>Next</button>}
         {isLastStep && <button type='button'>Finish</button>}
         {!isFirstStep && (
           <button type='button' onClick={goBackward}>
             Back
           </button>
         )}
-        current formstep:{currentStep}
       </form>
     </div>
   );

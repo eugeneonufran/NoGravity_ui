@@ -26,7 +26,7 @@ export const PassengerDetails = ({
       : [{ ...initPassenger }];
 
     setPassengersList(prepassengersList);
-  }, [api_domain, setPassengersList, initPassenger]);
+  }, []);
 
   useEffect(() => {
     const getSeatsInfo = async () => {
@@ -79,7 +79,6 @@ export const PassengerDetails = ({
   return (
     <>
       <div>
-        <h1>Route id:{}</h1>
         <h2>Available seats:{availableSeats.length}</h2>
       </div>
       <div>
