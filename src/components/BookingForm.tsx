@@ -24,7 +24,7 @@ export const BookingForm = () => {
   };
 
   const stepForms = [
-    <PassengersInfoForm goForward={goForward} />,
+    <PassengersInfoForm onNext={goForward} />,
     // <PassengerDetails
     //   passengersList={passengersList}
     //   setPassengersList={setPassengersList}
