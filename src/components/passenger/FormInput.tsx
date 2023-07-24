@@ -1,6 +1,8 @@
 import React from "react";
 
 interface FormInputProps {
+  field_name: string;
+  placeholder: string;
   value: string;
   onItemBlur: (value: string) => void;
   onItemChange: (value: string) => void;
@@ -8,6 +10,8 @@ interface FormInputProps {
 }
 
 export const FormInput = ({
+  field_name,
+  placeholder,
   value,
   onItemChange,
   hasError,
@@ -27,7 +31,9 @@ export const FormInput = ({
 
   return (
     <div>
+      {field_name}
       <input
+        placeholder={placeholder}
         type='text'
         value={value}
         onChange={handleChange}

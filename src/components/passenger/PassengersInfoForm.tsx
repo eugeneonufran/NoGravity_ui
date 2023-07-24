@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { FormInput } from "./FormInput"; // Assuming you have the CustomInput component
+import React, { useContext, useEffect, useState } from "react";
+import { FormInput } from "./FormInput";
+import { ISeat } from "../../models/ISeat";
+import { ApiContext } from "../../contexts/ApiContext";
+import axios from "axios";
 
 interface PersonalInfoFormProps {
   onNext: (info: PersonalInfoData) => void;
@@ -21,7 +24,31 @@ interface FormItem {
   error?: string | null;
 }
 
-export const PassengersInfoForm: React.FC<PersonalInfoFormProps> = (props) => {
+export const PassengersInfoForm = ({ onNext }: PersonalInfoFormProps) => {
+  const [availableSeats, setAvailableSeats] = useState<ISeat[]>([]);
+  const { api_domain } = useContext(ApiContext);
+
+  useEffect(() => {
+    const getSeatsInfo = async () => {
+      try {
+        const gI = localStorage.getItem("chosenRoute");
+        const route = gI ? JSON.parse(gI) : [];
+
+        const response = await axios.post<ISeat[]>(
+          `${api_domain}/api/Booking/seats`,
+          route
+        );
+        setAvailableSeats(
+          response.data.filter((seat) => seat.isVacant === true)
+        );
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    getSeatsInfo();
+  }, [api_domain]);
+
   const [data, setData] = useState<PersonalInfoItem[]>([
     {
       name: { value: "", error: null },
@@ -66,6 +93,23 @@ export const PassengersInfoForm: React.FC<PersonalInfoFormProps> = (props) => {
     cif: (value: string) => value.trim() !== "",
   };
 
+  const handleAddPassenger = () => {
+    const updatedPassengersList = [...data];
+    updatedPassengersList.push({
+      name: { value: "", error: null },
+      surname: { value: "", error: null },
+      email: { value: "", error: null },
+      cif: { value: "", error: null },
+    });
+    setData(updatedPassengersList);
+  };
+
+  const handleDeletePassenger = (index: number) => {
+    const updatedPassengersList = [...data];
+    updatedPassengersList.splice(index, 1);
+    setData(updatedPassengersList);
+  };
+
   const validate = () => {
     const newData = [...data];
     data.forEach((element, index) => {
@@ -90,52 +134,68 @@ export const PassengersInfoForm: React.FC<PersonalInfoFormProps> = (props) => {
     ) {
       setData(newData);
     } else {
-      props.onNext({ info: newData });
+      onNext({ info: newData });
     }
   };
 
   return (
     <div>
       <div>
+        {data.length}
         {data.map((item, index) => (
           <div key={index}>
+            Passenger # {index}
             <FormInput
+              field_name='Name'
+              placeholder='Enter the name'
               key={index}
               value={data[index]["name"].value}
-              onItemBlur={() =>
-                handleBlur("name", index, data[index]["name"].value)
-              }
+              onItemBlur={() => handleBlur("name", index, item.name.value)}
               onItemChange={(e) => handleChange("name", index, e)}
-              hasError={data[index]["name"].error != null}
+              hasError={item.name.error != null}
             />
             <FormInput
+              field_name='Surname'
+              placeholder='Enter the surname'
               value={data[index]["surname"].value}
               onItemBlur={() =>
-                handleBlur("surname", index, data[index]["surname"].value)
+                handleBlur("surname", index, item.surname.value)
               }
               onItemChange={(e) => handleChange("surname", index, e)}
-              hasError={data[index]["surname"].error != null}
+              hasError={item.surname.error != null}
             />
             <FormInput
+              field_name='Email'
+              placeholder='Enter the email'
               value={data[index]["email"].value}
-              onItemBlur={() =>
-                handleBlur("email", index, data[index]["email"].value)
-              }
+              onItemBlur={() => handleBlur("email", index, item.email.value)}
               onItemChange={(e) => handleChange("email", index, e)}
-              hasError={data[index]["email"].error != null}
+              hasError={item.email.error != null}
             />
             <FormInput
+              field_name='CIF'
+              placeholder='Enter the CIF'
               value={data[index]["cif"].value}
-              onItemBlur={() =>
-                handleBlur("cif", index, data[index]["cif"].value)
-              }
+              onItemBlur={() => handleBlur("cif", index, item.cif.value)}
               onItemChange={(e) => handleChange("cif", index, e)}
-              hasError={data[index]["cif"].error != null}
+              hasError={item.cif.error != null}
             />
+            {data.length > 1 && (
+              <button
+                type='button'
+                onClick={() => handleDeletePassenger(index)}>
+                -
+              </button>
+            )}
           </div>
         ))}
       </div>
       <div>
+        {availableSeats.length > data.length && (
+          <button type='button' onClick={handleAddPassenger}>
+            +
+          </button>
+        )}
         <button>Back</button>
         <button type='button' onClick={validate}>
           Next
