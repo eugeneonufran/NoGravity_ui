@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { ISeat } from "../models/ISeat";
 import "../styles/Drawgrid.css";
 import { IPassengerSeat } from "../models/IPassengerSeat";
@@ -6,10 +6,15 @@ import { IPassengerSeat } from "../models/IPassengerSeat";
 interface DrawgridProps {
   seats: ISeat[];
   passengersSeatsList: IPassengerSeat[];
+  setError: React.Dispatch<SetStateAction<boolean>>;
   //   onClickSeat: (seat: ISeat) => void;
 }
 
-export const Drawgrid = ({ seats, passengersSeatsList }: DrawgridProps) => {
+export const Drawgrid = ({
+  seats,
+  passengersSeatsList,
+  setError,
+}: DrawgridProps) => {
   const [passengersSeats, setPassengersSeats] =
     useState<IPassengerSeat[]>(passengersSeatsList);
 
@@ -24,8 +29,6 @@ export const Drawgrid = ({ seats, passengersSeatsList }: DrawgridProps) => {
   const handleRemoveSelection = () => {
     setSelectedPassengerCIF(null);
   };
-
-  // const [chosenseats, setChosenSeats] = useState<ISeat[]>([]);
 
   const onClickSeat = (seat: ISeat) => {
     if (seat.isVacant === false) {
@@ -82,6 +85,10 @@ export const Drawgrid = ({ seats, passengersSeatsList }: DrawgridProps) => {
 
       setSelectedPassengerCIF(null);
       setPassengersSeats(updatedPassengersSeatsList2);
+
+      if (passengersSeats.every((p) => p.seat)) {
+        setError(true);
+      }
       return;
     }
 
@@ -102,6 +109,9 @@ export const Drawgrid = ({ seats, passengersSeatsList }: DrawgridProps) => {
       console.log(updatedPassengersSeatsList);
       setPassengersSeats(updatedPassengersSeatsList);
       setSelectedPassengerCIF(null);
+      if (passengersSeats.every((p) => p.seat)) {
+        setError(true);
+      }
       return;
     }
   };

@@ -1,0 +1,74 @@
+const HighLevelForm = () => {
+    const [hasError, setHasError] = useState(true);
+    const [currentStep, setCurrentStep] = useState(0);
+    const renderStep = () => {
+        return <PassengersInfoForm onError={() => setHasError(true)} />
+        ///return ...
+    }
+
+    render (
+        <div class="form">
+            {renderStep()}
+            <div clas="pagenav">
+                {isFirstStep && <button>Back</button>}
+                {!isLastStep && <button disabled={hasError}>Next</button>}
+                {isLastStep && <button disabled={hasError}>Submit</button>}
+            </div>
+        </div>
+    )
+}
+
+const PassengersInfoForm = ({onError}) => {
+    const [data, setData] = useState(null);
+
+    return (<div>
+        <FormInput value={data.Name}
+            onChange={(e) => setData(data => ({...data, Name: e.target.value}))}
+            validator={(e) => return }///regexforonlyLettes.test(e)}
+            textOnError="sory, name incorrect"
+            onError={onError}
+        />
+        <FormInput value={data.Surname}
+            onChange={(e) => setData(data => ({...data, Surname: e.target.value}))}
+            validator={(e) => return }///regexforonlyLettes.test(e)}
+            textOnError="sory, Email incorrect"
+            onError={onError}
+
+        />
+        <FormInput value={data.Email}
+            onChange={(e) => setData(data => ({...data, Email: e.target.value}))}
+            validator={(e) => return }///regexforonlyEmail.test(e)}
+            textOnError="sory, Email incorrect"
+            onError={onError}
+
+        />
+        <FormInput value={data.CIF}
+            onChange={(e) => setData(data => ({...data, CIF: e.target.value}))}
+            validator={(e) => return }///regexforonlyCIF.test(e)}
+            textOnError="sory, Email incorrect"
+            onError={onError}
+
+        />
+    </div>)
+}
+
+const FormInput = ({onError, onChange, value, validator, textOnError}) => {
+    const [hasError, setHasError] = useState(null); 
+    const handleBlur = (e) => {
+        if(validator && !validator(e.target.value)){
+            setHasError(true);
+            onError(e.target.value);
+        }
+    }
+
+    const handleChange = (e) => {
+        setHasError(false);
+        onChange(e);
+    } 
+
+    return (<div>
+            <input onChange={handleChange} value={value} onBlur={handleBlur} onFocus={() => setHasError(false)}/>
+            {hasError && textOnError && <span>{textOnError}</span>}
+        </div>
+    )
+}

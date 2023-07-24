@@ -5,17 +5,20 @@ import { useEffect } from "react";
 import { ISeat } from "../models/ISeat";
 import { IPassenger } from "../models/IPassenger";
 import { ApiContext } from "../contexts/ApiContext";
+import { StepManagerNav } from "../models/StepManagerNav";
 
 interface PassengerDetailsProps {
   passengersList: IPassenger[];
   initPassenger: IPassenger;
   setPassengersList: (passengers: IPassenger[]) => void;
+  navigate: StepManagerNav;
 }
 
 export const PassengerDetails = ({
   passengersList,
   initPassenger,
   setPassengersList,
+  navigate,
 }: PassengerDetailsProps) => {
   const { api_domain } = useContext(ApiContext);
 
@@ -31,8 +34,8 @@ export const PassengerDetails = ({
   useEffect(() => {
     const getSeatsInfo = async () => {
       try {
-        const route2 = localStorage.getItem("chosenRoute");
-        const route = route2 ? JSON.parse(route2) : [];
+        const gI = localStorage.getItem("chosenRoute");
+        const route = gI ? JSON.parse(gI) : [];
 
         const response = await axios.post<ISeat[]>(
           `${api_domain}/api/Booking/seats`,
@@ -130,6 +133,17 @@ export const PassengerDetails = ({
         {availableSeats.length > passengersList.length && (
           <button type='button' onClick={handleAddPassenger}>
             +
+          </button>
+        )}
+        {!navigate.isLastStep && (
+          <button type='button' onClick={navigate.goForward}>
+            Next
+          </button>
+        )}
+        {navigate.isLastStep && <button type='button'>Finish</button>}
+        {!navigate.isFirstStep && (
+          <button type='button' onClick={navigate.goBackward}>
+            Back
           </button>
         )}
       </div>

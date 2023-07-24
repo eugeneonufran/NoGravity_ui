@@ -7,12 +7,14 @@ import axios from "axios";
 import { ISeat } from "../models/ISeat";
 import { RouteContext } from "../contexts/RouteContext";
 import { IPassengerSeat } from "../models/IPassengerSeat";
+import { StepManagerNav } from "../models/StepManagerNav";
 
 interface SeatMapProps {
   passengersList: IPassenger[];
+  navigate: StepManagerNav;
 }
 
-export const SeatMap = ({ passengersList }: SeatMapProps) => {
+export const SeatMap = ({ passengersList, navigate }: SeatMapProps) => {
   const { chosenRoute } = useContext(RouteContext);
 
   const convertToPassengersSeats = (
@@ -42,13 +44,28 @@ export const SeatMap = ({ passengersList }: SeatMapProps) => {
 
   const [seats, setSeats] = useState<ISeat[]>([]);
 
+  const [error, setError] = useState(false);
+
   return (
     <>
       {/* <PassengersList passengers={passengersList} /> */}
       <Drawgrid
         seats={seats}
         passengersSeatsList={convertToPassengersSeats(passengersList)}
+        setError={setError}
       />
+
+      {navigate.isLastStep && <button type='button'>Finish</button>}
+      {!navigate.isFirstStep && (
+        <button type='button' onClick={navigate.goBackward}>
+          Back
+        </button>
+      )}
+      {!navigate.isLastStep && (
+        <button type='button' onClick={navigate.goForward}>
+          Next
+        </button>
+      )}
     </>
   );
 };

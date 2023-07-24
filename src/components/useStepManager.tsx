@@ -1,6 +1,6 @@
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 
-export function useMultistepBookingForm(steps: ReactElement[]) {
+export function useStepManager(steps: number) {
   const [currentStep, setCurrentStep] = useState(0);
 
   const goForward = () => {
@@ -12,11 +12,10 @@ export function useMultistepBookingForm(steps: ReactElement[]) {
   };
 
   return {
-    currentForm: steps[currentStep],
     currentStep,
     goForward,
     goBackward,
     isFirstStep: currentStep === 0,
-    isLastStep: steps.length - 1 === currentStep,
+    isLastStep: steps - 1 === currentStep,
   };
 }
