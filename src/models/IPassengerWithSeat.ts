@@ -1,7 +1,7 @@
 import { IPassenger } from "./IPassenger";
 import { ISeat } from "./ISeat";
 
-export interface IPassengerSeat {
+export interface IPassengerWithSeat {
   passenger: IPassenger;
-  seat: ISeat | null;
+  seat: ISeat;
 }

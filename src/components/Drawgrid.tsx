@@ -1,29 +1,33 @@
 import { SetStateAction, useState } from "react";
 import { ISeat } from "../models/ISeat";
 import "../styles/Drawgrid.css";
-import { IPassengerSeat } from "../models/IPassengerSeat";
+import { IPassengerItem } from "./SeatMap";
 
 interface DrawgridProps {
   seats: ISeat[];
-  passengersSeatsList: IPassengerSeat[];
-  setError: React.Dispatch<SetStateAction<boolean>>;
-  //   onClickSeat: (seat: ISeat) => void;
+  passengersItems: IPassengerItem[];
+  setPassengerItems: React.Dispatch<SetStateAction<IPassengerItem[]>>;
 }
 
 export const Drawgrid = ({
   seats,
-  passengersSeatsList,
-  setError,
+  passengersItems,
+  setPassengerItems,
 }: DrawgridProps) => {
-  const [passengersSeats, setPassengersSeats] =
-    useState<IPassengerSeat[]>(passengersSeatsList);
-
   const [selectedPassengerCIF, setSelectedPassengerCIF] = useState<
     string | null
   >(null);
 
-  const handleSelectPassenger = (passengerCIF: string | null) => {
+  const handleSelectPassenger = (
+    passengerCIF: string | null,
+    index: number
+  ) => {
     setSelectedPassengerCIF(passengerCIF);
+    const updatedPassengerItems = passengersItems.map((passenger, p_index) => ({
+      ...passenger,
+      error: index === p_index ? null : passenger.error,
+    }));
+    setPassengerItems(updatedPassengerItems);
   };
 
   const handleRemoveSelection = () => {
@@ -36,13 +40,13 @@ export const Drawgrid = ({
     }
 
     // Check if the seat is already chosen
-    const isSeatChosen = passengersSeats.some(
+    const isSeatChosen = passengersItems.some(
       (passengerSeat) => passengerSeat.seat?.id === seat.id
     );
 
     if (isSeatChosen && selectedPassengerCIF === null) {
-      const updatedPassengersSeatsList = passengersSeats.map(
-        (chosenPS: IPassengerSeat) => {
+      const updatedPassengersSeatsList = passengersItems.map(
+        (chosenPS: IPassengerItem) => {
           if (chosenPS.seat?.id === seat.id) {
             return {
               ...chosenPS,
@@ -54,13 +58,13 @@ export const Drawgrid = ({
       );
 
       setSelectedPassengerCIF(null);
-      setPassengersSeats(updatedPassengersSeatsList);
+      setPassengerItems(updatedPassengersSeatsList);
       return;
     }
 
     if (isSeatChosen && selectedPassengerCIF !== null) {
-      const updatedPassengersSeatsList = passengersSeats.map(
-        (chosenPS: IPassengerSeat) => {
+      const updatedPassengersSeatsList = passengersItems.map(
+        (chosenPS: IPassengerItem) => {
           if (chosenPS.seat?.id === seat.id) {
             return {
               ...chosenPS,
@@ -72,7 +76,7 @@ export const Drawgrid = ({
       );
 
       const updatedPassengersSeatsList2 = updatedPassengersSeatsList.map(
-        (chosenPS: IPassengerSeat) => {
+        (chosenPS: IPassengerItem) => {
           if (chosenPS.passenger.cif.toString() === selectedPassengerCIF) {
             return {
               ...chosenPS,
@@ -84,19 +88,15 @@ export const Drawgrid = ({
       );
 
       setSelectedPassengerCIF(null);
-      setPassengersSeats(updatedPassengersSeatsList2);
-
-      if (passengersSeats.every((p) => p.seat)) {
-        setError(true);
-      }
+      setPassengerItems(updatedPassengersSeatsList2);
       return;
     }
 
     if (!isSeatChosen && selectedPassengerCIF !== null) {
       console.log(!isSeatChosen, selectedPassengerCIF);
-      console.log(passengersSeats);
-      const updatedPassengersSeatsList = passengersSeats.map(
-        (chosenPS: IPassengerSeat) => {
+      console.log(passengersItems);
+      const updatedPassengersSeatsList = passengersItems.map(
+        (chosenPS: IPassengerItem) => {
           if (chosenPS.passenger.cif.toString() === selectedPassengerCIF) {
             return {
               ...chosenPS,
@@ -107,11 +107,9 @@ export const Drawgrid = ({
         }
       );
       console.log(updatedPassengersSeatsList);
-      setPassengersSeats(updatedPassengersSeatsList);
+      setPassengerItems(updatedPassengersSeatsList);
       setSelectedPassengerCIF(null);
-      if (passengersSeats.every((p) => p.seat)) {
-        setError(true);
-      }
+
       return;
     }
   };
@@ -121,10 +119,10 @@ export const Drawgrid = ({
       <table className='grid'>
         <tbody>
           <tr>
-            {seats.map((seat) => (
+            {seats.map((seat, index) => (
               <td
                 className={`seat ${seat.isVacant ? "available" : "reserved"} ${
-                  passengersSeats.some(
+                  passengersItems.some(
                     (chosenSeat) => chosenSeat.seat?.id === seat.id
                   )
                     ? "chosen"
@@ -139,12 +137,12 @@ export const Drawgrid = ({
         </tbody>
       </table>
       <div>
-        {passengersSeats.map((seat) => (
+        {passengersItems.map((seat) => (
           <div key={seat.seat?.id}>{seat.seat?.seatNumber}</div>
         ))}
         Selected passenger:{selectedPassengerCIF}
         <div>
-          {passengersSeats.map((passengerSeat, index) => (
+          {passengersItems.map((passengerSeat, index) => (
             <div>
               #:{index}
               Name:{passengerSeat.passenger.name}, SurName:
@@ -154,10 +152,11 @@ export const Drawgrid = ({
               <button
                 type='button'
                 onClick={() =>
-                  handleSelectPassenger(passengerSeat.passenger.cif)
+                  handleSelectPassenger(passengerSeat.passenger.cif, index)
                 }>
                 Select seat
               </button>
+              {passengerSeat.error && <span>"Select the seat beatch"</span>}
             </div>
           ))}
         </div>

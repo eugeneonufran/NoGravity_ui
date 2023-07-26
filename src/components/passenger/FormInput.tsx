@@ -6,7 +6,7 @@ interface FormInputProps {
   value: string;
   onItemBlur: (value: string) => void;
   onItemChange: (value: string) => void;
-  hasError: boolean;
+  hasError: string | null;
 }
 
 export const FormInput = ({
@@ -40,7 +40,7 @@ export const FormInput = ({
         onBlur={handleBlur}
         style={{ border: hasError ? "1px solid red" : "1px solid #ccc" }}
       />
-      {hasError && <span style={{ color: "red" }}>Error message here</span>}
+      {hasError && <span style={{ color: "red" }}>{hasError}</span>}
     </div>
   );
 };
