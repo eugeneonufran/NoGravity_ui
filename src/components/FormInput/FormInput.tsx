@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./FormInput.module.scss";
 
 interface FormInputProps {
   field_name: string;
@@ -30,7 +31,7 @@ export const FormInput = ({
   };
 
   return (
-    <div>
+    <div className={styles.inputstyle}>
       {field_name}
       <input
         placeholder={placeholder}

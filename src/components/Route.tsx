@@ -5,7 +5,6 @@ import { IJourneySeatMap } from "../models/IJourneySeatMap";
 import { ISeat } from "../models/ISeat";
 
 // ------------ Style Imports ------------
-import "../styles/Route.css"; // Import the CSS file
 
 // ------------ Library Imports ------------
 import React from "react";

@@ -35,7 +35,7 @@ const Booking = () => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h1>ЗАМОВ КВИТКИ, ДУРІК</h1>
       <RouteForm onSubmit={handleSubmit} />
       <RouteList routes={routes} />

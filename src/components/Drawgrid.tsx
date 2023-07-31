@@ -1,6 +1,5 @@
 import { SetStateAction, useState } from "react";
 import { ISeat } from "../models/ISeat";
-import "../styles/Drawgrid.css";
 import { IPassengerItem } from "./SeatMap";
 
 interface DrawgridProps {

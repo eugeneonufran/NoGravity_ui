@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FormInput } from "./FormInput";
+import { FormInput } from "../FormInput/FormInput";
 import { ISeat } from "../../models/ISeat";
 import { ApiContext } from "../../contexts/ApiContext";
 import axios from "axios";
 import { IPassenger } from "../../models/IPassenger";
+import styles from "./PassengerInfoForm.module.scss";
 
 interface PersonalInfoFormProps {
   onNext: (info: PersonalInfoData) => void;
@@ -175,50 +176,52 @@ export const PassengersInfoForm = ({
       <div>
         {data.length}
         {data.map((item, index) => (
-          <div key={index}>
+          <div>
             Passenger # {index}
-            <FormInput
-              field_name='Name'
-              placeholder='Enter the name'
-              key={index}
-              value={item.name.value}
-              onItemBlur={() => handleBlur("name", index, item.name.value)}
-              onItemChange={(e) => handleChange("name", index, e)}
-              hasError={item.name.error}
-            />
-            <FormInput
-              field_name='Surname'
-              placeholder='Enter the surname'
-              value={item.surname.value}
-              onItemBlur={() =>
-                handleBlur("surname", index, item.surname.value)
-              }
-              onItemChange={(e) => handleChange("surname", index, e)}
-              hasError={item.surname.error}
-            />
-            <FormInput
-              field_name='Email'
-              placeholder='Enter the email'
-              value={item.email.value}
-              onItemBlur={() => handleBlur("email", index, item.email.value)}
-              onItemChange={(e) => handleChange("email", index, e)}
-              hasError={item.email.error}
-            />
-            <FormInput
-              field_name='CIF'
-              placeholder='Enter the CIF'
-              value={item.cif.value}
-              onItemBlur={() => handleBlur("cif", index, item.cif.value)}
-              onItemChange={(e) => handleChange("cif", index, e)}
-              hasError={item.cif.error}
-            />
-            {data.length > 1 && (
-              <button
-                type='button'
-                onClick={() => handleDeletePassenger(index)}>
-                -
-              </button>
-            )}
+            <div className={styles.passengertable} key={index}>
+              <FormInput
+                field_name='Name'
+                placeholder='Enter the name'
+                key={index}
+                value={item.name.value}
+                onItemBlur={() => handleBlur("name", index, item.name.value)}
+                onItemChange={(e) => handleChange("name", index, e)}
+                hasError={item.name.error}
+              />
+              <FormInput
+                field_name='Surname'
+                placeholder='Enter the surname'
+                value={item.surname.value}
+                onItemBlur={() =>
+                  handleBlur("surname", index, item.surname.value)
+                }
+                onItemChange={(e) => handleChange("surname", index, e)}
+                hasError={item.surname.error}
+              />
+              <FormInput
+                field_name='Email'
+                placeholder='Enter the email'
+                value={item.email.value}
+                onItemBlur={() => handleBlur("email", index, item.email.value)}
+                onItemChange={(e) => handleChange("email", index, e)}
+                hasError={item.email.error}
+              />
+              <FormInput
+                field_name='CIF'
+                placeholder='Enter the CIF'
+                value={item.cif.value}
+                onItemBlur={() => handleBlur("cif", index, item.cif.value)}
+                onItemChange={(e) => handleChange("cif", index, e)}
+                hasError={item.cif.error}
+              />
+              {data.length > 1 && (
+                <button
+                  type='button'
+                  onClick={() => handleDeletePassenger(index)}>
+                  -
+                </button>
+              )}
+            </div>
           </div>
         ))}
       </div>

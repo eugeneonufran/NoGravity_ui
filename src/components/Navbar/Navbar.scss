@@ -1,0 +1,12 @@
+@import "../" .navbar {
+  list-style: none;
+  background-color: $primary-color;
+
+  li {
+    display: inline-block;
+    margin-left: 30px;
+    &:last-child {
+      background-color: aquamarine;
+    }
+  }
+}
