@@ -4,7 +4,7 @@ import { IRouteSegment } from "./IRouteSegment";
 export interface IRoute {
   id: number;
   routeSegments: IRouteSegment[];
-  journeySeatMaps: IJourneySeatMap[];
+  journeySeatMap: IJourneySeatMap[];
   totalPrice: number;
   totalTravelTime: string;
 }

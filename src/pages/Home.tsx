@@ -1,9 +1,9 @@
-import Booking from "../components/Booking";
+import BookingRoutes from "../components/BookingRoutes";
 
 export const Home = () => {
   return (
     <div>
-      <Booking />
+      <BookingRoutes />
     </div>
   );
 };

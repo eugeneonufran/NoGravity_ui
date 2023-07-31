@@ -6,7 +6,7 @@ import { NotFound } from "./pages/NotFound";
 
 import { ApiContextProvider } from "./contexts/ApiContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { BookingForm } from "./components/BookingForm";
+import { BookingWizard } from "./components/BookingWizard";
 import { SuperAdminPage } from "./pages/SuperAdminPage";
 import { RouteContextProvider } from "./contexts/RouteContext";
 
@@ -25,7 +25,7 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/about' element={<About />} />
           <Route path='/superadmin' element={<SuperAdminPage />} />
-          <Route path='/bookingform' element={<BookingForm />} />
+          <Route path='/bookingform' element={<BookingWizard />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </RouteContextProvider>

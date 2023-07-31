@@ -20,7 +20,7 @@ interface RouteSearchFormProps {
   ) => void;
 }
 
-const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
+export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   const { api_domain } = useContext(ApiContext);
 
   const location = useLocation();
@@ -152,5 +152,3 @@ const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
     </div>
   );
 };
-
-export default RouteSearchForm;

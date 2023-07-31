@@ -6,13 +6,13 @@ import axios from "axios";
 import { IRoute } from "../models/IRoute";
 
 // ------------ Component Imports ------------
-import RouteForm from "./RouteSearchForm";
+import { RouteSearchForm } from "./RouteSearchForm";
 import { RouteList } from "./RoutesList";
 
 // ------------ Context Imports ------------
 import { ApiContext } from "../contexts/ApiContext";
 
-const Booking = () => {
+const BookingRoutes = () => {
   const [routes, setRoutes] = useState<IRoute[] | null>(null);
   const { api_domain } = useContext(ApiContext);
 
@@ -36,11 +36,11 @@ const Booking = () => {
 
   return (
     <div className='container'>
-      <h1>ЗАМОВ КВИТКИ, ДУРІК</h1>
-      <RouteForm onSubmit={handleSubmit} />
+      <h1>ORDER TICKETS</h1>
+      <RouteSearchForm onSubmit={handleSubmit} />
       <RouteList routes={routes} />
     </div>
   );
 };
 
-export default Booking;
+export default BookingRoutes;

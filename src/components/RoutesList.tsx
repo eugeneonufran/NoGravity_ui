@@ -11,7 +11,7 @@ export const RouteList = ({ routes }: RouteListProps) => {
       <h2>Route List</h2>
       {routes?.map((route) => (
         <div key={route.id}>
-          <Route route={route} />
+          <Route route={route} readonly={false} />
         </div>
       ))}
     </div>

@@ -1,14 +1,13 @@
 import { IPassenger } from "../models/IPassenger";
-import { PassengerDetails } from "./PassengerDetails";
-import { Paypage } from "./Paypage";
-import { SeatMap } from "./SeatMap";
+import { CheckoutForm } from "./CheckoutForm";
+import { SeatMapForm } from "./SeatMapForm";
 import { useStepManager } from "./useStepManager";
 import { useState } from "react";
 import { StepManagerNav } from "../models/StepManagerNav";
 import { PassengersInfoForm } from "./passenger/PassengersInfoForm";
 import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
 
-export const BookingForm = () => {
+export const BookingWizard = () => {
   const initPassenger = { name: "", surname: "", email: "", cif: "" };
   const [passengersList, setPassengersList] = useState<IPassenger[]>([
     initPassenger,
@@ -34,17 +33,14 @@ export const BookingForm = () => {
       onBack={goBackward}
       setPassengersInfo={setPassengersList}
     />,
-    <SeatMap
+    <SeatMapForm
       passengersList={passengersList}
       onNext={goForward}
       onBack={goBackward}
       setPassengersWithSeats={setPassengersWithSeats}
       navigate={navigate}
     />,
-    <Paypage
-      passengersList={passengersList}
-      passengerWithSeats={passengersWithSeats}
-    />,
+    <CheckoutForm passengerWithSeats={passengersWithSeats} />,
   ];
 
   return (

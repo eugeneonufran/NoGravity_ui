@@ -9,7 +9,7 @@ import { RouteContext } from "../contexts/RouteContext";
 import { StepManagerNav } from "../models/StepManagerNav";
 import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
 
-interface SeatMapProps {
+interface SeatMapFormProps {
   passengersList: IPassenger[];
   setPassengersWithSeats: React.Dispatch<
     React.SetStateAction<IPassengerWithSeat[] | null>
@@ -25,11 +25,11 @@ export interface IPassengerItem {
   error: string | null;
 }
 
-export const SeatMap = ({
+export const SeatMapForm = ({
   passengersList,
   navigate,
   setPassengersWithSeats,
-}: SeatMapProps) => {
+}: SeatMapFormProps) => {
   const { chosenRoute } = useContext(RouteContext);
 
   const convertToPassengersSeats = (

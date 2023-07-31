@@ -20,9 +20,10 @@ import { useContext } from "react";
 
 type RouteComponentProps = {
   route: IRoute;
+  readonly: boolean;
 };
 
-const Route = ({ route }: RouteComponentProps) => {
+const Route = ({ route, readonly }: RouteComponentProps) => {
   const navigate = useNavigate();
 
   const { setChosenRoute } = useContext(RouteContext);
@@ -58,8 +59,8 @@ const Route = ({ route }: RouteComponentProps) => {
         ))}
 
       <div>
-        {route.journeySeatMaps &&
-          route.journeySeatMaps.map((journey: IJourneySeatMap) => (
+        {route.journeySeatMap &&
+          route.journeySeatMap.map((journey: IJourneySeatMap) => (
             <div>
               <div>Journey {journey.journeyId}</div>
 
@@ -77,9 +78,11 @@ const Route = ({ route }: RouteComponentProps) => {
           ))}
       </div>
 
-      <button className='route button' onClick={handleBookRoute}>
-        Order route {route.id}
-      </button>
+      {!readonly && (
+        <button className='route button' onClick={handleBookRoute}>
+          Order route {route.id}
+        </button>
+      )}
     </div>
   );
 };
