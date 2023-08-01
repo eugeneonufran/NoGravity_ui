@@ -1,7 +1,7 @@
 import { IPassenger } from "../models/IPassenger";
 import { CheckoutForm } from "./CheckoutForm";
 import { SeatMapForm } from "./SeatMapForm";
-import { useStepManager } from "./useStepManager";
+import { useStepManager } from "../hooks/useStepManager";
 import { useState } from "react";
 import { StepManagerNav } from "../models/StepManagerNav";
 import { PassengersInfoForm } from "./passenger/PassengersInfoForm";

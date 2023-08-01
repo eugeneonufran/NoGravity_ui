@@ -31,7 +31,7 @@ const Route = ({ route, readonly }: RouteComponentProps) => {
   const handleBookRoute = () => {
     setChosenRoute(route);
     localStorage.setItem("chosenRoute", JSON.stringify(route));
-    navigate("/BookingForm");
+    navigate("/bookingWizard");
   };
 
   return (

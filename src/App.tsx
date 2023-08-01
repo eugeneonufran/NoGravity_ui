@@ -1,7 +1,7 @@
 import { About } from "./pages/About";
 import { Contact } from "./pages/Contact";
-import { Home } from "./pages/Home";
-import { Navbar } from "./components/Navbar/Navbar";
+import { Home } from "./pages/Home/Home";
+import { Navbar } from "./components/Navbar";
 import { NotFound } from "./pages/NotFound";
 
 import { ApiContextProvider } from "./contexts/ApiContext";
@@ -24,8 +24,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/about' element={<About />} />
-          <Route path='/superadmin' element={<SuperAdminPage />} />
-          <Route path='/bookingform' element={<BookingWizard />} />
+          <Route path='/superAdmin' element={<SuperAdminPage />} />
+          <Route path='/bookingWizard' element={<BookingWizard />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </RouteContextProvider>

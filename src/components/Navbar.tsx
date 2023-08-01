@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import "../../styles/Navbar.scss";
 
 export const Navbar = () => {
   return (
@@ -15,7 +14,7 @@ export const Navbar = () => {
           <Link to='/contact'>Contact</Link>
         </li>
         <li>
-          <Link to='/superadmin'>SuperAdmin Page</Link>
+          <Link to='/superAdmin'>SuperAdmin Page</Link>
         </li>
       </ul>
     </nav>

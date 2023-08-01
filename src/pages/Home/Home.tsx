@@ -1,4 +1,4 @@
-import BookingRoutes from "../components/BookingRoutes";
+import BookingRoutes from "./BookingRoutes";
 
 export const Home = () => {
   return (
