@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BookingWizard } from "./components/BookingWizard";
 import { SuperAdminPage } from "./pages/SuperAdminPage";
 import { RouteContextProvider } from "./contexts/RouteContext";
+import { Footer } from "./components/Footer";
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
           <Route path='/bookingWizard' element={<BookingWizard />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
+        <div>
+          <Footer />
+        </div>
       </RouteContextProvider>
     </BrowserRouter>
   );

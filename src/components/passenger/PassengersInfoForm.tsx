@@ -5,6 +5,8 @@ import { ApiContext } from "../../contexts/ApiContext";
 import axios from "axios";
 import { IPassenger } from "../../models/IPassenger";
 import styles from "./PassengerInfoForm.module.scss";
+import { useFetch } from "../../hooks/useFetch";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 interface PersonalInfoFormProps {
   onNext: (info: PersonalInfoData) => void;
@@ -33,26 +35,23 @@ export const PassengersInfoForm = ({
   const [availableSeats, setAvailableSeats] = useState<ISeat[]>([]);
   const { api_domain } = useContext(ApiContext);
 
-  useEffect(() => {
-    const getSeatsInfo = async () => {
-      try {
-        const gI = localStorage.getItem("chosenRoute");
-        const route = gI ? JSON.parse(gI) : [];
+  const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
+  const { getItemFromLS } = useLocalStorage();
 
-        const response = await axios.post<ISeat[]>(
-          `${api_domain}/api/Booking/seats`,
-          route
-        );
-        setAvailableSeats(
-          response.data.filter((seat) => seat.isVacant === true)
-        );
-      } catch (error) {
-        console.error("Fetch error:", error);
+  const chosenRoute = getItemFromLS("chosenRoute");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (chosenRoute) {
+        const response = await fetchSeatsForRoute(chosenRoute);
+        if (response) {
+          setAvailableSeats(response.filter((seat) => seat.isVacant === true));
+        }
       }
     };
 
-    getSeatsInfo();
-  }, [api_domain]);
+    fetchData();
+  });
 
   const [data, setData] = useState<PersonalInfoItem[]>([
     {

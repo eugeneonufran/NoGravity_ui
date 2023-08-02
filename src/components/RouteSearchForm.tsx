@@ -6,7 +6,7 @@ import { SortType } from "../models/SortType";
 import React, { useState, useEffect, useContext } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useFetch } from "../hooks/useFetch";
 
 // ------------ Context Imports ------------
 import { ApiContext } from "../contexts/ApiContext";
@@ -22,6 +22,7 @@ interface RouteSearchFormProps {
 
 export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   const { api_domain } = useContext(ApiContext);
+  const { fetchPorts, loading, error } = useFetch(api_domain);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -81,20 +82,27 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   // ------------ Side Effects ------------
 
   useEffect(() => {
-    const fetchStartports = async () => {
-      try {
-        const response = await axios.get<IStarport[]>(
-          `${api_domain}/api/Starports/getall`
-        );
-        setStartports(response.data);
-        setEndports(response.data);
-      } catch (error) {
-        console.error("Fetch error:", error);
+    const fetchData = async () => {
+      const response = await fetchPorts();
+      if (response) {
+        setStartports(response);
+        setEndports(response);
       }
     };
 
-    fetchStartports();
-  }, [api_domain]);
+    fetchData();
+  }, []);
+
+  const zeroValueDN = loading
+    ? "Loading"
+    : error
+    ? "Error occurred"
+    : "---Select Destination Starport---";
+  const zeroValueDE = loading
+    ? "Loading"
+    : error
+    ? "Error occurred"
+    : "---Select Departure Starport---";
 
   return (
     <div>
@@ -105,7 +113,7 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
           name='startStarport'
           value={startStarportId}
           onChange={handleStartStarportChange}>
-          <option value={0}>---Select Departure Starport---</option>
+          <option value={0}>{zeroValueDE}</option>
           {startports.map((startport) => (
             <option key={startport.id} value={startport.id}>
               {startport.name}
@@ -119,7 +127,7 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
           name='endStarport'
           value={endStarportId}
           onChange={handleEndStarportChange}>
-          <option value={0}>---Select Destination Starport---</option>
+          <option value={0}>{zeroValueDN}</option>
           {endports.map((endport) => (
             <option key={endport.id} value={endport.id}>
               {endport.name}

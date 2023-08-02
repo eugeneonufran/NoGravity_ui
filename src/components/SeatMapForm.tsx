@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { IPassenger } from "../models/IPassenger";
 import { Drawgrid } from "./Drawgrid";
+import { useFetch } from "../hooks/useFetch";
 
-import webSettings from "../configs/webSettings.json";
-import axios from "axios";
+import { Services } from "../utils/services";
 import { ISeat } from "../models/ISeat";
 import { RouteContext } from "../contexts/RouteContext";
 import { StepManagerNav } from "../models/StepManagerNav";
 import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
+import { ApiContext } from "../contexts/ApiContext";
 
 interface SeatMapFormProps {
   passengersList: IPassenger[];
@@ -30,38 +31,28 @@ export const SeatMapForm = ({
   navigate,
   setPassengersWithSeats,
 }: SeatMapFormProps) => {
+  const { api_domain } = useContext(ApiContext);
   const { chosenRoute } = useContext(RouteContext);
 
-  const convertToPassengersSeats = (
-    passengers: IPassenger[]
-  ): IPassengerItem[] => {
-    return passengers.map((passenger) => ({
-      passenger: passenger,
-      seat: null,
-      error: null,
-    }));
-  };
+  const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
 
   useEffect(() => {
-    getSeatsInfo();
-  });
+    const fetchData = async () => {
+      if (chosenRoute) {
+        const response = await fetchSeatsForRoute(chosenRoute);
+        if (response) {
+          setSeats(response);
+        }
+      }
+    };
 
-  const getSeatsInfo = async () => {
-    try {
-      const response = await axios.post<ISeat[]>(
-        `${webSettings.api_domain}/api/Booking/seats`,
-        chosenRoute
-      );
-      setSeats(response.data);
-    } catch (error) {
-      console.error("Fetch error:", error);
-    }
-  };
+    fetchData();
+  });
 
   const [seats, setSeats] = useState<ISeat[]>([]);
 
   const [passengerItems, setPassengerItems] = useState(
-    convertToPassengersSeats(passengersList)
+    Services.convertToPassengersSeats(passengersList)
   );
 
   const validate = () => {

@@ -16,10 +16,10 @@ import { Error } from "../../components/Error";
 import { ApiContext } from "../../contexts/ApiContext";
 
 const BookingRoutes = () => {
-  const { fetchRoutes, loading, error } = useFetch();
+  const { api_domain } = useContext(ApiContext);
+  const { fetchRoutes, loading, error } = useFetch(api_domain);
   const { clearLS } = useLocalStorage();
   const [routes, setRoutes] = useState<IRoute[] | null>(null);
-  const { api_domain } = useContext(ApiContext);
 
   const handleSubmit = async (
     departureStarportId: number,
@@ -28,7 +28,6 @@ const BookingRoutes = () => {
     SortType: number
   ) => {
     const response = await fetchRoutes(
-      api_domain,
       departureStarportId,
       arrivalStarportId,
       date,
