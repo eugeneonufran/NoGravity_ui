@@ -1,4 +1,4 @@
-import { IPassengerItem } from "../components/SeatMapForm";
+import { IPassengerItem } from "../pages/BookingWizard/SeatMapForm";
 import { IPassenger } from "../models/IPassenger";
 
 export const Services = {

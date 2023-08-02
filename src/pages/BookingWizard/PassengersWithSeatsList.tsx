@@ -1,4 +1,4 @@
-import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
+import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 
 interface PassengersWithSeatsListProps {
   passengers: IPassengerWithSeat[];

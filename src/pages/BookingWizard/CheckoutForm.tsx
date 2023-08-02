@@ -1,6 +1,6 @@
-import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
+import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 import { PassengersWithSeatsList } from "./PassengersWithSeatsList";
-import Route from "./Route";
+import Route from "../../components/Route";
 
 interface CheckoutFormProps {
   passengerWithSeats: IPassengerWithSeat[] | null;

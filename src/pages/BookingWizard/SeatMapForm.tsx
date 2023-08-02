@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { IPassenger } from "../models/IPassenger";
+import { IPassenger } from "../../models/IPassenger";
 import { Drawgrid } from "./Drawgrid";
-import { useFetch } from "../hooks/useFetch";
+import { useFetch } from "../../hooks/useFetch";
 
-import { Services } from "../utils/services";
-import { ISeat } from "../models/ISeat";
-import { RouteContext } from "../contexts/RouteContext";
-import { StepManagerNav } from "../models/StepManagerNav";
-import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
-import { ApiContext } from "../contexts/ApiContext";
+import { Services } from "../../utils/services";
+import { ISeat } from "../../models/ISeat";
+import { RouteContext } from "../../contexts/RouteContext";
+import { StepManagerNav } from "../../models/StepManagerNav";
+import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
+import { ApiContext } from "../../contexts/ApiContext";
 
 interface SeatMapFormProps {
   passengersList: IPassenger[];

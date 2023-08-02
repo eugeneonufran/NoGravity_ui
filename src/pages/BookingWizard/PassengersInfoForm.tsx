@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FormInput } from "../FormInput/FormInput";
+import { FormInput } from "../../components/FormInput/FormInput";
 import { ISeat } from "../../models/ISeat";
 import { ApiContext } from "../../contexts/ApiContext";
 import axios from "axios";

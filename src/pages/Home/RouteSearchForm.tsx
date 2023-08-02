@@ -1,15 +1,15 @@
 // ------------ Types Imports ------------
-import { IStarport } from "../models/IStarport";
-import { SortType } from "../models/SortType";
+import { IStarport } from "../../models/IStarport";
+import { SortType } from "../../models/SortType";
 
 // ------------ Library Imports ------------
 import React, { useState, useEffect, useContext } from "react";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { useFetch } from "../hooks/useFetch";
+import { useFetch } from "../../hooks/useFetch";
 
 // ------------ Context Imports ------------
-import { ApiContext } from "../contexts/ApiContext";
+import { ApiContext } from "../../contexts/ApiContext";
 
 interface RouteSearchFormProps {
   onSubmit: (

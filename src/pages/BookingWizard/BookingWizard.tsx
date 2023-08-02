@@ -1,11 +1,11 @@
-import { IPassenger } from "../models/IPassenger";
+import { IPassenger } from "../../models/IPassenger";
 import { CheckoutForm } from "./CheckoutForm";
 import { SeatMapForm } from "./SeatMapForm";
-import { useStepManager } from "../hooks/useStepManager";
+import { useStepManager } from "../../hooks/useStepManager";
 import { useState } from "react";
-import { StepManagerNav } from "../models/StepManagerNav";
-import { PassengersInfoForm } from "./passenger/PassengersInfoForm";
-import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
+import { StepManagerNav } from "../../models/StepManagerNav";
+import { PassengersInfoForm } from "./PassengersInfoForm";
+import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 
 export const BookingWizard = () => {
   const initPassenger = { name: "", surname: "", email: "", cif: "" };

@@ -7,7 +7,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { IRoute } from "../../models/IRoute";
 
 // ------------ Component Imports ------------
-import { RouteSearchForm } from "../../components/RouteSearchForm";
+import { RouteSearchForm } from "./RouteSearchForm";
 import { RouteList } from "../../components/RoutesList";
 import { Loading } from "../../components/Loading";
 import { Error } from "../../components/Error";

@@ -1,12 +1,12 @@
-import { About } from "./pages/About";
-import { Contact } from "./pages/Contact";
+import { About } from "./pages/About/About";
+import { Contact } from "./pages/Contact/Contact";
 import { Home } from "./pages/Home/Home";
 import { Navbar } from "./components/Navbar";
-import { NotFound } from "./pages/NotFound";
+import { NotFound } from "./pages/NotFound/NotFound";
 
 import { ApiContextProvider } from "./contexts/ApiContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { BookingWizard } from "./components/BookingWizard";
+import { BookingWizard } from "./pages/BookingWizard/BookingWizard";
 import { SuperAdminPage } from "./pages/SuperAdminPage";
 import { RouteContextProvider } from "./contexts/RouteContext";
 import { Footer } from "./components/Footer";
