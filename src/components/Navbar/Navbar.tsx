@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import styles from "./Navbar.module.scss";
 
-export const Footer = () => {
+export const Navbar = () => {
   return (
-    <nav className='navbar'>
+    <nav className={styles.navbar}>
       <ul>
         <li>
           <Link to='/'>Home</Link>
