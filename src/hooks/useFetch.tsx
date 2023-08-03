@@ -57,5 +57,41 @@ export const useFetch = (api_domain: string) => {
     }
   };
 
-  return { fetchRoutes, fetchPorts, fetchSeatsForRoute, loading, error };
+  const orderRoute = async (
+    route: IRoute,
+    seatNumber: number,
+    firstName: string,
+    lastName: string,
+    cif: string,
+    userId: number,
+    actuallyCreateTicket: boolean
+  ) => {
+    const url = `${api_domain}/api/Booking/order`;
+
+    try {
+      const response = await axios.post(url, {
+        routeDTO: route,
+        seatNumber: seatNumber,
+        firstName: firstName,
+        lastName: lastName,
+        cif: cif,
+        userId: userId,
+        actuallyCreateTicket: actuallyCreateTicket,
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw new Error("An error occurred while processing the order.");
+    }
+  };
+
+  return {
+    fetchRoutes,
+    fetchPorts,
+    fetchSeatsForRoute,
+    orderRoute,
+    loading,
+    error,
+  };
 };
