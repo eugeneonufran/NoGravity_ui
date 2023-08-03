@@ -34,7 +34,7 @@ export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
     );
     console.log(response);
 
-    const pdfBlob = new Blob([response?.data], { type: "application/pdf" });
+    const pdfBlob = new Blob([response], { type: "application/pdf" });
     const pdfUrl = URL.createObjectURL(pdfBlob);
     setPdfUrl(pdfUrl);
   };

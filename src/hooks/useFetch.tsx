@@ -66,23 +66,17 @@ export const useFetch = (api_domain: string) => {
     userId: number,
     actuallyCreateTicket: boolean
   ) => {
-    const url = `${api_domain}/api/Booking/order`;
+    const url = `${api_domain}/api/Booking/order?seatNumber=${seatNumber}&firstName=${firstName}&lastName=${lastName}&cif=${cif}&userId=${userId}&actuallyCreateTicket=${actuallyCreateTicket}`;
 
     try {
       const response = await axios.post(url, {
         routeDTO: route,
-        seatNumber: seatNumber,
-        firstName: firstName,
-        lastName: lastName,
-        cif: cif,
-        userId: userId,
-        actuallyCreateTicket: actuallyCreateTicket,
       });
 
-      return response.data;
+      return response?.data;
     } catch (error) {
       console.error(error);
-      throw new Error("An error occurred while processing the order.");
+      //throw new Error("An error occurred while processing the order.");
     }
   };
 
