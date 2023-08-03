@@ -12,7 +12,7 @@ interface CheckoutFormProps {
 
 export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
   const { api_domain } = useContext(ApiContext);
-  const { orderRoute } = useFetch(api_domain);
+  const { orderRoute, error, loading } = useFetch(api_domain);
   const gI = localStorage.getItem("chosenRoute");
   const route = gI ? JSON.parse(gI) : [];
 
@@ -52,7 +52,7 @@ export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
         PAY
       </button>
 
-      {pdfUrl && (
+      {!loading && pdfUrl && (
         <div>
           {/* Add a link to download the PDF */}
           <a href={pdfUrl} download='ticket.pdf'>

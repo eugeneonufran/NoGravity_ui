@@ -69,8 +69,8 @@ export const useFetch = (api_domain: string) => {
     const url = `${api_domain}/api/Booking/order?seatNumber=${seatNumber}&firstName=${firstName}&lastName=${lastName}&cif=${cif}&userId=${userId}&actuallyCreateTicket=${actuallyCreateTicket}`;
 
     try {
-      const response = await axios.post(url, {
-        routeDTO: route,
+      const response = await axios.post(url, route, {
+        responseType: "blob", // Specify that the response should be treated as a Blob
       });
 
       return response?.data;
