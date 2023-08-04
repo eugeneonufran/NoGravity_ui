@@ -10,7 +10,7 @@ export const PassengersList = ({ passengers }: PassengersListProps) => {
       {passengers.map((passenger, index) => (
         <div>
           #:{index}
-          Name:{passenger.name}, SurName:{passenger.surname}, email:
+          Name:{passenger.firstName}, SurName:{passenger.lastName}, email:
           {passenger.email}, cif:{passenger.cif}
         </div>
       ))}

@@ -1,5 +1,8 @@
 import { IPassengerItem } from "../pages/BookingWizard/SeatMapForm";
 import { IPassenger } from "../models/IPassenger";
+import { IRoute } from "../models/IRoute";
+import { IOrderRequest } from "../models/IOrderRequest";
+import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
 
 export const Services = {
   convertToPassengersSeats: (passengers: IPassenger[]): IPassengerItem[] => {
@@ -8,5 +11,17 @@ export const Services = {
       seat: null,
       error: null,
     }));
+  },
+
+  convertToOrderRequest: (
+    route: IRoute,
+    passengers: IPassengerWithSeat[],
+    actuallyCreateTicket: boolean
+  ): IOrderRequest => {
+    return {
+      route: route,
+      passengers: passengers,
+      actuallyCreateTicket: actuallyCreateTicket,
+    };
   },
 };

@@ -1,6 +1,6 @@
 export interface IPassenger {
-  name: string;
-  surname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   cif: string;
 }

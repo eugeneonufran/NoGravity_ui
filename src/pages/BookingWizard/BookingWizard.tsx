@@ -8,7 +8,7 @@ import { PassengersInfoForm } from "./PassengersInfoForm";
 import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 
 export const BookingWizard = () => {
-  const initPassenger = { name: "", surname: "", email: "", cif: "" };
+  const initPassenger = { firstName: "", lastName: "", email: "", cif: "" };
   const [passengersList, setPassengersList] = useState<IPassenger[]>([
     initPassenger,
   ]);

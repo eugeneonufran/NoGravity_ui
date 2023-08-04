@@ -12,8 +12,8 @@ export const PassengersWithSeatsList = ({
       {passengers.map((passenger, index) => (
         <div key={index}>
           #:{index}
-          Name:{passenger.passenger.name}, SurName:{passenger.passenger.surname}
-          , email:
+          firstName:{passenger.passenger.firstName}, lastName:
+          {passenger.passenger.lastName}, email:
           {passenger.passenger.email}, cif:{passenger.passenger.cif}
           seat: {passenger.seat.seatNumber}
         </div>

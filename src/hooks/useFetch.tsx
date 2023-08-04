@@ -3,6 +3,9 @@ import { IRoute } from "../models/IRoute";
 import { useState } from "react";
 import { IStarport } from "../models/IStarport";
 import { ISeat } from "../models/ISeat";
+import { IPassenger } from "../models/IPassenger";
+import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
+import { IOrderRequest } from "../models/IOrderRequest";
 
 export const useFetch = (api_domain: string) => {
   const [loading, setLoading] = useState(false);
@@ -80,11 +83,27 @@ export const useFetch = (api_domain: string) => {
     }
   };
 
+  const orderRouteM = async (orderRequest: IOrderRequest) => {
+    const url = `${api_domain}/api/Booking/orderM`;
+
+    try {
+      const response = await axios.post(url, orderRequest, {
+        responseType: "blob", // Specify that the response should be treated as a Blob
+      });
+
+      return response?.data;
+    } catch (error) {
+      console.error(error);
+      //throw new Error("An error occurred while processing the order.");
+    }
+  };
+
   return {
     fetchRoutes,
     fetchPorts,
     fetchSeatsForRoute,
     orderRoute,
+    orderRouteM,
     loading,
     error,
   };

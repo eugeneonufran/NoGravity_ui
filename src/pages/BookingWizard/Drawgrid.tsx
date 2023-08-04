@@ -144,8 +144,8 @@ export const Drawgrid = ({
           {passengersItems.map((passengerSeat, index) => (
             <div>
               #:{index}
-              Name:{passengerSeat.passenger.name}, SurName:
-              {passengerSeat.passenger.surname}, email:
+              firstName:{passengerSeat.passenger.firstName}, lastName:
+              {passengerSeat.passenger.lastName}, email:
               {passengerSeat.passenger.email}, cif:{passengerSeat.passenger.cif}
               THE SEAT: {passengerSeat.seat?.seatNumber}
               <button

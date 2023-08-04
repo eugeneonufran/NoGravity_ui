@@ -55,8 +55,8 @@ export const PassengersInfoForm = ({
 
   const [data, setData] = useState<PersonalInfoItem[]>([
     {
-      name: { value: "", error: null },
-      surname: { value: "", error: null },
+      firstName: { value: "", error: null },
+      lastName: { value: "", error: null },
       email: { value: "", error: null },
       cif: { value: "", error: null },
     },
@@ -72,8 +72,8 @@ export const PassengersInfoForm = ({
     newData[index][key].error = null;
     setData(newData);
     const extractedPassengers = newData.map((passenger) => ({
-      name: passenger.name.value,
-      surname: passenger.surname.value,
+      firstName: passenger.firstName.value,
+      lastName: passenger.lastName.value,
       email: passenger.email.value,
       cif: passenger.cif.value,
     }));
@@ -91,8 +91,8 @@ export const PassengersInfoForm = ({
       newData[index][key as keyof PersonalInfoItem].error = errorMessage;
       setData(newData);
       const extractedPassengers = newData.map((passenger) => ({
-        name: passenger.name.value,
-        surname: passenger.surname.value,
+        firstName: passenger.firstName.value,
+        lastName: passenger.lastName.value,
         email: passenger.email.value,
         cif: passenger.cif.value,
       }));
@@ -103,8 +103,8 @@ export const PassengersInfoForm = ({
   };
 
   const validators = {
-    name: (value: string) => value.trim() !== "",
-    surname: (value: string) => value.trim() !== "",
+    firstName: (value: string) => value.trim() !== "",
+    lastName: (value: string) => value.trim() !== "",
     email: (value: string) => value.trim() !== "",
     //value.trim() !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
     cif: (value: string) => value.trim() !== "",
@@ -113,15 +113,15 @@ export const PassengersInfoForm = ({
   const handleAddPassenger = () => {
     const newData = [...data];
     newData.push({
-      name: { value: "", error: null },
-      surname: { value: "", error: null },
+      firstName: { value: "", error: null },
+      lastName: { value: "", error: null },
       email: { value: "", error: null },
       cif: { value: "", error: null },
     });
     setData(newData);
     const extractedPassengers = newData.map((passenger) => ({
-      name: passenger.name.value,
-      surname: passenger.surname.value,
+      firstName: passenger.firstName.value,
+      lastName: passenger.lastName.value,
       email: passenger.email.value,
       cif: passenger.cif.value,
     }));
@@ -133,8 +133,8 @@ export const PassengersInfoForm = ({
     newData.splice(index, 1);
     setData(newData);
     const extractedPassengers = newData.map((passenger) => ({
-      name: passenger.name.value,
-      surname: passenger.surname.value,
+      firstName: passenger.firstName.value,
+      lastName: passenger.lastName.value,
       email: passenger.email.value,
       cif: passenger.cif.value,
     }));
@@ -182,20 +182,22 @@ export const PassengersInfoForm = ({
                 field_name='Name'
                 placeholder='Enter the name'
                 key={index}
-                value={item.name.value}
-                onItemBlur={() => handleBlur("name", index, item.name.value)}
-                onItemChange={(e) => handleChange("name", index, e)}
-                hasError={item.name.error}
+                value={item.firstName.value}
+                onItemBlur={() =>
+                  handleBlur("firstName", index, item.firstName.value)
+                }
+                onItemChange={(e) => handleChange("firstName", index, e)}
+                hasError={item.firstName.error}
               />
               <FormInput
                 field_name='Surname'
-                placeholder='Enter the surname'
-                value={item.surname.value}
+                placeholder='Enter the lastName'
+                value={item.lastName.value}
                 onItemBlur={() =>
-                  handleBlur("surname", index, item.surname.value)
+                  handleBlur("lastName", index, item.lastName.value)
                 }
-                onItemChange={(e) => handleChange("surname", index, e)}
-                hasError={item.surname.error}
+                onItemChange={(e) => handleChange("lastName", index, e)}
+                hasError={item.lastName.error}
               />
               <FormInput
                 field_name='Email'

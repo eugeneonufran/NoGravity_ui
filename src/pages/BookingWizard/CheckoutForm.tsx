@@ -12,7 +12,7 @@ interface CheckoutFormProps {
 
 export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
   const { api_domain } = useContext(ApiContext);
-  const { orderRoute, error, loading } = useFetch(api_domain);
+  const { orderRoute, orderRouteM, error, loading } = useFetch(api_domain);
   const gI = localStorage.getItem("chosenRoute");
   const route = gI ? JSON.parse(gI) : [];
 
@@ -21,17 +21,10 @@ export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   const handleOnClickPay = async () => {
-    const passenger = passengerWithSeats![0];
     console.log("routeDTO:", route);
-    const response = await orderRoute(
-      route,
-      passenger.seat.seatNumber,
-      passenger.passenger.name,
-      passenger.passenger.surname,
-      passenger.passenger.cif,
-      1,
-      true
-    );
+
+    const or = Services.convertToOrderRequest(route, passengerWithSeats!, true);
+    const response = await orderRouteM(or);
     console.log(response);
 
     const pdfBlob = new Blob([response], { type: "application/pdf" });
