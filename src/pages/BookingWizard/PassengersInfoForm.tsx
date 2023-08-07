@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FormInput } from "../../components/FormInput/FormInput";
 import { ISeat } from "../../models/ISeat";
 import { ApiContext } from "../../contexts/ApiContext";
-import axios from "axios";
+
 import { IPassenger } from "../../models/IPassenger";
 import styles from "./PassengerInfoForm.module.scss";
 import { useFetch } from "../../hooks/useFetch";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { validateField } from "../../utils/validateField";
 
 interface PersonalInfoFormProps {
   onNext: (info: PersonalInfoData) => void;
@@ -85,11 +86,11 @@ export const PassengersInfoForm = ({
     index: number,
     value: string
   ): string | null => {
-    const isValid = validators[key as keyof PersonalInfoItem](value);
+    const { isValid, error } = validateField(key, value);
+    //const isValid = validators[key as keyof PersonalInfoItem](value);
     if (!isValid) {
-      const errorMessage = "specified error";
       const newData = [...data];
-      newData[index][key as keyof PersonalInfoItem].error = errorMessage;
+      newData[index][key as keyof PersonalInfoItem].error = error;
       setData(newData);
       const extractedPassengers = newData.map((passenger) => ({
         firstName: passenger.firstName.value,
@@ -98,17 +99,9 @@ export const PassengersInfoForm = ({
         cif: passenger.cif.value,
       }));
       setPassengersInfo(extractedPassengers);
-      return errorMessage;
+      return error;
     }
     return null;
-  };
-
-  const validators = {
-    firstName: (value: string) => value.trim() !== "",
-    lastName: (value: string) => value.trim() !== "",
-    email: (value: string) => value.trim() !== "",
-    //value.trim() !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-    cif: (value: string) => value.trim() !== "",
   };
 
   const handleAddPassenger = () => {
@@ -146,13 +139,14 @@ export const PassengersInfoForm = ({
     const newData = [...data];
     data.forEach((element, index) => {
       Object.keys(element).forEach((key) => {
-        if (
-          !validators[key as keyof PersonalInfoItem](
-            element[key as keyof PersonalInfoItem].value
-          )
-        ) {
-          newData[index][key as keyof PersonalInfoItem].error =
-            "specified error";
+        const value = element[key as keyof PersonalInfoItem].value;
+        const { isValid, error } = validateField(
+          key as keyof PersonalInfoItem,
+          value
+        );
+
+        if (!isValid) {
+          newData[index][key as keyof PersonalInfoItem].error = error;
         }
       });
     });

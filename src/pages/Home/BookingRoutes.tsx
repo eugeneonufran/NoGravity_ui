@@ -38,7 +38,7 @@ const BookingRoutes = () => {
   };
 
   return (
-    <div className='container'>
+    <div className=''>
       <h1>ORDER TICKETS</h1>
       <RouteSearchForm onSubmit={handleSubmit} />
 

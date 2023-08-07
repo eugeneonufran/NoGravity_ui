@@ -10,30 +10,33 @@ import { BookingWizard } from "./pages/BookingWizard/BookingWizard";
 import { SuperAdminPage } from "./pages/SuperAdminPage";
 import { RouteContextProvider } from "./contexts/RouteContext";
 import { Footer } from "./components/Footer/Footer";
+import "./styles/App.scss";
 
 function App() {
   return (
-    <BrowserRouter>
-      <RouteContextProvider>
-        <ApiContextProvider>
-          <div>
-            <Navbar />
-          </div>
-        </ApiContextProvider>
+    <div className='app'>
+      <BrowserRouter>
+        <RouteContextProvider>
+          <ApiContextProvider>
+            <div>
+              <Navbar />
+            </div>
+          </ApiContextProvider>
 
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/contact' element={<Contact />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/superAdmin' element={<SuperAdminPage />} />
-          <Route path='/bookingWizard' element={<BookingWizard />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-        <div>
-          <Footer />
-        </div>
-      </RouteContextProvider>
-    </BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/superAdmin' element={<SuperAdminPage />} />
+            <Route path='/bookingWizard' element={<BookingWizard />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+          <div>
+            <Footer />
+          </div>
+        </RouteContextProvider>
+      </BrowserRouter>
+    </div>
   );
 }
 

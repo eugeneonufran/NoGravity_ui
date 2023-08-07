@@ -4,7 +4,7 @@ export const Footer = () => {
   return (
     <nav className={styles.footer}>
       <ul>
-        <li>
+        {/* <li>
           <Link to='/'>Home</Link>
         </li>
         <li>
@@ -12,7 +12,7 @@ export const Footer = () => {
         </li>
         <li>
           <Link to='/contact'>Contact</Link>
-        </li>
+        </li> */}
         <li>
           <Link to='/superAdmin'>SuperAdmin Page</Link>
         </li>

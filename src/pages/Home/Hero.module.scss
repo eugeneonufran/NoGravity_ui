@@ -1,0 +1,11 @@
+.hero {
+  background-image: url("../../assets/Ready.png");
+
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  height: calc(
+    100vh - #{$navbar_maxHeight}
+  ); /* Use 100vh to make the container full screen height */
+  margin-top: #{$navbar_maxHeight};
+}
