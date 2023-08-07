@@ -15,6 +15,8 @@ import { Error } from "../../components/Error";
 // ------------ Context Imports ------------
 import { ApiContext } from "../../contexts/ApiContext";
 
+import styles from "./BookingRoutes.module.scss";
+
 const BookingRoutes = () => {
   const { api_domain } = useContext(ApiContext);
   const { fetchRoutes, loading, error } = useFetch(api_domain);
@@ -38,7 +40,7 @@ const BookingRoutes = () => {
   };
 
   return (
-    <div className=''>
+    <div id='booking_routes' className={styles.booking_routes}>
       <h1>ORDER TICKETS</h1>
       <RouteSearchForm onSubmit={handleSubmit} />
 
