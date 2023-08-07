@@ -12,7 +12,7 @@ interface CheckoutFormProps {
 
 export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
   const { api_domain } = useContext(ApiContext);
-  const { orderRoute, orderRouteM, error, loading } = useFetch(api_domain);
+  const { orderRouteM, error, loading } = useFetch(api_domain);
   const gI = localStorage.getItem("chosenRoute");
   const route = gI ? JSON.parse(gI) : [];
 
@@ -23,7 +23,11 @@ export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
   const handleOnClickPay = async () => {
     console.log("routeDTO:", route);
 
-    const or = Services.convertToOrderRequest(route, passengerWithSeats!, true);
+    const or = Services.convertToOrderRequest(
+      route,
+      passengerWithSeats!,
+      false
+    );
     const response = await orderRouteM(or);
     console.log(response);
 

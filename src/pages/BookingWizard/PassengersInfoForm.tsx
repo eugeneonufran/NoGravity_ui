@@ -79,6 +79,7 @@ export const PassengersInfoForm = ({
     }));
     setPassengersInfo(extractedPassengers);
   };
+
   const handleBlur = (
     key: keyof PersonalInfoItem,
     index: number,
