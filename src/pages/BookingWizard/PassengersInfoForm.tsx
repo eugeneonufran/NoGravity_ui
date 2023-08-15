@@ -87,7 +87,6 @@ export const PassengersInfoForm = ({
     value: string
   ): string | null => {
     const { isValid, error } = validateField(key, value);
-    //const isValid = validators[key as keyof PersonalInfoItem](value);
     if (!isValid) {
       const newData = [...data];
       newData[index][key as keyof PersonalInfoItem].error = error;

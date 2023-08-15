@@ -8,7 +8,7 @@ export const UserAccount = ({}: UserAccountProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/credentials");
+    navigate("/login");
   }, []);
   return (
     <div>

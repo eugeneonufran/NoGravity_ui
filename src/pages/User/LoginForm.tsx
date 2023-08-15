@@ -1,36 +1,43 @@
 import React, { useContext, useState } from "react";
-import { useFetch } from "../../hooks/useFetch";
-import { ApiContext } from "../../contexts/ApiContext";
-import { IUserLogin } from "../../models/IUser";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const LoginForm = () => {
-  const { api_domain } = useContext(ApiContext);
-  const { login, getUser, logout } = useFetch(api_domain);
+  const navigate = useNavigate();
+  const { user, login, logout } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleChange = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const updatedLoginData = { email, password };
     const v = await login(updatedLoginData);
-    console.log(v);
+
+    if (v.code === "200") {
+      navigate("/userAccount");
+    }
   };
 
   const handleGetUser = async (e: React.FormEvent) => {
     e.preventDefault();
-    const v = await getUser();
-    console.log(v);
   };
 
-  const handleLogout = (e: React.FormEvent) => {
+  const handleLogout = async (e: React.FormEvent) => {
     e.preventDefault();
-    const v = logout();
-    console.log(v);
+
+    await logout();
+  };
+
+  const handleGoToSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    navigate("/signUp");
   };
 
   return (
     <div>
-      <div>
+      <div style={{ marginTop: "50px" }}>
+        <div>{user?.id}</div>
         <label>Email:</label>
         <input
           type='email'
@@ -52,7 +59,7 @@ export const LoginForm = () => {
           required
         />
       </div>
-      <button type='button' onClick={handleChange}>
+      <button type='button' onClick={handleLogin}>
         Login
       </button>
       <button type='button' onClick={handleGetUser}>
@@ -60,6 +67,9 @@ export const LoginForm = () => {
       </button>
       <button type='button' onClick={handleLogout}>
         Logout
+      </button>
+      <button type='button' onClick={handleGoToSignUp}>
+        Got to Sign Up
       </button>
     </div>
   );

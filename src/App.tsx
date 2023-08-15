@@ -15,35 +15,40 @@ import { UserAccount } from "./pages/User/UserAccount";
 
 import { Credentials } from "./pages/User/Credentials";
 import { SignUpForm } from "./pages/User/SignUpForm";
+import { AuthContextProvider } from "./contexts/AuthContext";
+import { LoginForm } from "./pages/User/LoginForm";
 
 function App() {
   return (
     <div className='app'>
-      <BrowserRouter>
-        <RouteContextProvider>
-          <ApiContextProvider>
+      <AuthContextProvider>
+        <BrowserRouter>
+          <RouteContextProvider>
+            <ApiContextProvider>
+              <div>
+                <Navbar />
+              </div>
+            </ApiContextProvider>
+
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/contact' element={<Contact />} />
+              <Route path='/about' element={<About />} />
+              <Route path='/superAdmin' element={<SuperAdminPage />} />
+              <Route path='/bookingWizard' element={<BookingWizard />} />
+              <Route path='/userAccount' element={<UserAccount />} />
+              <Route path='/signUp' element={<SignUpForm />} />
+              <Route path='/login' element={<LoginForm />} />
+              <Route path='/credentials' element={<Credentials />} />
+
+              <Route path='*' element={<NotFound />} />
+            </Routes>
             <div>
-              <Navbar />
+              <Footer />
             </div>
-          </ApiContextProvider>
-
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/contact' element={<Contact />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/superAdmin' element={<SuperAdminPage />} />
-            <Route path='/bookingWizard' element={<BookingWizard />} />
-            <Route path='/userAccount' element={<UserAccount />} />
-            <Route path='/signUp' element={<SignUpForm />} />
-            <Route path='/credentials' element={<Credentials />} />
-
-            <Route path='*' element={<NotFound />} />
-          </Routes>
-          <div>
-            <Footer />
-          </div>
-        </RouteContextProvider>
-      </BrowserRouter>
+          </RouteContextProvider>
+        </BrowserRouter>
+      </AuthContextProvider>
     </div>
   );
 }

@@ -1,11 +1,13 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { IUser } from "../models/IUser";
-import { useFetch } from "../hooks/useFetch";
+import { IUser, IUserLogin, IUserRegister } from "../models/IUser";
+import { useFetch, IFetchResult } from "../hooks/useFetch";
 import { ApiContext } from "./ApiContext";
 
 type AuthContextProps = {
   user: IUser | null;
-  setUser: (value: IUser) => void;
+  login: (userDTO: IUserLogin) => Promise<IFetchResult>;
+  logout: () => Promise<IFetchResult>;
+  register: (userDTO: IUserRegister) => Promise<IFetchResult>;
 };
 
 type AuthContextProviderProps = {
@@ -14,18 +16,61 @@ type AuthContextProviderProps = {
 
 export const AuthContext = createContext<AuthContextProps>({
   user: null,
-  setUser: () => {},
+  login: async () => ({ code: "", data: null, message: "" }), // Placeholder
+  logout: async () => ({ code: "", data: null, message: "" }),
+  register: async () => ({ code: "", data: null, message: "" }),
 });
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const { api_domain } = useContext(ApiContext);
   const [user, setUser] = useState<IUser | null>(null);
-  const { getUser } = useFetch(api_domain);
+  const { loginUser, logoutUser, fetchUser, registerUser } =
+    useFetch(api_domain);
 
-  const getUser = (async() = {});
+  const login = async ({ email, password }: IUserLogin) => {
+    const result = await loginUser({ email, password });
+
+    if (result.code === "200") {
+      const fetchedUser = await fetchUser();
+
+      setUser(fetchedUser.data as IUser); // Fetch user data after successful login
+    }
+
+    return result;
+  };
+
+  const logout = async () => {
+    const result = await logoutUser();
+
+    if (result.code === "200") {
+      setUser(null); // Fetch user data after successful login
+    }
+
+    return result;
+  };
+
+  const register = async ({
+    firstName,
+    secondName,
+    email,
+    password,
+  }: IUserRegister) => {
+    const result = await registerUser({
+      firstName,
+      secondName,
+      email,
+      password,
+    });
+
+    if (result.code === "200") {
+      // Fetch user data after successful login
+    }
+
+    return result;
+  };
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

@@ -8,7 +8,7 @@ import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
 import { IOrderRequest } from "../models/IOrderRequest";
 import { IUserRegister, IUserLogin, IUser } from "../models/IUser";
 
-interface IFetchResult {
+export interface IFetchResult {
   code: string;
   message: string;
   data: any;
@@ -105,7 +105,7 @@ export const useFetch = (api_domain: string) => {
     }
   };
 
-  const register = async (userDTO: IUserRegister) => {
+  const registerUser = async (userDTO: IUserRegister) => {
     const api = axios.create({
       baseURL: `${api_domain}/api/Auth`, // Update with your API URL
       withCredentials: true, // This is important for handling cookies
@@ -131,7 +131,7 @@ export const useFetch = (api_domain: string) => {
     }
   };
 
-  const getUser = async (): Promise<IFetchResult> => {
+  const fetchUser = async (): Promise<IFetchResult> => {
     const api = axios.create({
       baseURL: `${api_domain}/api/Auth`, // Update with your API URL
       withCredentials: true, // This is important for handling cookies
@@ -151,7 +151,7 @@ export const useFetch = (api_domain: string) => {
     }
   };
 
-  const login = async (userDTO: IUserLogin): Promise<IFetchResult> => {
+  const loginUser = async (userDTO: IUserLogin): Promise<IFetchResult> => {
     const api = axios.create({
       baseURL: `${api_domain}/api/Auth`, // Update with your API URL
       withCredentials: true, // This is important for handling cookies
@@ -177,7 +177,7 @@ export const useFetch = (api_domain: string) => {
     }
   };
 
-  const logout = async () => {
+  const logoutUser = async () => {
     const api = axios.create({
       baseURL: `${api_domain}/api/Auth`, // Update with your API URL
       withCredentials: true, // This is important for handling cookies
@@ -210,9 +210,10 @@ export const useFetch = (api_domain: string) => {
     fetchSeatsForRoute,
     orderRoute,
     orderRouteM,
-    login,
-    getUser,
-    logout,
+    loginUser,
+    fetchUser,
+    logoutUser,
+    registerUser,
     loading,
     error,
   };
