@@ -11,6 +11,10 @@ import { SuperAdminPage } from "./pages/SuperAdminPage";
 import { RouteContextProvider } from "./contexts/RouteContext";
 import { Footer } from "./components/Footer/Footer";
 import "./styles/App.scss";
+import { UserAccount } from "./pages/User/UserAccount";
+
+import { Credentials } from "./pages/User/Credentials";
+import { SignUpForm } from "./pages/User/SignUpForm";
 
 function App() {
   return (
@@ -29,6 +33,10 @@ function App() {
             <Route path='/about' element={<About />} />
             <Route path='/superAdmin' element={<SuperAdminPage />} />
             <Route path='/bookingWizard' element={<BookingWizard />} />
+            <Route path='/userAccount' element={<UserAccount />} />
+            <Route path='/signUp' element={<SignUpForm />} />
+            <Route path='/credentials' element={<Credentials />} />
+
             <Route path='*' element={<NotFound />} />
           </Routes>
           <div>
