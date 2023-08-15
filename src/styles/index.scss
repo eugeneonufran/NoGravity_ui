@@ -1,11 +1,12 @@
 .index {
-  background-color: green;
+  //background-color: #3a4049;
   margin: 0;
 }
 
 html,
 body {
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
 }

@@ -3,7 +3,10 @@
 .hero_image {
   background-image: url("../../assets/Ready.png");
 
+  // background-image: url("../../assets/Ready.png");
+
   background-size: cover;
+
   background-repeat: no-repeat;
 
   min-height: calc(100vh - #{$navbar_padding});
@@ -13,6 +16,16 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   top: 0;
+  //   right: 0;
+  //   bottom: 0;
+  //   left: 50%; /* Start from the right half */
+  //   background: linear-gradient(to left, rgba(139, 69, 19, 0.7), transparent);
+  // }
 
   & h1 {
     font-size: 120px;
@@ -24,7 +37,7 @@
 }
 
 .scroll_icon {
-  width: 100px;
+  width: 70px;
   height: auto;
   position: absolute;
   bottom: 20px;

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { IRoute } from "../models/IRoute";
 import { useState } from "react";
 import { IStarport } from "../models/IStarport";
@@ -6,6 +6,13 @@ import { ISeat } from "../models/ISeat";
 import { IPassenger } from "../models/IPassenger";
 import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
 import { IOrderRequest } from "../models/IOrderRequest";
+import { IUserRegister, IUserLogin, IUser } from "../models/IUser";
+
+interface IFetchResult {
+  code: string;
+  message: string;
+  data: any;
+}
 
 export const useFetch = (api_domain: string) => {
   const [loading, setLoading] = useState(false);
@@ -98,12 +105,114 @@ export const useFetch = (api_domain: string) => {
     }
   };
 
+  const register = async (userDTO: IUserRegister) => {
+    const api = axios.create({
+      baseURL: `${api_domain}/api/Auth`, // Update with your API URL
+      withCredentials: true, // This is important for handling cookies
+    });
+
+    try {
+      const response = await api.post("/register", userDTO);
+      return { code: "200", message: "Success", data: response?.data };
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      if (axiosError !== null) {
+        return {
+          code: axiosError.response?.status.toString() || "500", // Default to 500 if status is not available
+          message: axiosError.response?.data as string,
+          data: null,
+        };
+      }
+      return {
+        code: "500",
+        message: "An error occurred",
+        data: null,
+      };
+    }
+  };
+
+  const getUser = async (): Promise<IFetchResult> => {
+    const api = axios.create({
+      baseURL: `${api_domain}/api/Auth`, // Update with your API URL
+      withCredentials: true, // This is important for handling cookies
+    });
+
+    try {
+      const response = await api.get<IUser>("/user");
+
+      return { code: "200", message: "Success", data: response?.data };
+    } catch (error) {
+      console.error(error);
+      return {
+        code: "500",
+        message: "An error occurred while processing the request.",
+        data: null,
+      };
+    }
+  };
+
+  const login = async (userDTO: IUserLogin): Promise<IFetchResult> => {
+    const api = axios.create({
+      baseURL: `${api_domain}/api/Auth`, // Update with your API URL
+      withCredentials: true, // This is important for handling cookies
+    });
+
+    try {
+      const response = await api.post("/login", userDTO);
+      return { code: "200", message: "Success", data: response?.data };
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      if (axiosError !== null) {
+        return {
+          code: axiosError.response?.status.toString() || "500", // Default to 500 if status is not available
+          message: axiosError.response?.data as string,
+          data: null,
+        };
+      }
+      return {
+        code: "500",
+        message: "An error occurred",
+        data: null,
+      };
+    }
+  };
+
+  const logout = async () => {
+    const api = axios.create({
+      baseURL: `${api_domain}/api/Auth`, // Update with your API URL
+      withCredentials: true, // This is important for handling cookies
+    });
+
+    try {
+      const response = await api.post("/logout");
+
+      return { code: "200", message: "Success", data: response?.data };
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      if (axiosError !== null) {
+        return {
+          code: axiosError.response?.status.toString() || "500", // Default to 500 if status is not available
+          message: axiosError.response?.data as string,
+          data: null,
+        };
+      }
+      return {
+        code: "500",
+        message: "An error occurred",
+        data: null,
+      };
+    }
+  };
+
   return {
     fetchRoutes,
     fetchPorts,
     fetchSeatsForRoute,
     orderRoute,
     orderRouteM,
+    login,
+    getUser,
+    logout,
     loading,
     error,
   };

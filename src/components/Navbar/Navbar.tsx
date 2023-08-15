@@ -30,6 +30,9 @@ export const Navbar = () => {
           <li>
             <Link to='/contact'>CONTACT</Link>
           </li>
+          <li>
+            <Link to='/userAccount'>ACCOUNT</Link>
+          </li>
         </ul>
       </nav>
     </header>
