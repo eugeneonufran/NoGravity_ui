@@ -2,6 +2,8 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { IUser, IUserLogin, IUserRegister } from "../models/IUser";
 import { useFetch, IFetchResult } from "../hooks/useFetch";
 import { ApiContext } from "./ApiContext";
+import useLocalStorage from "../hooks/useLocalStorage";
+import stSettings from "../configs/storageSettings.json";
 
 type AuthContextProps = {
   user: IUser | null;
@@ -23,7 +25,15 @@ export const AuthContext = createContext<AuthContextProps>({
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const { api_domain } = useContext(ApiContext);
-  const [user, setUser] = useState<IUser | null>(null);
+  // const [user, setUser] = useState<IUser | null>(null);
+  // const [, setUserStorage, deleteUserStorage] = useLocalStorage(
+  //   stSettings.lsNames.USER
+  // );
+
+  //const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser, deleteUserStorage] = useLocalStorage<IUser | null>(
+    stSettings.lsNames.USER
+  );
   const { loginUser, logoutUser, fetchUser, registerUser } =
     useFetch(api_domain);
 
@@ -33,7 +43,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     if (result.code === "200") {
       const fetchedUser = await fetchUser();
 
-      setUser(fetchedUser.data as IUser); // Fetch user data after successful login
+      setUser(fetchedUser.data as IUser);
+
+      //setUserStorage(fetchedUser.data as IUser);
     }
 
     return result;
@@ -45,7 +57,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     if (result.code === "200") {
       setUser(null); // Fetch user data after successful login
     }
-
+    deleteUserStorage();
     return result;
   };
 
@@ -70,7 +82,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register }}>
+    <AuthContext.Provider
+      value={{ user: user ?? null, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

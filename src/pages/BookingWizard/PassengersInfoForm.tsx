@@ -6,8 +6,10 @@ import { ApiContext } from "../../contexts/ApiContext";
 import { IPassenger } from "../../models/IPassenger";
 import styles from "./PassengerInfoForm.module.scss";
 import { useFetch } from "../../hooks/useFetch";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { validateField } from "../../utils/validateField";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import stSettings from "../../configs/storageSettings.json";
+import { IRoute } from "../../models/IRoute";
 
 interface PersonalInfoFormProps {
   onNext: (info: PersonalInfoData) => void;
@@ -37,9 +39,10 @@ export const PassengersInfoForm = ({
   const { api_domain } = useContext(ApiContext);
 
   const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
-  const { getItemFromLS } = useLocalStorage();
 
-  const chosenRoute = getItemFromLS("chosenRoute");
+  const [chosenRoute, ,] = useLocalStorage<IRoute>(
+    stSettings.lsNames.CHOSEN_ROUTE
+  );
 
   useEffect(() => {
     const fetchData = async () => {

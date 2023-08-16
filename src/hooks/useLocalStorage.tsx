@@ -1,22 +1,31 @@
-export const useLocalStorage = () => {
-  const clearLS = () => {
-    localStorage.clear();
+import { useState } from "react";
+
+type SetValueFunction<T> = (value: T | ((prevValue: T) => T)) => void;
+
+function useLocalStorage<T>(
+  key: string,
+  initialValue?: T
+): [T | undefined, SetValueFunction<T>, () => void] {
+  const storedValue = localStorage.getItem(key);
+  const initial: T | undefined = storedValue
+    ? JSON.parse(storedValue)
+    : initialValue;
+
+  const [value, setValue] = useState<T | undefined>(initial);
+
+  const setStoredValue: SetValueFunction<T> = (newValue) => {
+    const valueToStore =
+      newValue instanceof Function ? newValue(value as T) : newValue;
+    setValue(valueToStore);
+    localStorage.setItem(key, JSON.stringify(valueToStore));
   };
 
-  const setItemInLS = (key: string, value: string) => {
-    localStorage.setItem(key, JSON.stringify(value));
-  };
-
-  const removeItemFromLS = (key: string) => {
+  const deleteStoredValue = () => {
+    setValue(undefined);
     localStorage.removeItem(key);
   };
 
-  const getItemFromLS = (key: string) => {
-    const item = localStorage.getItem(key);
+  return [value, setStoredValue, deleteStoredValue];
+}
 
-    const obj = item ? JSON.parse(item) : [];
-    return obj;
-  };
-
-  return { setItemInLS, getItemFromLS, removeItemFromLS, clearLS };
-};
+export default useLocalStorage;

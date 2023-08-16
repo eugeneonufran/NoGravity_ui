@@ -16,11 +16,13 @@ export const Services = {
   convertToOrderRequest: (
     route: IRoute,
     passengers: IPassengerWithSeat[],
+    userId: number,
     actuallyCreateTicket: boolean
   ): IOrderRequest => {
     return {
       route: route,
       passengers: passengers,
+      userId: userId,
       actuallyCreateTicket: actuallyCreateTicket,
     };
   },

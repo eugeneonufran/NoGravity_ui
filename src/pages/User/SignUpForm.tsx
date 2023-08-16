@@ -76,7 +76,7 @@ export const SignUpForm = () => {
         />
       </div>
       <button type='button' onClick={handleGoToLogin}>
-        Got to Sign Up
+        Got to Login
       </button>
       <button type='button' onClick={handleRegister}>
         Register

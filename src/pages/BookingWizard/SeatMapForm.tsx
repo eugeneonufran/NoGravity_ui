@@ -5,10 +5,12 @@ import { useFetch } from "../../hooks/useFetch";
 
 import { Services } from "../../utils/services";
 import { ISeat } from "../../models/ISeat";
-import { RouteContext } from "../../contexts/RouteContext";
 import { StepManagerNav } from "../../models/StepManagerNav";
 import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 import { ApiContext } from "../../contexts/ApiContext";
+import stSettings from "../../configs/storageSettings.json";
+import { IRoute } from "../../models/IRoute";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 interface SeatMapFormProps {
   passengersList: IPassenger[];
@@ -32,7 +34,9 @@ export const SeatMapForm = ({
   setPassengersWithSeats,
 }: SeatMapFormProps) => {
   const { api_domain } = useContext(ApiContext);
-  const { chosenRoute } = useContext(RouteContext);
+  const [chosenRoute, setChosenRoute] = useLocalStorage<IRoute>(
+    stSettings.lsNames.CHOSEN_ROUTE
+  );
 
   const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
 
@@ -85,7 +89,7 @@ export const SeatMapForm = ({
   };
 
   return (
-    <>
+    <div style={{ marginTop: "50px" }}>
       <Drawgrid
         seats={seats}
         passengersItems={passengerItems}
@@ -103,6 +107,6 @@ export const SeatMapForm = ({
           Next
         </button>
       )}
-    </>
+    </div>
   );
 };

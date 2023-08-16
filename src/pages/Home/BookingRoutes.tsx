@@ -1,7 +1,8 @@
 // ------------ Library Imports ------------
 import { useState, useContext } from "react";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { useFetch } from "../../hooks/useFetch";
+import LSSettings from "../../configs/storageSettings.json";
 
 // ------------ Types Imports ------------
 import { IRoute } from "../../models/IRoute";
@@ -20,7 +21,10 @@ import styles from "./BookingRoutes.module.scss";
 const BookingRoutes = () => {
   const { api_domain } = useContext(ApiContext);
   const { fetchRoutes, loading, error } = useFetch(api_domain);
-  const { clearLS } = useLocalStorage();
+  const [, , deleteChosenRoute] = useLocalStorage<IRoute>(
+    LSSettings.lsNames.CHOSEN_ROUTE
+  );
+
   const [routes, setRoutes] = useState<IRoute[] | null>(null);
 
   const handleSubmit = async (
@@ -35,7 +39,7 @@ const BookingRoutes = () => {
       date,
       SortType
     );
-    clearLS();
+    deleteChosenRoute();
     setRoutes(response ? response : null);
   };
 

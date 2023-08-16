@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
-  const { user, login, logout } = useContext(AuthContext);
+  const { user, login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,12 +20,6 @@ export const LoginForm = () => {
 
   const handleGetUser = async (e: React.FormEvent) => {
     e.preventDefault();
-  };
-
-  const handleLogout = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    await logout();
   };
 
   const handleGoToSignUp = async (e: React.FormEvent) => {
@@ -62,12 +56,7 @@ export const LoginForm = () => {
       <button type='button' onClick={handleLogin}>
         Login
       </button>
-      <button type='button' onClick={handleGetUser}>
-        GetUser
-      </button>
-      <button type='button' onClick={handleLogout}>
-        Logout
-      </button>
+
       <button type='button' onClick={handleGoToSignUp}>
         Got to Sign Up
       </button>

@@ -1,3 +1,5 @@
+import styles from "./Loading.module.scss";
+
 export const Loading = ({ message }: { message: string }) => {
-  return <div>{message}</div>;
+  return <div className={styles.loading}>{message}</div>;
 };

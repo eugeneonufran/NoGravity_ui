@@ -7,6 +7,7 @@ import { IPassenger } from "../models/IPassenger";
 import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
 import { IOrderRequest } from "../models/IOrderRequest";
 import { IUserRegister, IUserLogin, IUser } from "../models/IUser";
+import { ITicket } from "../models/ITicket";
 
 export interface IFetchResult {
   code: string;
@@ -177,6 +178,41 @@ export const useFetch = (api_domain: string) => {
     }
   };
 
+  const getTicketsForUser = async (userId: number): Promise<IFetchResult> => {
+    setLoading(true);
+    setError(null);
+    const endpoint = `/api/Account/getUserProfile?userId=${userId}`;
+
+    const api = axios.create({
+      baseURL: api_domain,
+      withCredentials: true, // This is important for handling cookies
+    });
+
+    try {
+      const response = await api.post(endpoint);
+      return {
+        code: "200",
+        message: "Success",
+        data: response?.data as ITicket[],
+      };
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      if (axiosError !== null) {
+        return {
+          code: axiosError.response?.status.toString() || "500", // Default to 500 if status is not available
+          message: axiosError.response?.data as string,
+          data: null,
+        };
+      }
+      return {
+        code: "500",
+        message: "An error occurred",
+        data: null,
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
   const logoutUser = async () => {
     const api = axios.create({
       baseURL: `${api_domain}/api/Auth`, // Update with your API URL
@@ -214,6 +250,7 @@ export const useFetch = (api_domain: string) => {
     fetchUser,
     logoutUser,
     registerUser,
+    getTicketsForUser,
     loading,
     error,
   };

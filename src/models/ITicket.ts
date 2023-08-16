@@ -1,4 +1,5 @@
 export interface ITicket {
+  id: string;
   journeyId: number;
   journeyName: string;
   startStarportId: number;
