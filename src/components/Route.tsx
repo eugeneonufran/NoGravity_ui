@@ -12,6 +12,7 @@ import LSSettings from "../configs/storageSettings.json";
 import React from "react";
 
 import { useNavigate } from "react-router-dom";
+import useSessionStorage from "../hooks/useSessionStorage";
 
 // ------------ Component Imports ------------
 // Add your component imports here
@@ -24,7 +25,10 @@ type RouteComponentProps = {
 };
 
 const Route = ({ route, readonly }: RouteComponentProps) => {
-  const [, setChosenRoute] = useLocalStorage<IRoute>(
+  // const [, setChosenRoute] = useLocalStorage<IRoute>(
+  //   LSSettings.lsNames.CHOSEN_ROUTE
+  // );
+  const [, setChosenRoute] = useSessionStorage<IRoute>(
     LSSettings.lsNames.CHOSEN_ROUTE
   );
 

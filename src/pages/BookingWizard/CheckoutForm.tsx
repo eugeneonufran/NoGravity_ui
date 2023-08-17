@@ -5,7 +5,7 @@ import Route from "../../components/Route";
 import { Services } from "../../utils/services";
 import { useFetch } from "../../hooks/useFetch";
 import { ApiContext } from "../../contexts/ApiContext";
-import stStettings from "../../configs/storageSettings.json";
+import stSettings from "../../configs/storageSettings.json";
 import { AuthContext } from "../../contexts/AuthContext";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { IRoute } from "../../models/IRoute";
@@ -16,9 +16,9 @@ interface CheckoutFormProps {
 
 export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
   const { api_domain } = useContext(ApiContext);
-  const { user, login, logout } = useContext(AuthContext);
-  const { orderRouteM, error, loading } = useFetch(api_domain);
-  const [route, ,] = useLocalStorage<IRoute>(stStettings.lsNames.CHOSEN_ROUTE);
+  const { user } = useContext(AuthContext);
+  const { orderRouteM, loading } = useFetch(api_domain);
+  const [route, ,] = useLocalStorage<IRoute>(stSettings.lsNames.CHOSEN_ROUTE);
 
   console.log(passengerWithSeats![0]);
 

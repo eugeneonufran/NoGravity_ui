@@ -43,6 +43,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     if (result.code === "200") {
       const fetchedUser = await fetchUser();
 
+      console.log(fetchedUser);
       setUser(fetchedUser.data as IUser);
 
       //setUserStorage(fetchedUser.data as IUser);

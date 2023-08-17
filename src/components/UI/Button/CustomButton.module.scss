@@ -1,0 +1,122 @@
+.warning {
+  // Define warning styles here
+}
+
+.danger {
+  // Define danger styles here
+}
+
+.root {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    //background-color: #2196f3; // Note the colon here
+    color: #fff; // Note the colon here
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); // Camel-cased box-shadow
+  }
+}
+
+/* CSS */
+.butt {
+  align-items: center;
+  appearance: button;
+  background-color: #0276ff;
+  border-radius: 8px;
+  border-style: none;
+  box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  font-family: "RM Neue", sans-serif;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  padding: 10px 21px;
+  text-align: center;
+  text-transform: none;
+  transition: color 0.13s ease-in-out, background 0.13s ease-in-out,
+    opacity 0.13s ease-in-out, box-shadow 0.13s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.butt:active {
+  background-color: #006ae8;
+}
+
+.butt:hover {
+  background-color: #1c84ff;
+}
+
+/* CSS */
+.epic {
+  align-items: center;
+  background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #ffffff;
+  display: flex;
+  font-family: Phantomsans, sans-serif;
+  font-size: 20px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 100%;
+  min-width: 140px;
+  padding: 3px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.epic:active,
+.epic:hover {
+  outline: 0;
+}
+
+.epic span {
+  background-color: rgb(5, 6, 45);
+  padding: 16px 24px;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+  transition: 300ms;
+}
+
+.epic:hover span {
+  background: none;
+}
+
+@media (min-width: 768px) {
+  .epic {
+    font-size: 24px;
+    min-width: 196px;
+  }
+}
+
+.custom_button {
+  padding: 0.75rem 2rem; /* px-8 py-3 */
+  box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.25); /* shadow-2x1 */
+  color: #f59e0b; /* text-yellow-500 */
+  border-radius: 0.25rem; /* rounded */
+  background-color: #fff; /* bg-white */
+  margin-top: 0.5rem; /* mt-2 */
+
+  &:hover {
+    background-color: #f9fafb; /* hover:bg-gray-50 */
+  }
+}

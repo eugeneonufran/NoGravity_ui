@@ -5,7 +5,13 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { NotFound } from "./pages/NotFound/NotFound";
 
 import { ApiContextProvider } from "./contexts/ApiContext";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
 import { BookingWizard } from "./pages/BookingWizard/BookingWizard";
 import { SuperAdminPage } from "./pages/SuperAdminPage";
 import { RouteContextProvider } from "./contexts/RouteContext";
@@ -13,42 +19,63 @@ import { Footer } from "./components/Footer/Footer";
 import "./styles/App.scss";
 import { UserAccount } from "./pages/User/UserAccount";
 
-import { Credentials } from "./pages/User/Credentials";
 import { SignUpForm } from "./pages/User/SignUpForm";
-import { AuthContextProvider } from "./contexts/AuthContext";
+import { AuthContext } from "./contexts/AuthContext";
 import { LoginForm } from "./pages/User/LoginForm";
+import { IRoute } from "./models/IRoute";
+
+import stSettings from "./configs/storageSettings.json";
+import useSessionStorage from "./hooks/useSessionStorage";
+import { useContext } from "react";
 
 function App() {
+  const [route, ,] = useSessionStorage<IRoute>(stSettings.lsNames.CHOSEN_ROUTE);
+  //const [user, ,] = useLocalStorage<IRoute>(stSettings.lsNames.USER);
+  const { user } = useContext(AuthContext);
+  console.log(user);
+  const isAuthenticated = user !== undefined && user !== null;
+  console.log(isAuthenticated);
   return (
     <div className='app'>
-      <AuthContextProvider>
-        <BrowserRouter>
-          <RouteContextProvider>
-            <ApiContextProvider>
-              <div>
-                <Navbar />
-              </div>
-            </ApiContextProvider>
-
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/contact' element={<Contact />} />
-              <Route path='/about' element={<About />} />
-              <Route path='/superAdmin' element={<SuperAdminPage />} />
-              <Route path='/bookingWizard' element={<BookingWizard />} />
-              <Route path='/userAccount' element={<UserAccount />} />
-              <Route path='/signUp' element={<SignUpForm />} />
-              <Route path='/login' element={<LoginForm />} />
-              <Route path='/credentials' element={<Credentials />} />
-
-              <Route path='*' element={<NotFound />} />
-            </Routes>
+      <BrowserRouter>
+        <RouteContextProvider>
+          <ApiContextProvider>
             <div>
-              <Footer />
+              <Navbar />
             </div>
-          </RouteContextProvider>
-        </BrowserRouter>
-      </AuthContextProvider>
+          </ApiContextProvider>
+
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/superAdmin' element={<SuperAdminPage />} />
+            {route ? (
+              <Route path='/bookingWizard' element={<BookingWizard />} />
+            ) : null}
+            {isAuthenticated ? (
+              <>
+                <Route path='/userAccount' element={<UserAccount />} />
+                <Route
+                  path='/signUp'
+                  element={<Navigate to='/userAccount' />}
+                />
+                <Route path='/login' element={<Navigate to='/userAccount' />} />
+              </>
+            ) : (
+              <>
+                <Route path='/signUp' element={<SignUpForm />} />
+                <Route path='/login' element={<LoginForm />} />
+                <Route path='/userAccount' element={<LoginForm />} />
+              </>
+            )}
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+          <div>
+            <Footer />
+          </div>
+        </RouteContextProvider>
+      </BrowserRouter>
     </div>
   );
 }

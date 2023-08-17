@@ -11,6 +11,7 @@ import { useState } from "react";
 import { ITicket } from "../../models/ITicket";
 import { Loading } from "../../components/Loading";
 import { AuthContext } from "../../contexts/AuthContext";
+import { CustomButton } from "../../components/UI/Button/CustomButton";
 
 interface UserAccountProps {}
 
@@ -27,6 +28,7 @@ export const UserAccount = ({}: UserAccountProps) => {
     e.preventDefault();
 
     await logout();
+
     navigate("/login");
   };
 
@@ -52,6 +54,7 @@ export const UserAccount = ({}: UserAccountProps) => {
       {loading ? <Loading message='Loading tickets...' /> : null}
       <TicketsList tickets={tickets} />
       <div>
+        <CustomButton onClick={handleLogout}>Logout custom</CustomButton>
         <button type='button' onClick={handleLogout}>
           Logout
         </button>

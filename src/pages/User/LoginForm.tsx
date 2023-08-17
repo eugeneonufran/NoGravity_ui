@@ -14,6 +14,7 @@ export const LoginForm = () => {
     const v = await login(updatedLoginData);
 
     if (v.code === "200") {
+      console.log(user);
       navigate("/userAccount");
     }
   };
