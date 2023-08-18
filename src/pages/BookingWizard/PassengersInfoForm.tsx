@@ -10,6 +10,7 @@ import { validateField } from "../../utils/validateField";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import stSettings from "../../configs/storageSettings.json";
 import { IRoute } from "../../models/IRoute";
+import { DataContext } from "../../contexts/DataContext";
 
 interface PersonalInfoFormProps {
   onNext: (info: PersonalInfoData) => void;
@@ -40,9 +41,7 @@ export const PassengersInfoForm = ({
 
   const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
 
-  const [chosenRoute, ,] = useLocalStorage<IRoute>(
-    stSettings.lsNames.CHOSEN_ROUTE
-  );
+  const { chosenRoute } = useContext(DataContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -168,7 +167,7 @@ export const PassengersInfoForm = ({
   };
 
   return (
-    <div>
+    <div className={styles.passengerContainer}>
       <div>
         {data.length}
         {data.map((item, index) => (

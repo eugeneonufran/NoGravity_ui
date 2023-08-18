@@ -3,16 +3,11 @@ import { IRoute } from "../models/IRoute";
 import { IRouteSegment } from "../models/IRouteSegment";
 import { IJourneySeatMap } from "../models/IJourneySeatMap";
 import { ISeat } from "../models/ISeat";
-import useLocalStorage from "../hooks/useLocalStorage";
-import LSSettings from "../configs/storageSettings.json";
-
-// ------------ Style Imports ------------
-
-// ------------ Library Imports ------------
-import React from "react";
 
 import { useNavigate } from "react-router-dom";
-import useSessionStorage from "../hooks/useSessionStorage";
+import { useContext } from "react";
+import { DataContext } from "../contexts/DataContext";
+import "./Route.scss";
 
 // ------------ Component Imports ------------
 // Add your component imports here
@@ -25,21 +20,14 @@ type RouteComponentProps = {
 };
 
 const Route = ({ route, readonly }: RouteComponentProps) => {
-  // const [, setChosenRoute] = useLocalStorage<IRoute>(
-  //   LSSettings.lsNames.CHOSEN_ROUTE
-  // );
-  const [, setChosenRoute] = useSessionStorage<IRoute>(
-    LSSettings.lsNames.CHOSEN_ROUTE
-  );
+  const { setChosenRoute } = useContext(DataContext);
 
   const navigate = useNavigate();
-
-  //const { setChosenRoute } = useContext(RouteContext);
 
   const handleBookRoute = () => {
     setChosenRoute(route);
 
-    navigate("/bookingWizard");
+    navigate(`/bookingWizard/passengers`);
   };
 
   return (

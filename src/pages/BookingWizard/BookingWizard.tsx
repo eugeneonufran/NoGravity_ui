@@ -1,11 +1,11 @@
 import { IPassenger } from "../../models/IPassenger";
 import { CheckoutForm } from "./CheckoutForm";
 import { SeatMapForm } from "./SeatMapForm";
-import { useStepManager } from "../../hooks/useStepManager";
 import { useState } from "react";
-import { StepManagerNav } from "../../models/StepManagerNav";
 import { PassengersInfoForm } from "./PassengersInfoForm";
 import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
+import { useNavigate, useParams } from "react-router-dom";
+import mapper from "../../models/Mapper";
 
 export const BookingWizard = () => {
   const initPassenger = { firstName: "", lastName: "", email: "", cif: "" };
@@ -13,32 +13,26 @@ export const BookingWizard = () => {
     initPassenger,
   ]);
 
+  const { step } = useParams();
+
+  const currentStep = step ? mapper[step] - 1 : 1;
+  const navigator = useNavigate();
+
   const [passengersWithSeats, setPassengersWithSeats] = useState<
     IPassengerWithSeat[] | null
   >(null);
 
-  const { currentStep, goForward, goBackward, isFirstStep, isLastStep } =
-    useStepManager(3);
-
-  const navigate: StepManagerNav = {
-    goForward: goForward,
-    goBackward: goBackward,
-    isFirstStep: isFirstStep,
-    isLastStep: isLastStep,
-  };
-
   const stepForms = [
     <PassengersInfoForm
-      onNext={goForward}
-      onBack={goBackward}
+      onNext={() => navigator(`/bookingWizard/seat-map`)}
+      onBack={() => navigator(`/bookingWizard/passengers`)}
       setPassengersInfo={setPassengersList}
     />,
     <SeatMapForm
       passengersList={passengersList}
-      onNext={goForward}
-      onBack={goBackward}
+      onNext={() => navigator(`/bookingWizard/checkout`)}
+      onBack={() => navigator(`/bookingWizard/seat-map`)}
       setPassengersWithSeats={setPassengersWithSeats}
-      navigate={navigate}
     />,
     <CheckoutForm passengerWithSeats={passengersWithSeats} />,
   ];

@@ -17,13 +17,12 @@ import { Error } from "../../components/Error";
 import { ApiContext } from "../../contexts/ApiContext";
 
 import styles from "./BookingRoutes.module.scss";
+import { DataContext } from "../../contexts/DataContext";
 
 const BookingRoutes = () => {
   const { api_domain } = useContext(ApiContext);
   const { fetchRoutes, loading, error } = useFetch(api_domain);
-  const [, , deleteChosenRoute] = useLocalStorage<IRoute>(
-    LSSettings.lsNames.CHOSEN_ROUTE
-  );
+  const { deleteChosenRoute } = useContext(DataContext);
 
   const [routes, setRoutes] = useState<IRoute[] | null>(null);
 

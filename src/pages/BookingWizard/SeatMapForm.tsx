@@ -5,12 +5,9 @@ import { useFetch } from "../../hooks/useFetch";
 
 import { Services } from "../../utils/services";
 import { ISeat } from "../../models/ISeat";
-import { StepManagerNav } from "../../models/StepManagerNav";
 import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 import { ApiContext } from "../../contexts/ApiContext";
-import stSettings from "../../configs/storageSettings.json";
-import { IRoute } from "../../models/IRoute";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import { DataContext } from "../../contexts/DataContext";
 
 interface SeatMapFormProps {
   passengersList: IPassenger[];
@@ -19,7 +16,6 @@ interface SeatMapFormProps {
   >;
   onNext: () => void;
   onBack: () => void;
-  navigate: StepManagerNav;
 }
 
 export interface IPassengerItem {
@@ -30,13 +26,10 @@ export interface IPassengerItem {
 
 export const SeatMapForm = ({
   passengersList,
-  navigate,
   setPassengersWithSeats,
 }: SeatMapFormProps) => {
   const { api_domain } = useContext(ApiContext);
-  const [chosenRoute, setChosenRoute] = useLocalStorage<IRoute>(
-    stSettings.lsNames.CHOSEN_ROUTE
-  );
+  const { chosenRoute } = useContext(DataContext);
 
   const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
 
@@ -84,7 +77,7 @@ export const SeatMapForm = ({
     });
 
     if (allSeatsNotNull) {
-      navigate.goForward();
+      // navigate.goForward();
     }
   };
 
@@ -96,17 +89,13 @@ export const SeatMapForm = ({
         setPassengerItems={setPassengerItems}
       />
 
-      {navigate.isLastStep && <button type='button'>Finish</button>}
-      {!navigate.isFirstStep && (
-        <button type='button' onClick={navigate.goBackward}>
-          Back
-        </button>
-      )}
-      {!navigate.isLastStep && (
-        <button type='button' onClick={validate}>
-          Next
-        </button>
-      )}
+      <button type='button'>Finish</button>
+
+      <button type='button'>Back</button>
+
+      <button type='button' onClick={validate}>
+        Next
+      </button>
     </div>
   );
 };

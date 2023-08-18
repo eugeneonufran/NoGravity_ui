@@ -1,10 +1,10 @@
 {
   "lsNames": {
-    "CHOSEN_ROUTE": "CHOSEN_ROUTE",
     "USER": "USER"
   },
 
   "ssNames": {
-    "CHOSEN_ROUTE": "CHOSEN_ROUTE"
+    "CHOSEN_ROUTE": "CHOSEN_ROUTE",
+    "CURRENT_STEP": "CURRENT_STEP"
   }
 }
