@@ -26,10 +26,12 @@ export interface IPassengerItem {
 
 export const SeatMapForm = ({
   passengersList,
+  onNext,
+  onBack,
   setPassengersWithSeats,
 }: SeatMapFormProps) => {
   const { api_domain } = useContext(ApiContext);
-  const { chosenRoute } = useContext(DataContext);
+  const { chosenRoute, setCurrentStep } = useContext(DataContext);
 
   const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
 
@@ -77,8 +79,13 @@ export const SeatMapForm = ({
     });
 
     if (allSeatsNotNull) {
-      // navigate.goForward();
+      setCurrentStep("checkout");
+      onNext();
     }
+  };
+
+  const handleBack = () => {
+    onBack();
   };
 
   return (
@@ -91,7 +98,9 @@ export const SeatMapForm = ({
 
       <button type='button'>Finish</button>
 
-      <button type='button'>Back</button>
+      <button type='button' onClick={handleBack}>
+        Back
+      </button>
 
       <button type='button' onClick={validate}>
         Next

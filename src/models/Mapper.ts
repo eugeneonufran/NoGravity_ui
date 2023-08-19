@@ -2,9 +2,9 @@ type StepMapper = {
   [key: string]: number;
 };
 const mapper: StepMapper = {
-  passengers: 1,
-  "seat-map": 2,
-  checkout: 3,
+  passengers: 0,
+  "seat-map": 1,
+  checkout: 2,
 };
 
 export default mapper;

@@ -20,13 +20,13 @@ type RouteComponentProps = {
 };
 
 const Route = ({ route, readonly }: RouteComponentProps) => {
-  const { setChosenRoute } = useContext(DataContext);
+  const { setChosenRoute, setCurrentStep } = useContext(DataContext);
 
   const navigate = useNavigate();
 
   const handleBookRoute = () => {
     setChosenRoute(route);
-
+    setCurrentStep("passengers");
     navigate(`/bookingWizard/passengers`);
   };
 
