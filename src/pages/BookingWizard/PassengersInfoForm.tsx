@@ -57,7 +57,7 @@ export const PassengersInfoForm = ({
     console.log("after:", loading);
   }, []);
 
-  const startData = passengers ? passengers : 
+  //const startData = passengers ? passengers :
 
   const [data, setData] = useState<PersonalInfoItem[]>([
     {
