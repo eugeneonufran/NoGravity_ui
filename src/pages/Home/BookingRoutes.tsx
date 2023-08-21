@@ -1,8 +1,6 @@
 // ------------ Library Imports ------------
 import { useState, useContext } from "react";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import { useFetch } from "../../hooks/useFetch";
-import LSSettings from "../../configs/storageSettings.json";
 
 // ------------ Types Imports ------------
 import { IRoute } from "../../models/_api/IRoute";
@@ -18,6 +16,7 @@ import { ApiContext } from "../../contexts/ApiContext";
 
 import styles from "./BookingRoutes.module.scss";
 import { DataContext } from "../../contexts/DataContext";
+import { RouteSearchFormParameters } from "../../models/_uitypes/RouteSearchFormParameters";
 
 const BookingRoutes = () => {
   const { api_domain } = useContext(ApiContext);
@@ -26,17 +25,13 @@ const BookingRoutes = () => {
 
   const [routes, setRoutes] = useState<IRoute[] | null>(null);
 
-  const handleSubmit = async (
-    departureStarportId: number,
-    arrivalStarportId: number,
-    date: string,
-    SortType: number
-  ) => {
+  const handleSubmit = async (params: RouteSearchFormParameters) => {
     const response = await fetchRoutes(
-      departureStarportId,
-      arrivalStarportId,
-      date,
-      SortType
+      params.departureStarportId,
+      params.arrivalStarportId,
+      params.date,
+      params.sortType,
+      params.numberOfPassengers
     );
     deleteChosenRoute();
     setRoutes(response ? response : null);

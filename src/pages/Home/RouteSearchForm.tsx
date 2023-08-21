@@ -10,14 +10,10 @@ import { useFetch } from "../../hooks/useFetch";
 
 // ------------ Context Imports ------------
 import { ApiContext } from "../../contexts/ApiContext";
+import { RouteSearchFormParameters } from "../../models/_uitypes/RouteSearchFormParameters";
 
 interface RouteSearchFormProps {
-  onSubmit: (
-    departureStarportId: number,
-    arrivalStarportId: number,
-    date: string,
-    sortType: number
-  ) => void;
+  onSubmit: (params: RouteSearchFormParameters) => void;
 }
 
 export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
@@ -41,6 +37,10 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
 
   const [startports, setStartports] = useState<IStarport[]>([]);
   const [endports, setEndports] = useState<IStarport[]>([]);
+
+  const [numberOfPassengers, setNumberOfPassengers] = useState<number>(
+    Number(queryParams.get("numberOfPassengers")) || 1
+  );
 
   const [sortType, setSortType] = useState<SortType>(
     Number(queryParams.get("sortType")) || SortType.Optimal
@@ -66,20 +66,29 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
     setDate(e.target.value);
   };
 
+  const handlePassengerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const passengers = parseInt(e.target.value);
+    setNumberOfPassengers(passengers);
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(startStarportId, endStarportId, date, sortType);
-
+    onSubmit({
+      departureStarportId: startStarportId,
+      arrivalStarportId: endStarportId,
+      date,
+      sortType,
+      numberOfPassengers,
+    });
     const newQueryParams = new URLSearchParams({
       DeparturePortId: String(startStarportId),
       DestinationPortId: String(endStarportId),
-      date,
-      sortType: String(sortType),
+      Date: date,
+      SortType: String(sortType),
+      numberOfPassengers: String(numberOfPassengers),
     });
     navigate(`/?${newQueryParams}`);
   };
-
-  // ------------ Side Effects ------------
 
   useEffect(() => {
     const fetchData = async () => {
@@ -142,6 +151,16 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
           name='date'
           value={date}
           onChange={handleDateChange}
+        />
+
+        <label htmlFor='numberOfPassengers'>Number of Passengers:</label>
+        <input
+          type='number'
+          id='numberOfPassengers'
+          name='numberOfPassengers'
+          value={numberOfPassengers}
+          onChange={handlePassengerChange}
+          min={1}
         />
 
         <label htmlFor='sortType'>Sort Type:</label>

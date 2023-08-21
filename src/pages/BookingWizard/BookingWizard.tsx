@@ -20,10 +20,6 @@ export const BookingWizard = () => {
   const { step } = useParams();
 
   const currentStepURL = step ? mapper[step] : 0;
-  console.log("currentStepURL:", currentStepURL);
-
-  console.log("currentStep:", currentStep);
-  console.log("currentStepMAPPED:", mapper[currentStep!]);
 
   const navigator = useNavigate();
 

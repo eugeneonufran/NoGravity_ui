@@ -20,9 +20,11 @@ export const useFetch = (api_domain: string) => {
     departureStarportId: number,
     arrivalStarportId: number,
     date: string,
-    SortType: number
+    SortType: number,
+    numberOfPassengers: number
   ) => {
-    const url = `${api_domain}/api/Booking/findroutes?departureStarportId=${departureStarportId}&arrivalStarportId=${arrivalStarportId}&date=${date}&sortType=${SortType}`;
+    const url = `${api_domain}/api/Booking/findroutes?departureStarportId=${departureStarportId}&arrivalStarportId=${arrivalStarportId}&date=${date}&numberOfPassengers=${numberOfPassengers}&sortType=${SortType}`;
+
     setLoading(true);
     setError(null);
     try {
