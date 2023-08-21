@@ -1,4 +1,4 @@
-import { ISeat } from "./ISeat";
+import { ISeat } from "./_api/ISeat";
 
 export interface IJourneySeatMap {
   journeyId: number;

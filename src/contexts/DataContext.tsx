@@ -1,9 +1,9 @@
 import { ReactNode, createContext } from "react";
-import { IRoute } from "../models/IRoute";
+import { IRoute } from "../models/_api/IRoute";
 import useSessionStorage from "../hooks/useSessionStorage";
 import ssSettings from "../configs/storageSettings.json";
 import mapper from "../models/Mapper";
-import { IPassenger } from "../models/IPassenger";
+import { IPassenger } from "../models/_api/IPassenger";
 
 interface DataContextProps {
   chosenRoute: IRoute | null;
@@ -14,7 +14,7 @@ interface DataContextProps {
   setCurrentStep: (step: keyof typeof mapper) => void;
   deleteCurrentStep: () => void;
 
-  passengers: IPassenger[]; // Include the passengers list
+  passengers: IPassenger[] | null; // Include the passengers list
   setPassengers: (passengers: IPassenger[]) => void;
   deletePassengers: () => void;
 }
@@ -32,7 +32,7 @@ export const DataContext = createContext<DataContextProps>({
   setCurrentStep: () => {},
   deleteCurrentStep: () => {},
 
-  passengers: [],
+  passengers: null,
   setPassengers: () => {},
   deletePassengers: () => {},
 });
@@ -58,7 +58,7 @@ export const DataContextProvider = ({ children }: DataContextProviderProps) => {
         currentStep: currentStep ?? null,
         setCurrentStep,
         deleteCurrentStep,
-        passengers: passengers ?? [],
+        passengers: passengers ?? null,
         setPassengers,
         deletePassengers,
       }}>

@@ -12,4 +12,5 @@ export interface ITicket {
   userId: number;
   userEmail: string;
   seatNumber: number;
+  filePath: string;
 }

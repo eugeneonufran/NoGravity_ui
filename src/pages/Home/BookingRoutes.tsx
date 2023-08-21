@@ -5,7 +5,7 @@ import { useFetch } from "../../hooks/useFetch";
 import LSSettings from "../../configs/storageSettings.json";
 
 // ------------ Types Imports ------------
-import { IRoute } from "../../models/IRoute";
+import { IRoute } from "../../models/_api/IRoute";
 
 // ------------ Component Imports ------------
 import { RouteSearchForm } from "./RouteSearchForm";

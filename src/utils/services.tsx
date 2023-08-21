@@ -1,6 +1,6 @@
 import { IPassengerItem } from "../pages/BookingWizard/SeatMapForm";
-import { IPassenger } from "../models/IPassenger";
-import { IRoute } from "../models/IRoute";
+import { IPassenger } from "../models/_api/IPassenger";
+import { IRoute } from "../models/_api/IRoute";
 import { IOrderRequest } from "../models/IOrderRequest";
 import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
 import {

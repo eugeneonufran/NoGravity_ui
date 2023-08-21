@@ -1,8 +1,8 @@
 // ------------ Types Imports ------------
-import { IRoute } from "../models/IRoute";
-import { IRouteSegment } from "../models/IRouteSegment";
+import { IRoute } from "../models/_api/IRoute";
+import { IRouteSegment } from "../models/_api/IRouteSegment";
 import { IJourneySeatMap } from "../models/IJourneySeatMap";
-import { ISeat } from "../models/ISeat";
+import { ISeat } from "../models/_api/ISeat";
 
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";

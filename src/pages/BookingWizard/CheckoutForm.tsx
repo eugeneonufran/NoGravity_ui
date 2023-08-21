@@ -5,10 +5,7 @@ import Route from "../../components/Route";
 import { Services } from "../../utils/services";
 import { useFetch } from "../../hooks/useFetch";
 import { ApiContext } from "../../contexts/ApiContext";
-import stSettings from "../../configs/storageSettings.json";
 import { AuthContext } from "../../contexts/AuthContext";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import { IRoute } from "../../models/IRoute";
 import { DataContext } from "../../contexts/DataContext";
 
 interface CheckoutFormProps {

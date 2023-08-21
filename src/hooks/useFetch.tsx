@@ -1,13 +1,11 @@
 import axios, { AxiosError } from "axios";
-import { IRoute } from "../models/IRoute";
+import { IRoute } from "../models/_api/IRoute";
 import { useState } from "react";
-import { IStarport } from "../models/IStarport";
-import { ISeat } from "../models/ISeat";
-import { IPassenger } from "../models/IPassenger";
-import { IPassengerWithSeat } from "../models/IPassengerWithSeat";
+import { IStarport } from "../models/_api/IStarport";
+import { ISeat } from "../models/_api/ISeat";
 import { IOrderRequest } from "../models/IOrderRequest";
 import { IUserRegister, IUserLogin, IUser } from "../models/IUser";
-import { ITicket } from "../models/ITicket";
+import { ITicket } from "../models/_api/ITicket";
 
 export interface IFetchResult {
   code: string;
@@ -185,7 +183,7 @@ export const useFetch = (api_domain: string) => {
 
     const api = axios.create({
       baseURL: api_domain,
-      withCredentials: true, // This is important for handling cookies
+      withCredentials: true,
     });
 
     try {
@@ -213,6 +211,7 @@ export const useFetch = (api_domain: string) => {
       setLoading(false);
     }
   };
+
   const logoutUser = async () => {
     const api = axios.create({
       baseURL: `${api_domain}/api/Auth`, // Update with your API URL
@@ -240,6 +239,25 @@ export const useFetch = (api_domain: string) => {
     }
   };
 
+  const getTicketPDFByPath = async (path: string): Promise<Blob> => {
+    console.log("path:", path);
+    const endpoint = `/api/Account/getTicket?path=${encodeURIComponent(path)}`;
+    console.log("endpoint:", endpoint);
+    const api = axios.create({
+      baseURL: api_domain,
+      responseType: "blob", // Set the response type to 'blob' for binary data
+      withCredentials: true,
+    });
+
+    try {
+      const response = await api.post(endpoint);
+      return new Blob([response.data], { type: "application/pdf" });
+    } catch (error) {
+      // Handle error
+      throw error;
+    }
+  };
+
   return {
     fetchRoutes,
     fetchPorts,
@@ -252,6 +270,7 @@ export const useFetch = (api_domain: string) => {
     registerUser,
     getTicketsForUser,
     loading,
+    getTicketPDFByPath,
     error,
   };
 };

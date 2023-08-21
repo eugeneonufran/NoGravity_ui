@@ -25,12 +25,7 @@ export const AuthContext = createContext<AuthContextProps>({
 
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const { api_domain } = useContext(ApiContext);
-  // const [user, setUser] = useState<IUser | null>(null);
-  // const [, setUserStorage, deleteUserStorage] = useLocalStorage(
-  //   stSettings.lsNames.USER
-  // );
 
-  //const [user, setUser] = useState<IUser | null>(null);
   const [user, setUser, deleteUserStorage] = useLocalStorage<IUser | null>(
     stSettings.lsNames.USER
   );

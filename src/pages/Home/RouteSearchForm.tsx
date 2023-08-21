@@ -1,5 +1,5 @@
 // ------------ Types Imports ------------
-import { IStarport } from "../../models/IStarport";
+import { IStarport } from "../../models/_api/IStarport";
 import { SortType } from "../../models/SortType";
 
 // ------------ Library Imports ------------

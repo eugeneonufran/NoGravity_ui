@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { FormInput } from "../../components/FormInput/FormInput";
-import { ISeat } from "../../models/ISeat";
+import { ISeat } from "../../models/_api/ISeat";
 import { ApiContext } from "../../contexts/ApiContext";
 
-import { IPassenger } from "../../models/IPassenger";
+import { IPassenger } from "../../models/_api/IPassenger";
 import styles from "./PassengerInfoForm.module.scss";
 import { useFetch } from "../../hooks/useFetch";
 import { validateField } from "../../utils/validateField";
@@ -51,22 +51,23 @@ export const PassengersInfoForm = ({
         }
       }
     };
-    console.log("before:", loading);
 
     fetchData();
-    console.log("after:", loading);
   }, []);
 
-  //const startData = passengers ? passengers :
+  const defaultPassenger: PersonalInfoItem = {
+    firstName: { value: "", error: null },
+    lastName: { value: "", error: null },
+    email: { value: "", error: null },
+    cif: { value: "", error: null },
+  };
 
-  const [data, setData] = useState<PersonalInfoItem[]>([
-    {
-      firstName: { value: "", error: null },
-      lastName: { value: "", error: null },
-      email: { value: "", error: null },
-      cif: { value: "", error: null },
-    },
-  ]);
+  const startData: PersonalInfoItem[] =
+    passengers && passengers.length !== 0
+      ? Services.convertPassengersToPersonalInfo(passengers)
+      : [defaultPassenger];
+
+  const [data, setData] = useState<PersonalInfoItem[]>(startData);
 
   const handleChange = (
     key: keyof PersonalInfoItem,

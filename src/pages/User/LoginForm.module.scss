@@ -1,3 +1,7 @@
+// Your SCSS file
+@import "../../styles/_mixins.scss";
+
 .login_form {
-  margin-top: 1000px;
+  //margin-top: 1000px;
+  @include center;
 }

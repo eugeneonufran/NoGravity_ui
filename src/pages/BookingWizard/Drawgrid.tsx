@@ -1,5 +1,5 @@
 import { SetStateAction, useState } from "react";
-import { ISeat } from "../../models/ISeat";
+import { ISeat } from "../../models/_api/ISeat";
 import { IPassengerItem } from "./SeatMapForm";
 import "./Drawgrid.scss";
 

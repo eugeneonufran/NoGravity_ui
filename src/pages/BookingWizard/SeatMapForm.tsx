@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { IPassenger } from "../../models/IPassenger";
+import { IPassenger } from "../../models/_api/IPassenger";
 import { Drawgrid } from "./Drawgrid";
 import { useFetch } from "../../hooks/useFetch";
 
 import { Services } from "../../utils/services";
-import { ISeat } from "../../models/ISeat";
+import { ISeat } from "../../models/_api/ISeat";
 import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 import { ApiContext } from "../../contexts/ApiContext";
 import { DataContext } from "../../contexts/DataContext";
@@ -46,7 +46,7 @@ export const SeatMapForm = ({
     };
 
     fetchData();
-  });
+  }, []);
 
   const [seats, setSeats] = useState<ISeat[]>([]);
 

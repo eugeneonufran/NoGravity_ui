@@ -1,4 +1,4 @@
-import { IPassenger } from "../models/IPassenger";
+import { IPassenger } from "../models/_api/IPassenger";
 
 interface PassengersListProps {
   passengers: IPassenger[];

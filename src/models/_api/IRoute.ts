@@ -1,4 +1,4 @@
-import { IJourneySeatMap } from "./IJourneySeatMap";
+import { IJourneySeatMap } from "../IJourneySeatMap";
 import { IRouteSegment } from "./IRouteSegment";
 
 export interface IRoute {

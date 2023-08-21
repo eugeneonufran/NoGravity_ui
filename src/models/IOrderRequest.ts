@@ -1,5 +1,5 @@
 import { IPassengerWithSeat } from "./IPassengerWithSeat";
-import { IRoute } from "./IRoute";
+import { IRoute } from "./_api/IRoute";
 
 export interface IOrderRequest {
   route: IRoute;

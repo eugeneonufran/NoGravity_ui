@@ -1,4 +1,4 @@
-import { IPassenger } from "../../models/IPassenger";
+import { IPassenger } from "../../models/_api/IPassenger";
 import { CheckoutForm } from "./CheckoutForm";
 import { SeatMapForm } from "./SeatMapForm";
 import { useContext, useState } from "react";

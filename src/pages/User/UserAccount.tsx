@@ -8,7 +8,7 @@ import { TicketsList } from "./TicketsList";
 import { useFetch } from "../../hooks/useFetch";
 import { ApiContext } from "../../contexts/ApiContext";
 import { useState } from "react";
-import { ITicket } from "../../models/ITicket";
+import { ITicket } from "../../models/_api/ITicket";
 import { Loading } from "../../components/Loading";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CustomButton } from "../../components/UI/Button/CustomButton";
@@ -16,14 +16,12 @@ import { CustomButton } from "../../components/UI/Button/CustomButton";
 interface UserAccountProps {}
 
 export const UserAccount = ({}: UserAccountProps) => {
-  const [user, ,] = useLocalStorage<IUser | null>(stSettings.lsNames.USER);
-
   const { api_domain } = useContext(ApiContext);
   const { getTicketsForUser, loading } = useFetch(api_domain);
   const [tickets, setTickets] = useState<ITicket[] | null>(null);
   const navigate = useNavigate();
 
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const handleLogout = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -33,21 +31,24 @@ export const UserAccount = ({}: UserAccountProps) => {
   };
 
   useEffect(() => {
-    console.log(user);
     if (user === null || user === undefined) {
       navigate("/login");
     } else {
       const fetchData = async () => {
         const result = await getTicketsForUser(user!.id);
+        console.log(result);
         if (result.code === "200") {
-          setTickets(result.data);
-          console.log(result.data);
+          setTickets(result.data as ITicket[]);
+        }
+        if (result.code === "404") {
+          await logout();
         }
       };
 
       fetchData();
     }
   }, []);
+  console.log(tickets);
   return (
     <div>
       {user ? <Profile user={user} /> : null}

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import styles from "./LoginForm.module.scss";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -19,10 +20,6 @@ export const LoginForm = () => {
     }
   };
 
-  const handleGetUser = async (e: React.FormEvent) => {
-    e.preventDefault();
-  };
-
   const handleGoToSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -30,7 +27,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <div>
+    <div className={styles.login_form}>
       <div style={{ marginTop: "50px" }}>
         <div>{user?.id}</div>
         <label>Email:</label>
