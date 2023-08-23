@@ -33,7 +33,7 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   const [endStarportId, setEndStarportId] = useState<number>(
     Number(queryParams.get("DestinationPortId")) || 0
   );
-  const [date, setDate] = useState<string>(queryParams.get("date") || "");
+  const [date, setDate] = useState<string>(queryParams.get("Date") || "");
 
   const [startports, setStartports] = useState<IStarport[]>([]);
   const [endports, setEndports] = useState<IStarport[]>([]);
@@ -43,7 +43,7 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   );
 
   const [sortType, setSortType] = useState<SortType>(
-    Number(queryParams.get("sortType")) || SortType.Optimal
+    Number(queryParams.get("SortType")) || SortType.Optimal
   );
 
   // ------------ Event Handlers ------------

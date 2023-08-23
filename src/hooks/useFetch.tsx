@@ -6,6 +6,7 @@ import { ISeat } from "../models/_api/ISeat";
 import { IOrderRequest } from "../models/IOrderRequest";
 import { IUserRegister, IUserLogin, IUser } from "../models/IUser";
 import { ITicket } from "../models/_api/ITicket";
+import { RouteSearchFormParameters } from "../models/_uitypes/RouteSearchFormParameters";
 
 export interface IFetchResult {
   code: string;
@@ -16,14 +17,15 @@ export interface IFetchResult {
 export const useFetch = (api_domain: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const fetchRoutes = async (
-    departureStarportId: number,
-    arrivalStarportId: number,
-    date: string,
-    SortType: number,
-    numberOfPassengers: number
-  ) => {
-    const url = `${api_domain}/api/Booking/findroutes?departureStarportId=${departureStarportId}&arrivalStarportId=${arrivalStarportId}&date=${date}&numberOfPassengers=${numberOfPassengers}&sortType=${SortType}`;
+  const fetchRoutes = async (params: RouteSearchFormParameters) => {
+    const {
+      departureStarportId,
+      arrivalStarportId,
+      date,
+      sortType,
+      numberOfPassengers,
+    } = params;
+    const url = `${api_domain}/api/Booking/findroutes?departureStarportId=${departureStarportId}&arrivalStarportId=${arrivalStarportId}&date=${date}&numberOfPassengers=${numberOfPassengers}&sortType=${sortType}`;
 
     setLoading(true);
     setError(null);

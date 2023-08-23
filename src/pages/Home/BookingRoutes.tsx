@@ -26,13 +26,7 @@ const BookingRoutes = () => {
   const [routes, setRoutes] = useState<IRoute[] | null>(null);
 
   const handleSubmit = async (params: RouteSearchFormParameters) => {
-    const response = await fetchRoutes(
-      params.departureStarportId,
-      params.arrivalStarportId,
-      params.date,
-      params.sortType,
-      params.numberOfPassengers
-    );
+    const response = await fetchRoutes(params);
     deleteChosenRoute();
     setRoutes(response ? response : null);
   };
