@@ -1,0 +1,27 @@
+@import "../../styles/_mixins.scss";
+
+.breadcrumbs {
+  @include center;
+  font-size: 30px;
+  color: #333;
+
+  .breadcrumb-link {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease-in-out;
+
+    &.completed {
+      color: greenyellow;
+    }
+
+    &.current {
+      color: aqua;
+      font-weight: bold;
+    }
+  }
+
+  .breadcrumb-separator {
+    margin: 0 5px;
+    color: #999;
+  }
+}
