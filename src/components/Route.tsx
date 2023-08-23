@@ -20,7 +20,8 @@ type RouteComponentProps = {
 };
 
 const Route = ({ route, readonly }: RouteComponentProps) => {
-  const { setChosenRoute, setCurrentStep } = useContext(DataContext);
+  const { setChosenRoute, setCurrentStep, deletePassengers } =
+    useContext(DataContext);
 
   const navigate = useNavigate();
 
@@ -28,6 +29,7 @@ const Route = ({ route, readonly }: RouteComponentProps) => {
     setChosenRoute(route);
     setCurrentStep("passengers");
     navigate(`/bookingWizard/passengers`);
+    deletePassengers();
   };
 
   return (

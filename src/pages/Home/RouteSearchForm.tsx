@@ -11,6 +11,7 @@ import { useFetch } from "../../hooks/useFetch";
 // ------------ Context Imports ------------
 import { ApiContext } from "../../contexts/ApiContext";
 import { RouteSearchFormParameters } from "../../models/_uitypes/RouteSearchFormParameters";
+import { DataContext } from "../../contexts/DataContext";
 
 interface RouteSearchFormProps {
   onSubmit: (params: RouteSearchFormParameters) => void;
@@ -18,6 +19,7 @@ interface RouteSearchFormProps {
 
 export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   const { api_domain } = useContext(ApiContext);
+  const { setQueryParams } = useContext(DataContext);
   const { fetchPorts, loading, error } = useFetch(api_domain);
 
   const location = useLocation();
@@ -88,6 +90,7 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
       numberOfPassengers: String(numberOfPassengers),
     });
     navigate(`/?${newQueryParams}`);
+    setQueryParams(`/?${newQueryParams}`);
   };
 
   useEffect(() => {

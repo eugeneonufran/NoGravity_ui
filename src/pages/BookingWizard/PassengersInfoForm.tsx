@@ -172,6 +172,10 @@ export const PassengersInfoForm = ({
     }
   };
 
+  const handleOnBack = () => {
+    onBack();
+  };
+
   return (
     <div className={styles.passengerContainer}>
       <div>
@@ -234,7 +238,9 @@ export const PassengersInfoForm = ({
             +
           </button>
         )}
-        <button type='button'>Back</button>
+        <button type='button' onClick={handleOnBack}>
+          Back
+        </button>
         <button type='button' onClick={validate}>
           Next
         </button>

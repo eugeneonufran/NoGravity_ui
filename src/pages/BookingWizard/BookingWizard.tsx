@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import mapper from "../../models/Mapper";
 import { DataContext } from "../../contexts/DataContext";
 import { NotFound } from "../NotFound/NotFound";
+import Breadcrumbs from "./Breadcrumbs";
 
 export const BookingWizard = () => {
   const initPassenger = { firstName: "", lastName: "", email: "", cif: "" };
@@ -15,7 +16,7 @@ export const BookingWizard = () => {
     initPassenger,
   ]);
 
-  const { currentStep } = useContext(DataContext);
+  const { currentStep, queryParams } = useContext(DataContext);
 
   const { step } = useParams();
 
@@ -30,7 +31,7 @@ export const BookingWizard = () => {
   const stepForms = [
     <PassengersInfoForm
       onNext={() => navigator(`/bookingWizard/seat-map`)}
-      onBack={() => navigator(`/bookingWizard/passengers`)}
+      onBack={() => navigator(queryParams ? queryParams : `/`)}
       setPassengersInfo={setPassengersList}
     />,
     <SeatMapForm
@@ -39,7 +40,7 @@ export const BookingWizard = () => {
       onBack={() => navigator(`/bookingWizard/passengers`)}
       setPassengersWithSeats={setPassengersWithSeats}
     />,
-    <CheckoutForm passengerWithSeats={passengersWithSeats} />,
+    <CheckoutForm onBack={() => navigator(`/bookingWizard/seat-map`)} />,
   ];
 
   return (
@@ -47,7 +48,10 @@ export const BookingWizard = () => {
       {currentStepURL === undefined || currentStepURL > mapper[currentStep!] ? (
         <NotFound />
       ) : (
-        <form>{stepForms[currentStepURL]}</form>
+        <div>
+          <Breadcrumbs />
+          <form>{stepForms[currentStepURL]}</form>
+        </div>
       )}
     </div>
   );

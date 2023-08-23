@@ -25,7 +25,6 @@ export const Ticket = ({ ticket }: ITicketProps) => {
   }, []);
   return (
     <div className={styles.ticket}>
-      <h3>Ticket Details</h3>
       <p>Id: {ticket.id}</p>
       <p>Journey ID: {ticket.journeyId}</p>
       <p>Journey Name: {ticket.journeyName}</p>

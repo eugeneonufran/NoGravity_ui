@@ -8,6 +8,7 @@ import { ISeat } from "../../models/_api/ISeat";
 import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 import { ApiContext } from "../../contexts/ApiContext";
 import { DataContext } from "../../contexts/DataContext";
+import { SeatAllocationItem } from "../../models/SeatAllocationItem";
 
 interface SeatMapFormProps {
   passengersList: IPassenger[];
@@ -18,12 +19,6 @@ interface SeatMapFormProps {
   onBack: () => void;
 }
 
-export interface IPassengerItem {
-  passenger: IPassenger;
-  seat: ISeat | null;
-  error: string | null;
-}
-
 export const SeatMapForm = ({
   passengersList,
   onNext,
@@ -31,9 +26,21 @@ export const SeatMapForm = ({
   setPassengersWithSeats,
 }: SeatMapFormProps) => {
   const { api_domain } = useContext(ApiContext);
-  const { chosenRoute, setCurrentStep } = useContext(DataContext);
+  const {
+    chosenRoute,
+    currentStep,
+    setCurrentStep,
+    passengersWithSeats,
+    setPassengersWithSeats: setPassengersAndSeats,
+  } = useContext(DataContext);
 
   const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
+
+  const [seats, setSeats] = useState<ISeat[]>([]);
+
+  const [seatAllocationItems, setSeatAllocationItems] = useState(
+    Services.convertToPassengersSeats(passengersList)
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,41 +52,44 @@ export const SeatMapForm = ({
       }
     };
 
+    if (currentStep === "checkout" && passengersWithSeats) {
+      const updatedSeatAllocationItems =
+        Services.convertPassengersWithSeatsToSeatAllocation(
+          passengersWithSeats
+        );
+      setSeatAllocationItems(updatedSeatAllocationItems);
+    }
+
     fetchData();
   }, []);
 
-  const [seats, setSeats] = useState<ISeat[]>([]);
-
-  const [passengerItems, setPassengerItems] = useState(
-    Services.convertToPassengersSeats(passengersList)
-  );
-
   const validate = () => {
-    const updatePassengerItems = [...passengerItems];
+    const updateSeatAllocationItems = [...seatAllocationItems];
 
-    updatePassengerItems.forEach((passenger) => {
+    updateSeatAllocationItems.forEach((passenger) => {
       if (passenger.seat === null) {
         passenger.error = "Huy";
       }
     });
 
-    setPassengerItems(updatePassengerItems);
+    setSeatAllocationItems(updateSeatAllocationItems);
     const updatedPassengersWithSeats: IPassengerWithSeat[] =
-      updatePassengerItems
-        .filter((passengerItem) => passengerItem.seat !== null) // Filter out items with null seats
-        .map((passengerItem) => ({
-          passenger: passengerItem.passenger,
-          seat: passengerItem.seat!,
+      updateSeatAllocationItems
+        .filter((seatAllocationItem) => seatAllocationItem.seat !== null) // Filter out items with null seats
+        .map((seatAllocationItem) => ({
+          passenger: seatAllocationItem.passenger,
+          seat: seatAllocationItem.seat!,
         }));
 
     setPassengersWithSeats(updatedPassengersWithSeats);
 
-    const allSeatsNotNull = updatePassengerItems.every((passenger) => {
-      return passenger.seat !== null;
+    const allSeatsNotNull = seatAllocationItems.every((seatAllocationItem) => {
+      return seatAllocationItem.seat !== null;
     });
 
     if (allSeatsNotNull) {
       setCurrentStep("checkout");
+      setPassengersAndSeats(updatedPassengersWithSeats);
       onNext();
     }
   };
@@ -92,11 +102,9 @@ export const SeatMapForm = ({
     <div style={{ marginTop: "50px" }}>
       <Drawgrid
         seats={seats}
-        passengersItems={passengerItems}
-        setPassengerItems={setPassengerItems}
+        passengersItems={seatAllocationItems}
+        setPassengerItems={setSeatAllocationItems}
       />
-
-      <button type='button'>Finish</button>
 
       <button type='button' onClick={handleBack}>
         Back

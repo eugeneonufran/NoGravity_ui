@@ -1,12 +1,13 @@
 import { SetStateAction, useState } from "react";
 import { ISeat } from "../../models/_api/ISeat";
-import { IPassengerItem } from "./SeatMapForm";
+import { SeatAllocationItem } from "../../models/SeatAllocationItem";
+
 import "./Drawgrid.scss";
 
 interface DrawgridProps {
   seats: ISeat[];
-  passengersItems: IPassengerItem[];
-  setPassengerItems: React.Dispatch<SetStateAction<IPassengerItem[]>>;
+  passengersItems: SeatAllocationItem[];
+  setPassengerItems: React.Dispatch<SetStateAction<SeatAllocationItem[]>>;
 }
 
 export const Drawgrid = ({
@@ -46,7 +47,7 @@ export const Drawgrid = ({
 
     if (isSeatChosen && selectedPassengerCIF === null) {
       const updatedPassengersSeatsList = passengersItems.map(
-        (chosenPS: IPassengerItem) => {
+        (chosenPS: SeatAllocationItem) => {
           if (chosenPS.seat?.id === seat.id) {
             return {
               ...chosenPS,
@@ -64,7 +65,7 @@ export const Drawgrid = ({
 
     if (isSeatChosen && selectedPassengerCIF !== null) {
       const updatedPassengersSeatsList = passengersItems.map(
-        (chosenPS: IPassengerItem) => {
+        (chosenPS: SeatAllocationItem) => {
           if (chosenPS.seat?.id === seat.id) {
             return {
               ...chosenPS,
@@ -76,7 +77,7 @@ export const Drawgrid = ({
       );
 
       const updatedPassengersSeatsList2 = updatedPassengersSeatsList.map(
-        (chosenPS: IPassengerItem) => {
+        (chosenPS: SeatAllocationItem) => {
           if (chosenPS.passenger.cif.toString() === selectedPassengerCIF) {
             return {
               ...chosenPS,
@@ -96,7 +97,7 @@ export const Drawgrid = ({
       console.log(!isSeatChosen, selectedPassengerCIF);
       console.log(passengersItems);
       const updatedPassengersSeatsList = passengersItems.map(
-        (chosenPS: IPassengerItem) => {
+        (chosenPS: SeatAllocationItem) => {
           if (chosenPS.passenger.cif.toString() === selectedPassengerCIF) {
             return {
               ...chosenPS,

@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 import { PassengersWithSeatsList } from "./PassengersWithSeatsList";
 import Route from "../../components/Route";
 import { Services } from "../../utils/services";
@@ -9,16 +8,14 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { DataContext } from "../../contexts/DataContext";
 
 interface CheckoutFormProps {
-  passengerWithSeats: IPassengerWithSeat[] | null;
+  onBack: () => void;
 }
 
-export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
+export const CheckoutForm = ({ onBack }: CheckoutFormProps) => {
   const { api_domain } = useContext(ApiContext);
   const { user } = useContext(AuthContext);
   const { orderRouteM, loading } = useFetch(api_domain);
-  const { chosenRoute: route } = useContext(DataContext);
-
-  console.log(passengerWithSeats![0]);
+  const { chosenRoute: route, passengersWithSeats } = useContext(DataContext);
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
@@ -27,7 +24,7 @@ export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
 
     const or = Services.convertToOrderRequest(
       route!,
-      passengerWithSeats!,
+      passengersWithSeats!,
       user!.id,
       false
     );
@@ -39,17 +36,23 @@ export const CheckoutForm = ({ passengerWithSeats }: CheckoutFormProps) => {
     setPdfUrl(pdfUrl);
   };
 
+  const handleOnBackingClick = () => {
+    onBack();
+  };
+
   return (
     <div>
       <Route route={route!} readonly={true} />
-      {passengerWithSeats ? (
-        <PassengersWithSeatsList passengers={passengerWithSeats} />
-      ) : (
-        ""
-      )}
+      {passengersWithSeats ? (
+        <PassengersWithSeatsList passengers={passengersWithSeats} />
+      ) : null}
 
       <button type='button' onClick={handleOnClickPay}>
         PAY
+      </button>
+
+      <button type='button' onClick={handleOnBackingClick}>
+        back
       </button>
 
       {!loading && pdfUrl && (
