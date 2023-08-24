@@ -10,7 +10,7 @@ import {
 import { ISeat } from "../models/_api/ISeat";
 
 export const Services = {
-  convertToPassengersSeats: (
+  convertIPassengersToSeatAllocationItems: (
     passengers: IPassenger[]
   ): SeatAllocationItem[] => {
     return passengers.map((passenger) => ({

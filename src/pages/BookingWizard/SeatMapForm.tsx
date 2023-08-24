@@ -11,27 +11,19 @@ import { DataContext } from "../../contexts/DataContext";
 import { SeatAllocationItem } from "../../models/SeatAllocationItem";
 
 interface SeatMapFormProps {
-  passengersList: IPassenger[];
-  setPassengersWithSeats: React.Dispatch<
-    React.SetStateAction<IPassengerWithSeat[] | null>
-  >;
   onNext: () => void;
   onBack: () => void;
 }
 
-export const SeatMapForm = ({
-  passengersList,
-  onNext,
-  onBack,
-  setPassengersWithSeats,
-}: SeatMapFormProps) => {
+export const SeatMapForm = ({ onNext, onBack }: SeatMapFormProps) => {
   const { api_domain } = useContext(ApiContext);
   const {
     chosenRoute,
     currentStep,
     setCurrentStep,
+    passengers,
     passengersWithSeats,
-    setPassengersWithSeats: setPassengersAndSeats,
+    setPassengersWithSeats,
   } = useContext(DataContext);
 
   const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
@@ -39,7 +31,7 @@ export const SeatMapForm = ({
   const [seats, setSeats] = useState<ISeat[]>([]);
 
   const [seatAllocationItems, setSeatAllocationItems] = useState(
-    Services.convertToPassengersSeats(passengersList)
+    Services.convertIPassengersToSeatAllocationItems(passengers ?? [])
   );
 
   useEffect(() => {
@@ -89,7 +81,7 @@ export const SeatMapForm = ({
 
     if (allSeatsNotNull) {
       setCurrentStep("checkout");
-      setPassengersAndSeats(updatedPassengersWithSeats);
+      setPassengersWithSeats(updatedPassengersWithSeats);
       onNext();
     }
   };

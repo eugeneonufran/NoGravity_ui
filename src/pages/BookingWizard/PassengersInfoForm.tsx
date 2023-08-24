@@ -9,11 +9,13 @@ import { useFetch } from "../../hooks/useFetch";
 import { validateField } from "../../utils/validateField";
 import { DataContext } from "../../contexts/DataContext";
 import { Services } from "../../utils/services";
+import { Profile } from "../User/Profile";
+import { AuthContext } from "../../contexts/AuthContext";
+import { Loading } from "../../components/Loading";
 
 interface PersonalInfoFormProps {
   onNext: (info: PersonalInfoData) => void;
   onBack: () => void;
-  setPassengersInfo: (passengers: IPassenger[]) => void;
 }
 
 export type PersonalInfoItem = {
@@ -32,16 +34,16 @@ interface FormItem {
 export const PassengersInfoForm = ({
   onNext,
   onBack,
-  setPassengersInfo,
 }: PersonalInfoFormProps) => {
   const [availableSeats, setAvailableSeats] = useState<ISeat[]>([]);
+
   const { api_domain } = useContext(ApiContext);
 
   const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
+  const { user } = useContext(AuthContext);
 
   const { chosenRoute, setCurrentStep, setPassengers, passengers } =
     useContext(DataContext);
-
   useEffect(() => {
     const fetchData = async () => {
       if (chosenRoute) {
@@ -78,13 +80,6 @@ export const PassengersInfoForm = ({
     newData[index][key].value = value;
     newData[index][key].error = null;
     setData(newData);
-    const extractedPassengers = newData.map((passenger) => ({
-      firstName: passenger.firstName.value,
-      lastName: passenger.lastName.value,
-      email: passenger.email.value,
-      cif: passenger.cif.value,
-    }));
-    setPassengersInfo(extractedPassengers);
   };
 
   const handleBlur = (
@@ -97,13 +92,6 @@ export const PassengersInfoForm = ({
       const newData = [...data];
       newData[index][key as keyof PersonalInfoItem].error = error;
       setData(newData);
-      const extractedPassengers = newData.map((passenger) => ({
-        firstName: passenger.firstName.value,
-        lastName: passenger.lastName.value,
-        email: passenger.email.value,
-        cif: passenger.cif.value,
-      }));
-      setPassengersInfo(extractedPassengers);
       return error;
     }
     return null;
@@ -118,26 +106,12 @@ export const PassengersInfoForm = ({
       cif: { value: "", error: null },
     });
     setData(newData);
-    const extractedPassengers = newData.map((passenger) => ({
-      firstName: passenger.firstName.value,
-      lastName: passenger.lastName.value,
-      email: passenger.email.value,
-      cif: passenger.cif.value,
-    }));
-    setPassengersInfo(extractedPassengers);
   };
 
   const handleDeletePassenger = (index: number) => {
     const newData = [...data];
     newData.splice(index, 1);
     setData(newData);
-    const extractedPassengers = newData.map((passenger) => ({
-      firstName: passenger.firstName.value,
-      lastName: passenger.lastName.value,
-      email: passenger.email.value,
-      cif: passenger.cif.value,
-    }));
-    setPassengersInfo(extractedPassengers);
   };
 
   const validate = () => {
@@ -176,62 +150,92 @@ export const PassengersInfoForm = ({
     onBack();
   };
 
+  const handleAddLoggedUser = () => {
+    if (user && availableSeats.length > data.length) {
+      const newData = [...data];
+      newData.push({
+        firstName: { value: user.firstName, error: null },
+        lastName: { value: user.secondName, error: null },
+        email: { value: user.email, error: null },
+        cif: { value: "", error: null },
+      });
+      setData(newData);
+    }
+  };
+
   return (
     <div className={styles.passengerContainer}>
-      <div>
-        {data.length}
-        {data.map((item, index) => (
-          <div key={index}>
-            Passenger # {index}
-            <div className={styles.passengertable} key={index}>
-              <FormInput
-                field_name='Name'
-                placeholder='Enter the name'
-                key={index}
-                value={item.firstName.value}
-                onItemBlur={() =>
-                  handleBlur("firstName", index, item.firstName.value)
-                }
-                onItemChange={(e) => handleChange("firstName", index, e)}
-                hasError={item.firstName.error}
-              />
-              <FormInput
-                field_name='Surname'
-                placeholder='Enter the lastName'
-                value={item.lastName.value}
-                onItemBlur={() =>
-                  handleBlur("lastName", index, item.lastName.value)
-                }
-                onItemChange={(e) => handleChange("lastName", index, e)}
-                hasError={item.lastName.error}
-              />
-              <FormInput
-                field_name='Email'
-                placeholder='Enter the email'
-                value={item.email.value}
-                onItemBlur={() => handleBlur("email", index, item.email.value)}
-                onItemChange={(e) => handleChange("email", index, e)}
-                hasError={item.email.error}
-              />
-              <FormInput
-                field_name='CIF'
-                placeholder='Enter the CIF'
-                value={item.cif.value}
-                onItemBlur={() => handleBlur("cif", index, item.cif.value)}
-                onItemChange={(e) => handleChange("cif", index, e)}
-                hasError={item.cif.error}
-              />
-              {data.length > 1 && (
-                <button
-                  type='button'
-                  onClick={() => handleDeletePassenger(index)}>
-                  -
-                </button>
-              )}
+      {user ? (
+        <div>
+          <Profile user={user} />
+
+          {availableSeats.length > data.length && (
+            <button type='button' onClick={handleAddLoggedUser}>
+              Add Logged User as Passenger
+            </button>
+          )}
+        </div>
+      ) : null}
+      {!loading ? (
+        <div>
+          {availableSeats.length} available seats
+          {data.map((item, index) => (
+            <div key={index}>
+              Passenger # {index}
+              <div className={styles.passengertable} key={index}>
+                <FormInput
+                  field_name='Name'
+                  placeholder='Enter the name'
+                  key={index}
+                  value={item.firstName.value}
+                  onItemBlur={() =>
+                    handleBlur("firstName", index, item.firstName.value)
+                  }
+                  onItemChange={(e) => handleChange("firstName", index, e)}
+                  hasError={item.firstName.error}
+                />
+                <FormInput
+                  field_name='Surname'
+                  placeholder='Enter the lastName'
+                  value={item.lastName.value}
+                  onItemBlur={() =>
+                    handleBlur("lastName", index, item.lastName.value)
+                  }
+                  onItemChange={(e) => handleChange("lastName", index, e)}
+                  hasError={item.lastName.error}
+                />
+                <FormInput
+                  field_name='Email'
+                  placeholder='Enter the email'
+                  value={item.email.value}
+                  onItemBlur={() =>
+                    handleBlur("email", index, item.email.value)
+                  }
+                  onItemChange={(e) => handleChange("email", index, e)}
+                  hasError={item.email.error}
+                />
+                <FormInput
+                  field_name='CIF'
+                  placeholder='Enter the CIF'
+                  value={item.cif.value}
+                  onItemBlur={() => handleBlur("cif", index, item.cif.value)}
+                  onItemChange={(e) => handleChange("cif", index, e)}
+                  hasError={item.cif.error}
+                />
+                {data.length > 1 && (
+                  <button
+                    type='button'
+                    onClick={() => handleDeletePassenger(index)}>
+                    -
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <Loading message='Looking for seats' />
+      )}
       <div>
         {availableSeats.length > data.length && (
           <button type='button' onClick={handleAddPassenger}>

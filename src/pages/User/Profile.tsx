@@ -1,6 +1,5 @@
-import { AuthContext } from "../../contexts/AuthContext";
 import { IUser } from "../../models/IUser";
-import { useContext } from "react";
+import "./Profile.scss";
 
 interface ProfileProps {
   user: IUser;
@@ -8,7 +7,7 @@ interface ProfileProps {
 
 export const Profile = ({ user }: ProfileProps) => {
   return (
-    <div>
+    <div className='profile-container'>
       <h2>User Profile</h2>
       <p>ID: {user.id}</p>
       <p>

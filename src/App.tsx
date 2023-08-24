@@ -56,9 +56,26 @@ function App() {
             </>
           ) : (
             <>
-              <Route path='/signUp' element={<SignUpForm />} />
-              <Route path='/login' element={<LoginForm />} />
-              <Route path='/userAccount' element={<LoginForm />} />
+              <Route
+                path='/signUp'
+                element={<SignUpForm isFromOrder={false} />}
+              />
+              <Route
+                path='/signUpFromOrder'
+                element={<SignUpForm isFromOrder={true} />}
+              />
+              <Route
+                path='/login'
+                element={<LoginForm isFromOrder={false} />}
+              />
+              <Route
+                path='/userAccount'
+                element={<LoginForm isFromOrder={false} />}
+              />
+              <Route
+                path='/loginFromOrder'
+                element={<LoginForm isFromOrder={true} />}
+              />
             </>
           )}
           <Route path='*' element={<NotFound />} />

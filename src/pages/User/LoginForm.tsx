@@ -3,7 +3,11 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./LoginForm.module.scss";
 
-export const LoginForm = () => {
+type LoginFormProps = {
+  isFromOrder: boolean;
+};
+
+export const LoginForm = ({ isFromOrder }: LoginFormProps) => {
   const navigate = useNavigate();
   const { user, login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
@@ -16,14 +20,16 @@ export const LoginForm = () => {
 
     if (v.code === "200") {
       console.log(user);
-      navigate("/userAccount");
+      isFromOrder
+        ? navigate(`/bookingWizard/checkout`)
+        : navigate("/userAccount");
     }
   };
 
   const handleGoToSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    navigate("/signUp");
+    isFromOrder ? navigate("/signUpFromOrder") : navigate("/signUp");
   };
 
   return (

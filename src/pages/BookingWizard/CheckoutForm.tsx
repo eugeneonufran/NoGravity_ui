@@ -6,6 +6,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { ApiContext } from "../../contexts/ApiContext";
 import { AuthContext } from "../../contexts/AuthContext";
 import { DataContext } from "../../contexts/DataContext";
+import { useNavigate } from "react-router-dom";
 
 interface CheckoutFormProps {
   onBack: () => void;
@@ -16,6 +17,7 @@ export const CheckoutForm = ({ onBack }: CheckoutFormProps) => {
   const { user } = useContext(AuthContext);
   const { orderRouteM, loading } = useFetch(api_domain);
   const { chosenRoute: route, passengersWithSeats } = useContext(DataContext);
+  const navigate = useNavigate();
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
@@ -36,6 +38,9 @@ export const CheckoutForm = ({ onBack }: CheckoutFormProps) => {
     setPdfUrl(pdfUrl);
   };
 
+  const handleOnLogin = () => {
+    navigate("/loginFromOrder");
+  };
   const handleOnBackingClick = () => {
     onBack();
   };
@@ -47,9 +52,21 @@ export const CheckoutForm = ({ onBack }: CheckoutFormProps) => {
         <PassengersWithSeatsList passengers={passengersWithSeats} />
       ) : null}
 
-      <button type='button' onClick={handleOnClickPay}>
-        PAY
-      </button>
+      {user ? (
+        <h1>
+          Logged as {user.firstName}, {user.secondName}
+        </h1>
+      ) : null}
+
+      {user ? (
+        <button type='button' onClick={handleOnClickPay}>
+          PAY
+        </button>
+      ) : (
+        <button type='button' onClick={handleOnLogin}>
+          Login to Pay
+        </button>
+      )}
 
       <button type='button' onClick={handleOnBackingClick}>
         back

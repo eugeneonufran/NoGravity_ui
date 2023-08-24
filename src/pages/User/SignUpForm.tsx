@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { IUserRegister } from "../../models/IUser";
 
-export const SignUpForm = () => {
+type SignUpFormProps = {
+  isFromOrder: boolean;
+};
+
+export const SignUpForm = ({ isFromOrder }: SignUpFormProps) => {
   const navigate = useNavigate();
   const { register } = useContext(AuthContext);
 
@@ -13,7 +17,7 @@ export const SignUpForm = () => {
   const [password, setPassword] = useState("");
 
   const handleGoToLogin = () => {
-    navigate("/login");
+    isFromOrder ? navigate("/loginFromOrder") : navigate("/login");
   };
 
   const handleRegister = async () => {
@@ -25,7 +29,7 @@ export const SignUpForm = () => {
     };
     const r = await register(userToRegister);
     if (r.code === "200") {
-      navigate("/login");
+      isFromOrder ? navigate("/loginFromOrder") : navigate("/login");
     }
     console.log(r);
   };

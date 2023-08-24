@@ -1,12 +1,12 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { DataContext } from "../../contexts/DataContext";
 import mapper from "../../models/Mapper";
 import "./Breadcrumbs.scss";
 
 const Breadcrumbs = () => {
-  const { currentStep } = useContext(DataContext);
+  const { currentStep, queryParams } = useContext(DataContext);
 
   const getCurrentStepIndex = (): number => {
     return mapper[currentStep!];
@@ -14,6 +14,12 @@ const Breadcrumbs = () => {
 
   return (
     <div className='breadcrumbs'>
+      <Link
+        to={queryParams ? queryParams : `/`}
+        className='breadcrumb-link completed'>
+        route
+      </Link>
+      <span className='breadcrumb-separator'>{" | "}</span>
       {Object.keys(mapper).map((step, index) => (
         <React.Fragment key={step}>
           {index !== 0 && <span className='breadcrumb-separator'>{" | "}</span>}
