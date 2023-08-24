@@ -1,4 +1,4 @@
-import { SeatAllocationItem } from "../models/SeatAllocationItem";
+import { IPassengerItem } from "../pages/BookingWizard/SeatMapForm";
 import { IPassenger } from "../models/_api/IPassenger";
 import { IRoute } from "../models/_api/IRoute";
 import { IOrderRequest } from "../models/IOrderRequest";
@@ -7,12 +7,9 @@ import {
   PersonalInfoData,
   PersonalInfoItem,
 } from "../pages/BookingWizard/PassengersInfoForm";
-import { ISeat } from "../models/_api/ISeat";
 
 export const Services = {
-  convertIPassengersToSeatAllocationItems: (
-    passengers: IPassenger[]
-  ): SeatAllocationItem[] => {
+  convertToPassengersSeats: (passengers: IPassenger[]): IPassengerItem[] => {
     return passengers.map((passenger) => ({
       passenger: passenger,
       seat: null,
@@ -71,26 +68,5 @@ export const Services = {
     );
 
     return personalInfoArray;
-  },
-
-  convertSeatsAllocationToPassengersWithSeats: (
-    seatAllocationItems: SeatAllocationItem[]
-  ): IPassengerWithSeat[] => {
-    return seatAllocationItems
-      .filter((item) => item.seat !== null) // Filter out items with null seats
-      .map((item) => ({
-        passenger: item.passenger,
-        seat: item.seat as ISeat, // We are sure it's not null due to the filter
-      }));
-  },
-
-  convertPassengersWithSeatsToSeatAllocation: (
-    passengersWithSeats: IPassengerWithSeat[]
-  ): SeatAllocationItem[] => {
-    return passengersWithSeats.map((item) => ({
-      passenger: item.passenger,
-      seat: item.seat,
-      error: null,
-    }));
   },
 };

@@ -11,7 +11,6 @@ import { useFetch } from "../../hooks/useFetch";
 // ------------ Context Imports ------------
 import { ApiContext } from "../../contexts/ApiContext";
 import { RouteSearchFormParameters } from "../../models/_uitypes/RouteSearchFormParameters";
-import { DataContext } from "../../contexts/DataContext";
 
 interface RouteSearchFormProps {
   onSubmit: (params: RouteSearchFormParameters) => void;
@@ -19,7 +18,6 @@ interface RouteSearchFormProps {
 
 export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   const { api_domain } = useContext(ApiContext);
-  const { setQueryParams } = useContext(DataContext);
   const { fetchPorts, loading, error } = useFetch(api_domain);
 
   const location = useLocation();
@@ -35,7 +33,7 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   const [endStarportId, setEndStarportId] = useState<number>(
     Number(queryParams.get("DestinationPortId")) || 0
   );
-  const [date, setDate] = useState<string>(queryParams.get("Date") || "");
+  const [date, setDate] = useState<string>(queryParams.get("date") || "");
 
   const [startports, setStartports] = useState<IStarport[]>([]);
   const [endports, setEndports] = useState<IStarport[]>([]);
@@ -45,7 +43,7 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
   );
 
   const [sortType, setSortType] = useState<SortType>(
-    Number(queryParams.get("SortType")) || SortType.Optimal
+    Number(queryParams.get("sortType")) || SortType.Optimal
   );
 
   // ------------ Event Handlers ------------
@@ -90,7 +88,6 @@ export const RouteSearchForm = ({ onSubmit }: RouteSearchFormProps) => {
       numberOfPassengers: String(numberOfPassengers),
     });
     navigate(`/?${newQueryParams}`);
-    setQueryParams(`/?${newQueryParams}`);
   };
 
   useEffect(() => {

@@ -8,31 +8,32 @@ import { ISeat } from "../../models/_api/ISeat";
 import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 import { ApiContext } from "../../contexts/ApiContext";
 import { DataContext } from "../../contexts/DataContext";
-import { SeatAllocationItem } from "../../models/SeatAllocationItem";
 
 interface SeatMapFormProps {
+  passengersList: IPassenger[];
+  setPassengersWithSeats: React.Dispatch<
+    React.SetStateAction<IPassengerWithSeat[] | null>
+  >;
   onNext: () => void;
   onBack: () => void;
 }
 
-export const SeatMapForm = ({ onNext, onBack }: SeatMapFormProps) => {
+export interface IPassengerItem {
+  passenger: IPassenger;
+  seat: ISeat | null;
+  error: string | null;
+}
+
+export const SeatMapForm = ({
+  passengersList,
+  onNext,
+  onBack,
+  setPassengersWithSeats,
+}: SeatMapFormProps) => {
   const { api_domain } = useContext(ApiContext);
-  const {
-    chosenRoute,
-    currentStep,
-    setCurrentStep,
-    passengers,
-    passengersWithSeats,
-    setPassengersWithSeats,
-  } = useContext(DataContext);
+  const { chosenRoute, setCurrentStep } = useContext(DataContext);
 
   const { fetchSeatsForRoute, error, loading } = useFetch(api_domain);
-
-  const [seats, setSeats] = useState<ISeat[]>([]);
-
-  const [seatAllocationItems, setSeatAllocationItems] = useState(
-    Services.convertIPassengersToSeatAllocationItems(passengers ?? [])
-  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,44 +45,41 @@ export const SeatMapForm = ({ onNext, onBack }: SeatMapFormProps) => {
       }
     };
 
-    if (currentStep === "checkout" && passengersWithSeats) {
-      const updatedSeatAllocationItems =
-        Services.convertPassengersWithSeatsToSeatAllocation(
-          passengersWithSeats
-        );
-      setSeatAllocationItems(updatedSeatAllocationItems);
-    }
-
     fetchData();
   }, []);
 
-  const validate = () => {
-    const updateSeatAllocationItems = [...seatAllocationItems];
+  const [seats, setSeats] = useState<ISeat[]>([]);
 
-    updateSeatAllocationItems.forEach((passenger) => {
+  const [passengerItems, setPassengerItems] = useState(
+    Services.convertToPassengersSeats(passengersList)
+  );
+
+  const validate = () => {
+    const updatePassengerItems = [...passengerItems];
+
+    updatePassengerItems.forEach((passenger) => {
       if (passenger.seat === null) {
         passenger.error = "Huy";
       }
     });
 
-    setSeatAllocationItems(updateSeatAllocationItems);
+    setPassengerItems(updatePassengerItems);
     const updatedPassengersWithSeats: IPassengerWithSeat[] =
-      updateSeatAllocationItems
-        .filter((seatAllocationItem) => seatAllocationItem.seat !== null) // Filter out items with null seats
-        .map((seatAllocationItem) => ({
-          passenger: seatAllocationItem.passenger,
-          seat: seatAllocationItem.seat!,
+      updatePassengerItems
+        .filter((passengerItem) => passengerItem.seat !== null) // Filter out items with null seats
+        .map((passengerItem) => ({
+          passenger: passengerItem.passenger,
+          seat: passengerItem.seat!,
         }));
 
     setPassengersWithSeats(updatedPassengersWithSeats);
 
-    const allSeatsNotNull = seatAllocationItems.every((seatAllocationItem) => {
-      return seatAllocationItem.seat !== null;
+    const allSeatsNotNull = updatePassengerItems.every((passenger) => {
+      return passenger.seat !== null;
     });
 
     if (allSeatsNotNull) {
       setCurrentStep("checkout");
-      setPassengersWithSeats(updatedPassengersWithSeats);
       onNext();
     }
   };
@@ -94,9 +92,11 @@ export const SeatMapForm = ({ onNext, onBack }: SeatMapFormProps) => {
     <div style={{ marginTop: "50px" }}>
       <Drawgrid
         seats={seats}
-        passengersItems={seatAllocationItems}
-        setPassengerItems={setSeatAllocationItems}
+        passengersItems={passengerItems}
+        setPassengerItems={setPassengerItems}
       />
+
+      <button type='button'>Finish</button>
 
       <button type='button' onClick={handleBack}>
         Back
