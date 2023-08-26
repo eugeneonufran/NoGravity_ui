@@ -1,9 +1,7 @@
-import { IPassenger } from "../../models/_api/IPassenger";
 import { CheckoutForm } from "./CheckoutForm";
 import { SeatMapForm } from "./SeatMapForm";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { PassengersInfoForm } from "./PassengersInfoForm";
-import { IPassengerWithSeat } from "../../models/IPassengerWithSeat";
 import { useNavigate, useParams } from "react-router-dom";
 import mapper from "../../models/Mapper";
 import { DataContext } from "../../contexts/DataContext";
